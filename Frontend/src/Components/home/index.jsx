@@ -4,7 +4,7 @@ function Home(){
     return(
         <>
             <div>
-                <h1> Olympic Medal Monitor </h1>
+                <h1> Olympic Medal Monitor - teste </h1>
             </div>
         </>
     )
