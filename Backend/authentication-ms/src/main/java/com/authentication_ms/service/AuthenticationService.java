@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService implements UserDetailsService {
+
     @Autowired
     private AuthenticationRepository authenticationRepository;
 
@@ -16,4 +17,5 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.authenticationRepository.findByLogin(username);
     }
+
 }

@@ -1,8 +1,9 @@
 package com.authentication_ms.service;
 
-import com.authentication_ms.dto.AuthenticationDto;
+import com.authentication_ms.dto.PutUserRolesDto;
 import com.authentication_ms.dto.GetUserDto;
-import com.authentication_ms.dto.PostUserDto;
+import com.authentication_ms.dto.SignInDto;
+import com.authentication_ms.dto.SignUpDto;
 import com.authentication_ms.entity.Role;
 import com.authentication_ms.entity.User;
 import com.authentication_ms.repository.RoleRepository;
@@ -25,16 +26,49 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JWTokenService tokenService;
+    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTokenService tokenService;
+
+
+    public GetUserDto signUp(SignUpDto signUpDto){
+        Optional<User> userOp = this.userRepository.findByLogin(signUpDto.login());
+
+        if(userOp.isPresent())
+            throw new RuntimeException("O login com " + signUpDto.login() + " já está associado a um usuário authenticado."); //Personalizar exceção
+
+        if(!emailFormateValidator(signUpDto.login()))
+            throw new RuntimeException("Este não é um e-mail com formato válido."); //Personalizar exceção
+
+
+        User newUser = new User(
+                signUpDto.login(),
+                new BCryptPasswordEncoder().encode(signUpDto.password()),
+                getRolesList(signUpDto.rolesId())
+        );
+
+        newUser = this.userRepository.save(newUser);
+        return new GetUserDto(newUser);
+    }
+
+    public String signIn(SignInDto signInDto){
+        Optional<User> userOp = this.userRepository.findByLogin(signInDto.login());
+
+        if(!userOp.isPresent())
+            throw new RuntimeException("login ou senha incorretos."); //Personalizar exceção
+
+        UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(signInDto.login(), signInDto.password());
+        Authentication auth = this.authenticationManager.authenticate(loginToken);
+        return this.tokenService.generateToken((User) auth.getPrincipal());
+    }
+
     public Page<GetUserDto> getUsersPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
@@ -49,54 +83,21 @@ public class UserService {
         return userOp.map(GetUserDto::new).orElse(null);
     }
 
-    public GetUserDto signUp(PostUserDto postUserDto){
-        Optional<User> userOp = this.userRepository.findByLogin(postUserDto.login());
+    public GetUserDto updateUserRoles(long id, PutUserRolesDto putUserRolesDto){
+        if( putUserRolesDto.rolesId() == null || putUserRolesDto.rolesId().isEmpty() )
+            throw new RuntimeException("A lista de permissões não pode estar vazia.");
 
-        if(userOp.isPresent())
-            throw new RuntimeException("O login com " + postUserDto.login() + " já está associado a um usuário authenticado."); //Personalizar exceção
+        Optional<User> userOp = this.userRepository.findById(id);
 
-        if(!emailFormateValidator(postUserDto.login()))
-            throw new RuntimeException("Este não é um e-mail com formato válido."); //Personalizar exceção
+        if(!userOp.isPresent())
+            throw new RuntimeException("Não há usuário com id " + id + " autenticado no sistema");
 
+        User updatedUser = userOp.get();
 
-        User newUser = new User(
-           postUserDto.login(),
-                new BCryptPasswordEncoder().encode(postUserDto.password()),
-           getRolesList(postUserDto.rolesId())
-        );
+        updatedUser.setRoles(getRolesList(putUserRolesDto.rolesId()));
 
-        newUser = this.userRepository.save(newUser);
-        return new GetUserDto(newUser);
+        return new GetUserDto(updatedUser);
     }
-
-    public String signIn(AuthenticationDto authenticationDto){
-        UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(authenticationDto.login(), authenticationDto.password());
-        Authentication auth = this.authenticationManager.authenticate(loginToken);
-        return this.tokenService.generateToken((User) auth.getPrincipal());
-    }
-
-//    public GetUserDto putUser(long id, PostUserDto postUserDto){
-//        Optional<User> userOp = this.userRepository.findById(id);
-//
-//        if(!userOp.isPresent())
-//            throw new RuntimeException("Não há usuário com id " + id + " cadastrado no sistema");
-//
-//        Optional<User> userOp2 = this.userRepository.findByLogin(postUserDto.login());
-//
-//        if(userOp2.isPresent() && userOp2.get().getId() != id )
-//            throw new RuntimeException("O email " + postUserDto.login() + " já está associado a um usuário do sistema."); //Personalizar exceção
-//
-//        if(!emailFormateValidator(postUserDto.login()))
-//            throw new RuntimeException("Este não é um e-mail com formato válido."); //Personalizar exceção
-//
-//        User updatedUser = userOp.get();
-//
-//        updatedUser.setName(postUserDto.name());
-//        updatedUser.setEmail(postUserDto.email());
-//        updatedUser.setDth_upd(LocalDateTime.now());
-//
-//        return new GetUserDto(updatedUser);
-//    }
 
     public GetUserDto deleteUser(long id){
         Optional<User> userOp = this.userRepository.findById(id);
@@ -109,12 +110,6 @@ public class UserService {
         return userOp.map(GetUserDto::new).get();
     }
 
-    private boolean emailFormateValidator(String email){
-        String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        Pattern pattern = Pattern.compile(EMAIL_REGEX);
-        return pattern.matcher(email).matches();
-    }
-
     private List<Role> getRolesList(List<Long> roleIdList){
         List<Role> roles =  new ArrayList<>();
         roleIdList.stream().forEach((id)->{
@@ -125,4 +120,11 @@ public class UserService {
         });
         return roles;
     }
+
+    private boolean emailFormateValidator(String email){
+        String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        return pattern.matcher(email).matches();
+    }
+
 }

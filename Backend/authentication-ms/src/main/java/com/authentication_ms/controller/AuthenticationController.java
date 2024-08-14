@@ -1,8 +1,8 @@
 package com.authentication_ms.controller;
 
-import com.authentication_ms.dto.AuthenticationDto;
+import com.authentication_ms.dto.SignInDto;
 import com.authentication_ms.dto.GetUserDto;
-import com.authentication_ms.dto.PostUserDto;
+import com.authentication_ms.dto.SignUpDto;
 import com.authentication_ms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
     @PostMapping("/signIn")
-    public ResponseEntity<String> signIn(@RequestBody @Validated AuthenticationDto authenticationDto){
+    public ResponseEntity<String> signIn(@RequestBody @Validated SignInDto authenticationDto){
         String token = this.userService.signIn(authenticationDto);
         return ResponseEntity.ok(token);
     }
     @PostMapping("/signUp")
-    public ResponseEntity<String> signUp(@RequestBody @Validated PostUserDto postUserDto){
+    public ResponseEntity<String> signUp(@RequestBody @Validated SignUpDto postUserDto){
         GetUserDto getUserDto = this.userService.signUp(postUserDto);
 
         if(getUserDto == null)

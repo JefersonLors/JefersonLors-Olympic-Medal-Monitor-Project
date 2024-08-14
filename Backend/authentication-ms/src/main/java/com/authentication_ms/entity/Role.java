@@ -1,6 +1,5 @@
 package com.authentication_ms.entity;
 
-import com.authentication_ms.dto.RoleDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
