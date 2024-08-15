@@ -1,6 +1,7 @@
 package com.email.email_ms.services;
 
-import com.email.email_ms.dtos.EmailDto;
+import com.email.email_ms.dtos.GetEmailDto;
+import com.email.email_ms.dtos.PostEmailDto;
 import com.email.email_ms.entities.Email;
 import com.email.email_ms.entities.EmailStatus;
 import com.email.email_ms.entities.EmailStatusEnum;
@@ -12,7 +13,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class EmailService {
@@ -25,7 +25,7 @@ public class EmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    public EmailDto sendEmail(EmailDto emailDto){
+    public GetEmailDto sendEmail(PostEmailDto emailDto){
         SimpleMailMessage message =  new SimpleMailMessage();
         message.setFrom(emailDto.mailFrom());
         message.setTo(emailDto.mailTo());
@@ -39,6 +39,6 @@ public class EmailService {
         email.setStatus(new EmailStatus(EmailStatusEnum.SENT.getCodigo(),
                         EmailStatusEnum.SENT.getName()));
 
-        return new EmailDto(emailRepository.save(email));
+        return new GetEmailDto(emailRepository.save(email));
     }
 }

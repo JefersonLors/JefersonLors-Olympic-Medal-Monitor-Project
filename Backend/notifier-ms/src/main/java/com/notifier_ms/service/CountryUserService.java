@@ -93,14 +93,14 @@ public class CountryUserService {
                                             sportModality
                                             );
 
-            EmailStatusDto mailStatus = sendEmail(registry.getUserEmail(), message);
+            String mailStatus = sendEmail(registry.getUserEmail(), message);
 
             this.notificationRepository.save(new Notification(
                     null,
                     registry,
                     notificationDto.sportModalityId(),
                     notificationDto.medalsWon(),
-                    mailStatus.status(),
+                    mailStatus,
                     LocalDateTime.now(),
                     LocalDateTime.now()
             ));
@@ -137,15 +137,12 @@ public class CountryUserService {
         return message.toString();
     }
 
-    private EmailStatusDto sendEmail(String mailTo, String message){
-        ResponseEntity<EmailDto> response = this.emailSenderController.send(new EmailDto(
-                0,
+    private String sendEmail(String mailTo, String message){
+        ResponseEntity<GetEmailDto> response = this.emailSenderController.send(new PostEmailDto(
                 "lors.jeferson@gmail.com",
                 mailTo,
                 "O país que vocês segue ganhou mais uma medalha. Vem cá checar!",
-                message,
-                null,
-                null
+                message
         ));
         return response.getBody().mailStatus();
     }

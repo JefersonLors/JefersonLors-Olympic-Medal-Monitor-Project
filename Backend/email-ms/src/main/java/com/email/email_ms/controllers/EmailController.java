@@ -1,6 +1,7 @@
 package com.email.email_ms.controllers;
 
-import com.email.email_ms.dtos.EmailDto;
+import com.email.email_ms.dtos.GetEmailDto;
+import com.email.email_ms.dtos.PostEmailDto;
 import com.email.email_ms.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,12 @@ public class EmailController {
     EmailService emailService;
 
     @PostMapping("/send")
-    public ResponseEntity<EmailDto> send(@RequestBody EmailDto emailDto){
-        emailDto = emailService.sendEmail(emailDto);
+    public ResponseEntity<GetEmailDto> send(@RequestBody PostEmailDto emailDto){
+        GetEmailDto getEmailDto = emailService.sendEmail(emailDto);
 
         if( emailDto == null )
-            return new ResponseEntity<EmailDto>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        return ResponseEntity.ok(emailDto);
+        return ResponseEntity.ok(getEmailDto);
     }
 }

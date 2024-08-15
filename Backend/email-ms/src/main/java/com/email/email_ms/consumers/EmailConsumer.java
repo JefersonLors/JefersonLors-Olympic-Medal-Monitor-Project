@@ -1,7 +1,7 @@
 package com.email.email_ms.consumers;
 
-import com.email.email_ms.dtos.EmailDto;
-import com.email.email_ms.entities.Email;
+import com.email.email_ms.dtos.GetEmailDto;
+import com.email.email_ms.dtos.PostEmailDto;
 import com.email.email_ms.services.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class EmailConsumer {
     EmailService emailService;
 
     @RabbitListener(queues="${spring.rabbitmq.queue}")
-    public void listen(@Payload EmailDto emailDto){
+    public void listen(@Payload PostEmailDto emailDto){
         emailService.sendEmail(emailDto);
     }
 }
