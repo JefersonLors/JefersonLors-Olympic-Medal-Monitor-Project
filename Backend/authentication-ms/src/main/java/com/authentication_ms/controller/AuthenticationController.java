@@ -4,6 +4,7 @@ import com.authentication_ms.dto.SignInDto;
 import com.authentication_ms.dto.GetUserDto;
 import com.authentication_ms.dto.SignUpDto;
 import com.authentication_ms.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,11 +19,13 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
     @PostMapping("/signIn")
+    @Transactional
     public ResponseEntity<String> signIn(@RequestBody @Validated SignInDto authenticationDto){
         String token = this.userService.signIn(authenticationDto);
         return ResponseEntity.ok(token);
     }
     @PostMapping("/signUp")
+    @Transactional
     public ResponseEntity<String> signUp(@RequestBody @Validated SignUpDto postUserDto){
         GetUserDto getUserDto = this.userService.signUp(postUserDto);
 

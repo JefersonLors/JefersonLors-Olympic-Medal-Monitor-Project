@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private LocalDateTime dth_upd;
 
     @NonNull
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -56,11 +56,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> roles = new ArrayList<>();
+        ArrayList<SimpleGrantedAuthority> rolesA = new ArrayList<>();
 
-        this.roles.forEach((role)-> roles.add(new SimpleGrantedAuthority(role.getDescription())));
+        this.roles.forEach((role)-> rolesA.add(new SimpleGrantedAuthority(role.getDescription())));
 
-        return roles;
+        return rolesA;
     }
 
     public void setRoles(List<Role> roles){

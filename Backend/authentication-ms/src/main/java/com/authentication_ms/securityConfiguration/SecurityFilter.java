@@ -1,7 +1,9 @@
 package com.authentication_ms.securityConfiguration;
 
 import com.authentication_ms.repository.AuthenticationRepository;
+import com.authentication_ms.repository.UserRepository;
 import com.authentication_ms.service.JWTokenService;
+import com.authentication_ms.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +26,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private JWTokenService tokenService;
 
+    @Autowired
+    private UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token =  this.recoverToken(request);

@@ -3,6 +3,7 @@ package com.authentication_ms.controller;
 import com.authentication_ms.dto.GetUserDto;
 import com.authentication_ms.dto.PutUserRolesDto;
 import com.authentication_ms.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class UserController {
         return ResponseEntity.ok(getUserDtoList);
     }
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<GetUserDto> putUser(@PathVariable long id,
                                               @RequestBody PutUserRolesDto putUserRolesDto){
         GetUserDto getUserDto = this.userService.updateUserRoles(id, putUserRolesDto);
@@ -39,6 +41,7 @@ public class UserController {
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<GetUserDto> deleteUser(@PathVariable long id){
         GetUserDto getUserDto = this.userService.deleteUser(id);
 

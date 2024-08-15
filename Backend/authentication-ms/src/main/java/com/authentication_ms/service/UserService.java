@@ -37,7 +37,6 @@ public class UserService {
     @Autowired
     private JWTokenService tokenService;
 
-
     public GetUserDto signUp(SignUpDto signUpDto){
         Optional<User> userOp = this.userRepository.findByLogin(signUpDto.login());
 
@@ -94,7 +93,9 @@ public class UserService {
 
         User updatedUser = userOp.get();
 
-        updatedUser.setRoles(getRolesList(putUserRolesDto.rolesId()));
+        updatedUser.setRoles(getRolesList(putUserRolesDto.rolesId().stream().distinct().toList()));
+
+        updatedUser = this.userRepository.save(updatedUser);
 
         return new GetUserDto(updatedUser);
     }

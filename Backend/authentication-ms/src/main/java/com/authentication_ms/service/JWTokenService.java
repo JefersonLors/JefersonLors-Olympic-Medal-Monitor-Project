@@ -37,7 +37,7 @@ public class JWTokenService {
                     .verify(token)
                     .getSubject();
         }catch( Exception ex ){
-            throw new RuntimeException("Erro while validate token: ", ex );
+            throw new RuntimeException("Error while validate token: ", ex );
         }
     }
 
