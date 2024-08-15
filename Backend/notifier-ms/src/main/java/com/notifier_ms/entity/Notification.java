@@ -30,9 +30,6 @@ public class Notification {
     private Long medalsWon;
 
     @NonNull
-    private String status;
-
-    @NonNull
     private LocalDateTime dth_inc;
 
     @NonNull

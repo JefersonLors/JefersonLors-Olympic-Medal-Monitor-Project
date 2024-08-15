@@ -1,13 +1,14 @@
 package com.notifier_ms.service;
 
-import com.notifier_ms.controller.clients.EmailSenderController;
 import com.notifier_ms.controller.clients.UserController;
 import com.notifier_ms.dto.*;
 import com.notifier_ms.entity.CountryUser;
 import com.notifier_ms.entity.Notification;
 import com.notifier_ms.repository.CountryUserRepository;
 import com.notifier_ms.repository.NotificationRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,13 @@ public class CountryUserService {
     private UserController userController;
 
     @Autowired
-    private EmailSenderController emailSenderController;
-
-    @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.queue}")
+    private String queue;
 
     public UserFollowCountryDto userFollowCountry(UserFollowCountryDto dto){
         Optional<CountryUser> countryUserOp = this.countryUserRepository
@@ -86,27 +89,24 @@ public class CountryUserService {
         if( notificationDto.medalsWon() > 1 )
             throw new RuntimeException("Quantidade de medalhas indevida.");
 
-        countryUser.stream().forEach((registry)->{
+        countryUser.forEach((registry)->{
             String message = makeMessage( registry.getCountryName(),
                                             notificationDto.medalsWon(),
                                             medalType,
                                             sportModality
                                             );
 
-            String mailStatus = sendEmail(registry.getUserEmail(), message);
+            sendEmail(registry.getUserEmail(), message);
 
             this.notificationRepository.save(new Notification(
                     null,
                     registry,
                     notificationDto.sportModalityId(),
                     notificationDto.medalsWon(),
-                    mailStatus,
                     LocalDateTime.now(),
                     LocalDateTime.now()
             ));
         });
-
-
         return null;
     }
 
@@ -120,11 +120,11 @@ public class CountryUserService {
     }
 
     private void checkCountry(long countryId){
-
+        //deve checar  retornar o país
     }
 
     private void checkMedal(long medalId){
-
+        //deve checar retornar o tipo de medalha
     }
 
     private String makeMessage(String countryName, long medalsWon, String medalType, String sportModality){
@@ -137,13 +137,13 @@ public class CountryUserService {
         return message.toString();
     }
 
-    private String sendEmail(String mailTo, String message){
-        ResponseEntity<GetEmailDto> response = this.emailSenderController.send(new PostEmailDto(
+    private void sendEmail(String mailTo, String message){
+        PostEmailDto email = new PostEmailDto(
                 "lors.jeferson@gmail.com",
                 mailTo,
-                "O país que vocês segue ganhou mais uma medalha. Vem cá checar!",
+                "O país que você segue ganhou mais uma medalha. Vem cá checar!",
                 message
-        ));
-        return response.getBody().mailStatus();
+        );
+        this.rabbitTemplate.convertAndSend(queue, email);
     }
 }
