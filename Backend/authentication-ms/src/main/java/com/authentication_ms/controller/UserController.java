@@ -32,11 +32,10 @@ public class UserController {
 
         return ResponseEntity.ok(getUserDtoList);
     }
-    @PutMapping("/{id}")
+    @PutMapping()
     @Transactional
-    public ResponseEntity<GetUserDto> putUser(@PathVariable long id,
-                                              @RequestBody PutUserRolesDto putUserRolesDto){
-        GetUserDto getUserDto = this.userService.updateUserRoles(id, putUserRolesDto);
+    public ResponseEntity<GetUserDto> putUser(@RequestBody PutUserRolesDto putUserRolesDto){
+        GetUserDto getUserDto = this.userService.updateUserRoles(putUserRolesDto);
 
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }

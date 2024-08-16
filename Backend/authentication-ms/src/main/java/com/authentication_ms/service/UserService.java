@@ -38,17 +38,18 @@ public class UserService {
     private JWTokenService tokenService;
 
     public GetUserDto signUp(SignUpDto signUpDto){
-        Optional<User> userOp = this.userRepository.findByLogin(signUpDto.login());
+        String login = signUpDto.login().toLowerCase();
+        Optional<User> userOp = this.userRepository.findByLogin(login);
 
         if(userOp.isPresent())
-            throw new RuntimeException("O login com " + signUpDto.login() + " já está associado a um usuário authenticado."); //Personalizar exceção
+            throw new RuntimeException("O login com " + login + " já está associado a um usuário authenticado."); //Personalizar exceção
 
-        if(!emailFormateValidator(signUpDto.login()))
+        if(!emailFormateValidator(login))
             throw new RuntimeException("Este não é um e-mail com formato válido."); //Personalizar exceção
 
 
         User newUser = new User(
-                signUpDto.login(),
+                login,
                 new BCryptPasswordEncoder().encode(signUpDto.password()),
                 getRolesList(signUpDto.rolesId())
         );
@@ -58,45 +59,41 @@ public class UserService {
     }
 
     public String signIn(SignInDto signInDto){
-        Optional<User> userOp = this.userRepository.findByLogin(signInDto.login());
+        String login = signInDto.login().toLowerCase();
+        Optional<User> userOp = this.userRepository.findByLogin(login);
 
         if(!userOp.isPresent())
             throw new RuntimeException("login ou senha incorretos."); //Personalizar exceção
 
-        UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(signInDto.login(), signInDto.password());
+        UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(login, signInDto.password());
         Authentication auth = this.authenticationManager.authenticate(loginToken);
         return this.tokenService.generateToken((User) auth.getPrincipal());
     }
 
     public Page<GetUserDto> getUsersPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
-
         Page<User> userPage = this.userRepository.findAll(pageable);
-
         return userPage.map(GetUserDto::new);
     }
 
     public GetUserDto getUserById(long id){
         Optional<User> userOp = this.userRepository.findById(id);
-
         return userOp.map(GetUserDto::new).orElse(null);
     }
 
-    public GetUserDto updateUserRoles(long id, PutUserRolesDto putUserRolesDto){
+    public GetUserDto updateUserRoles(PutUserRolesDto putUserRolesDto){
+        String login = putUserRolesDto.login().toLowerCase();
+        Optional<User> userOp = this.userRepository.findByLogin(login);
+
         if( putUserRolesDto.rolesId() == null || putUserRolesDto.rolesId().isEmpty() )
             throw new RuntimeException("A lista de permissões não pode estar vazia.");
 
-        Optional<User> userOp = this.userRepository.findById(id);
-
         if(!userOp.isPresent())
-            throw new RuntimeException("Não há usuário com id " + id + " autenticado no sistema");
+            throw new RuntimeException("Login " + login + " não encontrado");
 
         User updatedUser = userOp.get();
-
         updatedUser.setRoles(getRolesList(putUserRolesDto.rolesId().stream().distinct().toList()));
-
         updatedUser = this.userRepository.save(updatedUser);
-
         return new GetUserDto(updatedUser);
     }
 
@@ -107,7 +104,6 @@ public class UserService {
             throw new RuntimeException("Não há usuário com id " + id + " cadastrado no sistema");
 
         this.userRepository.deleteById(id);
-
         return userOp.map(GetUserDto::new).get();
     }
 
