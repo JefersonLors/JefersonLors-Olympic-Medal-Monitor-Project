@@ -38,7 +38,7 @@ public class User {
 
     public User(PostUserDto postUserDto){
         this.name = postUserDto.name();
-        this.email = postUserDto.email();
+        this.email = postUserDto.email().toLowerCase();
         this.dth_inc = LocalDateTime.now();
         this.dth_upd = LocalDateTime.now();
     }

@@ -2,6 +2,7 @@ package com.user_ms.controller;
 
 import com.user_ms.dto.GetUserDto;
 import com.user_ms.dto.PostUserDto;
+import com.user_ms.dto.PutUserDto;
 import com.user_ms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,8 +51,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GetUserDto> putUser(@PathVariable long id,
-                                              @RequestBody PostUserDto postUserDto){
-        GetUserDto getUserDto = this.userService.putUser(id, postUserDto);
+                                              @RequestBody PutUserDto putUserDto){
+        GetUserDto getUserDto = this.userService.putUser(id, putUserDto);
 
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
