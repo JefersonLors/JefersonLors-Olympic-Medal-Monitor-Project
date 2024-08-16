@@ -1,6 +1,6 @@
 package com.authentication_ms.service;
 
-import com.authentication_ms.repository.AuthenticationRepository;
+import com.authentication_ms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService implements UserDetailsService {
 
     @Autowired
-    private AuthenticationRepository authenticationRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.authenticationRepository.findByLogin(username);
+        return this.userRepository.findByLogin(username).get();
     }
 
 }

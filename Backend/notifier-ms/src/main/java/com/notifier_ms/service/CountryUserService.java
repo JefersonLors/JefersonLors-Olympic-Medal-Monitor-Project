@@ -6,6 +6,7 @@ import com.notifier_ms.entity.CountryUser;
 import com.notifier_ms.entity.Notification;
 import com.notifier_ms.repository.CountryUserRepository;
 import com.notifier_ms.repository.NotificationRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -146,4 +147,6 @@ public class CountryUserService {
         );
         this.rabbitTemplate.convertAndSend(queue, email);
     }
+
+
 }

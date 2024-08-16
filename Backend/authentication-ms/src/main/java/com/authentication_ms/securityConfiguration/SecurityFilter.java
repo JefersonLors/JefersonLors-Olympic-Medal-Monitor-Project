@@ -1,9 +1,7 @@
 package com.authentication_ms.securityConfiguration;
 
-import com.authentication_ms.repository.AuthenticationRepository;
 import com.authentication_ms.repository.UserRepository;
 import com.authentication_ms.service.JWTokenService;
-import com.authentication_ms.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,9 +19,6 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
-    private AuthenticationRepository authenticationRepository;
-
-    @Autowired
     private JWTokenService tokenService;
 
     @Autowired
@@ -34,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if( token != null ){
             String login = tokenService.validateToken(token);
-            UserDetails user = this.authenticationRepository.findByLogin(login);
+            UserDetails user = this.userRepository.findByLogin(login).get();
             Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

@@ -1,0 +1,6 @@
+package com.notifier_ms.entity;
+
+public enum Role {
+    ROLE_ADMIN,
+    ROLE_USER
+}
