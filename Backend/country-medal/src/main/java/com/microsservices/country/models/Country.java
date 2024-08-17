@@ -1,8 +1,8 @@
 package com.microsservices.country.models;
 
-import com.microsservices.country.criptografia.CriptografiaAES;
 import com.microsservices.country.dtos.CountryDto;
 import com.microsservices.country.dtos.Country_PostDto;
+import com.microsservices.country.service.criptografia.CriptografiaAES;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
