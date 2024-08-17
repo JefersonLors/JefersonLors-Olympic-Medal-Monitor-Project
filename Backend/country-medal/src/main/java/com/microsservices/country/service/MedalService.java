@@ -14,13 +14,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.microsservices.country.repositorys.MedalRepository;
 import com.microsservices.country.repositorys.SportRepository;
+import com.microsservices.country.service.criptografia.CriptografiaAES;
+import com.microsservices.country.service.criptografia.Encoder_Decoder;
 
 import jakarta.transaction.Transactional;
 
 import com.microsservices.country.repositorys.CountryMedalInSportsRepository;
 import com.microsservices.country.repositorys.CountryRespository;
-
 import com.microsservices.country.dtos.CountryMedalInSport_PostDto;
+import com.microsservices.country.dtos.MedalDto;
+import com.microsservices.country.enums.MedalType;
 import com.microsservices.country.models.Country;
 import com.microsservices.country.models.CountryMedalInSports;
 import com.microsservices.country.models.Medal;
@@ -49,6 +52,32 @@ public class MedalService {
             CountryMedalInSports retorno = saveEntitys(country, medal, sport);
             return buildReturn(retorno);
         }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<MedalDto> getMedal(String id){
+        CriptografiaAES criptografiaAES = new CriptografiaAES();
+        try {
+            int idDecrypt = Integer
+            .parseInt(criptografiaAES
+            .decrypt(Encoder_Decoder
+            .deconderURL(id)));
+            switch (idDecrypt) {
+                case 1:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.OURO));
+                case 2:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.PRATA));
+                case 3:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE));
+                default:
+                    throw new IllegalArgumentException("id inválido");
+            }
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
