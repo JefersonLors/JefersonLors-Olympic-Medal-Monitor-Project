@@ -1,7 +1,7 @@
 package com.microsservices.country.dtos;
 
-import com.microsservices.country.criptografia.CriptografiaAES;
 import com.microsservices.country.models.Country;
+import com.microsservices.country.service.criptografia.CriptografiaAES;
 
 public class CountryDto {
     private String id;
