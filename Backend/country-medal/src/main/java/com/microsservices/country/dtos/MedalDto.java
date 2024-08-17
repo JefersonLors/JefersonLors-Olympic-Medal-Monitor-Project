@@ -1,8 +1,8 @@
 package com.microsservices.country.dtos;
 
-import com.microsservices.country.criptografia.CriptografiaAES;
 import com.microsservices.country.enums.MedalType;
 import com.microsservices.country.models.Medal;
+import com.microsservices.country.service.criptografia.CriptografiaAES;
 
 public class MedalDto {
     private String id;
@@ -17,6 +17,12 @@ public class MedalDto {
         }catch(Exception e){
             throw new IllegalArgumentException("build error Country");
         }
+    }
+
+    
+    public MedalDto(String id, MedalType type) {
+        this.id = id;
+        this.type = type;
     }
     public String getId() {
         return id;
