@@ -7,6 +7,7 @@ import com.token_validator_ms.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.SignatureException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,12 +19,17 @@ public class JWTokenService {
     @Value("${spring.security.token.issuer}")
     private String issuer;
 
-    public List<String> extractRolesFromToken(TokenDto tokenDto){
-        Map<String, Claim> claimMap = validateToken(tokenDto.value());
+    public List<String> extractRolesFromToken(TokenDto tokenDto) throws SignatureException{
+        Map<String, Claim> claimMap;
+        try {
+            claimMap = validateToken(tokenDto.value());
+        } catch (SignatureException e) {
+            throw new SignatureException("Token inválido ou foi alterado", e);
+        }
         return claimMap.get("roles").asList(String.class);
     }
 
-    private Map<String, Claim> validateToken(String token){
+    private Map<String, Claim> validateToken(String token) throws SignatureException{
         try{
             return JWT.require(getAlgorithm())
                     .withIssuer(this.issuer)
