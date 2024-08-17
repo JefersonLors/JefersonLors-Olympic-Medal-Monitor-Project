@@ -36,7 +36,7 @@ public class Country{
 
     public Country(Country_PostDto c) {
         try{
-            this.id = Long.parseLong(criptografiaAES.decrypt(c.id()));
+            this.id = Long.parseLong(c.id());//Long.parseLong(criptografiaAES.decrypt(c.id()));
         }catch(Exception e){
             throw new IllegalArgumentException("build error Country");
         }

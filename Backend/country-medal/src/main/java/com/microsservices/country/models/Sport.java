@@ -29,11 +29,12 @@ public class Sport{
 
     public Sport(Sport_PostDto s) {
         try{
-            this.id = Long.parseLong(criptografiaAES.decrypt(s.id()));
+            this.id = Long.parseLong(s.id());//Long.parseLong(criptografiaAES.decrypt(s.id()));
         }catch(Exception e){
             throw new IllegalArgumentException("build error Country");
         }
     }
+
 
     public Long getId() {
         return id;
