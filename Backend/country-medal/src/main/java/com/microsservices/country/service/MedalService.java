@@ -56,7 +56,27 @@ public class MedalService {
         }
     }
 
-    public ResponseEntity<MedalDto> getMedal(String id){
+    public ResponseEntity<MedalDto> getMedal(Long id){
+        try {
+            if(id == 1L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.OURO));
+            }else if(id == 2L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.PRATA));
+            }else if(id == 3L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.BRONZE));
+            }else{
+                throw new IllegalArgumentException("id inválido");
+            }
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<MedalDto> getEncryptedMedal(String id){
         CriptografiaAES criptografiaAES = new CriptografiaAES();
         try {
             int idDecrypt = Integer
@@ -65,11 +85,11 @@ public class MedalService {
             .deconderURL(id)));
             switch (idDecrypt) {
                 case 1:
-                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.OURO));
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.OURO).encryptId());
                 case 2:
-                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.PRATA));
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.PRATA).encryptId());
                 case 3:
-                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE));
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE).encryptId());
                 default:
                     throw new IllegalArgumentException("id inválido");
             }
@@ -108,14 +128,14 @@ public class MedalService {
 
     private Sport findSport(Sport s) throws Exception{
         Optional<Sport> sport = sportRepository.findById(s.getId());//findByName(s.getName());
-        if(sport.isPresent())
+        if(!sport.isPresent())
             throw new IllegalArgumentException("sport not find: " + s.getName());
         return sport.get();
     }
 
     private Medal findMedal(Medal m){
         Optional<Medal> medal = medalRepository.findById(m.getId());
-        if(medal.isPresent())
+        if(!medal.isPresent())
             throw new IllegalArgumentException("Tipo de medalha desconhecido: " + m.getType());
         return medal.get();
     }
