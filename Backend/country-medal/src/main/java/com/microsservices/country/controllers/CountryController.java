@@ -33,11 +33,14 @@ public class CountryController {
         return service.getCountry(name);
     }
 
-    @GetMapping("/ById/{id}")
-    public ResponseEntity<CountryDto> getCountryById(@PathVariable String id) {
-        return service.getCountryById(id);
+    @GetMapping("/ByEncryptedId/{id}")
+    public ResponseEntity<CountryDto> getCountryByEncryptedId(@PathVariable String id) {
+        return service.getCountryByEncryptedId(id);
     }
     
-    
+    @GetMapping("/ById/{id}")
+    public ResponseEntity<CountryDto> getCountryById(@PathVariable Long id) {
+        return service.getCountryById(id);
+    }
     
 }
