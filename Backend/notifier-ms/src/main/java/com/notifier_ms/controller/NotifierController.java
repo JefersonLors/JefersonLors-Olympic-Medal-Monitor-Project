@@ -5,6 +5,7 @@ import com.notifier_ms.dto.*;
 import com.notifier_ms.entity.Role;
 import com.notifier_ms.service.CountryUserService;
 import com.notifier_ms.service.RoleValidationService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ public class NotifierController {
 
     @PostMapping("/follow")
     @Transactional
+    @Operation(summary="Vincula um país a um usuário", description="Vincula um país a um usuário para que seja notificado quando houver atualização de medalha.")
     public ResponseEntity<UserFollowCountryDto> followCountry(@RequestHeader("Authorization") String requestHeader,
                                                                 @RequestBody UserFollowCountryDto userFollowCountryDto){
         if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_USER)) {
@@ -35,6 +37,7 @@ public class NotifierController {
 
     @PostMapping("/unfollow")
     @Transactional
+    @Operation(summary="Desvincula um país de um usuário", description="Usuário passa a não receber mais notificações quando há atualizações de medalha do país.")
     public ResponseEntity<UserUnfollowCountryDto> unfollowCountry( @RequestHeader("Authorization") String requestHeader,
                                                                     @RequestBody UserUnfollowCountryDto userUnfollowCountryDto){
         if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_USER)) {
@@ -46,6 +49,7 @@ public class NotifierController {
 
     @PostMapping("/notify")
     @Transactional
+    @Operation(summary="Notifica usuário via e-mail", description="Notifica usuário via e-mail.")
     public ResponseEntity<SentMessageDto> notifyUsers(@RequestHeader("Authorization") String requestHeader,
                                                         @RequestBody MessageDataDto messageDataDto){
         if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_ADMIN)) {

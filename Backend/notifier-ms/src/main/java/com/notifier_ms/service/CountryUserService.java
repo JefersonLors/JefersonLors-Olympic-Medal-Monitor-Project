@@ -140,13 +140,10 @@ public class CountryUserService {
 
     private void sendEmail(String mailTo, String message){
         PostEmailDto email = new PostEmailDto(
-                "lors.jeferson@gmail.com",
                 mailTo,
                 "O país que você segue ganhou mais uma medalha. Vem cá checar!",
                 message
         );
         this.rabbitTemplate.convertAndSend(queue, email);
     }
-
-
 }

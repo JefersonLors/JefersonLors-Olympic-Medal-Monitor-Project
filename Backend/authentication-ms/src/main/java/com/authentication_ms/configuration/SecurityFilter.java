@@ -1,4 +1,4 @@
-package com.authentication_ms.securityConfiguration;
+package com.authentication_ms.configuration;
 
 import com.authentication_ms.repository.UserRepository;
 import com.authentication_ms.service.JWTokenService;

@@ -3,6 +3,7 @@ package com.authentication_ms.controller;
 import com.authentication_ms.dto.GetUserDto;
 import com.authentication_ms.dto.PutUserRolesDto;
 import com.authentication_ms.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/id")
+    @Operation(summary="Retorna a role com o id inserido, se existir", description="Retorna a role com o id inserido, se existir.")
     public ResponseEntity<GetUserDto> getUserById(@RequestParam long id){
         GetUserDto getUserDto = userService.getUserById(id);
 
@@ -26,6 +28,7 @@ public class UserController {
     }
 
     @GetMapping()
+    @Operation(summary="Retorna uma página de usuários cadastrados", description="Retorna uma página de usuários cadastrados.")
     public ResponseEntity<Page<GetUserDto>> getUsersPaginated(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "100") int size){
         Page<GetUserDto> getUserDtoList = userService.getUsersPaginated(page, size);
@@ -34,13 +37,15 @@ public class UserController {
     }
     @PutMapping()
     @Transactional
-    public ResponseEntity<GetUserDto> putUser(@RequestBody PutUserRolesDto putUserRolesDto){
+    @Operation(summary="Atualiza as roles do usuário, se ele existir", description="Atualiza as roles do usuário, se ele existir.")
+    public ResponseEntity<GetUserDto> putUserRoles(@RequestBody PutUserRolesDto putUserRolesDto){
         GetUserDto getUserDto = this.userService.updateUserRoles(putUserRolesDto);
 
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary="Retorna o usuário com o id inserido, se existir", description="Retorna o usuário com o id inserido, se existir.")
     public ResponseEntity<GetUserDto> deleteUser(@PathVariable long id){
         GetUserDto getUserDto = this.userService.deleteUser(id);
 

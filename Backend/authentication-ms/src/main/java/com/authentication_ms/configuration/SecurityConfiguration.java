@@ -1,4 +1,4 @@
-package com.authentication_ms.securityConfiguration;
+package com.authentication_ms.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers( HttpMethod.GET, "/user/id").hasRole("ADMIN")
                         .requestMatchers( HttpMethod.GET, "/role").hasRole("ADMIN")
                         .requestMatchers( HttpMethod.GET, "/role/id").hasRole("ADMIN")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -4,6 +4,6 @@ import com.email.email_ms.entities.Email;
 
 import java.time.LocalDateTime;
 
-public record PostEmailDto(String mailFrom, String mailTo, String mailSubject, String mailText) {
+public record PostEmailDto(String mailTo, String mailSubject, String mailText) {
 
 }
