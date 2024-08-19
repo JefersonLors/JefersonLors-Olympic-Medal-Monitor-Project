@@ -38,7 +38,7 @@ public class CountryService{
             CountryMedalInSportsDto countryMedalInSportDto = new CountryMedalInSportsDto();
             for(CountryMedalInSports result : results){
                 MedalDto medal = new MedalDto(result.getMedal());
-                SportDto sport = new SportDto(result.getSport()) ;
+                SportDto sport = new SportDto(result.getSport())/* .encryptId()*/ ;
                 medal.setId(Encoder_Decoder.enconderURL(medal.getId()));
                 sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
                 if(medal != null){
@@ -54,7 +54,7 @@ public class CountryService{
                 dto.setSports(entry.getValue());
                 medalDtos.add(dto);
             }
-            CountryDto countryDto = new CountryDto(results.get(0).getCountry()); 
+            CountryDto countryDto = new CountryDto(results.get(0).getCountry())/*.encryptId()*/; 
             countryDto.setId(Encoder_Decoder.enconderURL(countryDto.getId()));
             countryMedalInSportDto.setCountry(countryDto);
             countryMedalInSportDto.setMedals(medalDtos);
@@ -74,7 +74,7 @@ public class CountryService{
 
             for(CountryMedalInSports result : results){
                 Country country = result.getCountry();
-                CountryDto countryDto = new CountryDto(country);
+                CountryDto countryDto = new CountryDto(country)/* .encryptId() */;
                 Medal medal = result.getMedal();
     
                 if (countryDto != null) {
@@ -99,14 +99,28 @@ public class CountryService{
         }
     }
 
-    public ResponseEntity<CountryDto> getCountryById(String id){
+    public ResponseEntity<CountryDto> getCountryByEncryptedId(String id){
         CriptografiaAES criptografiaAES = new CriptografiaAES();
         try {
             String idDecrypt = criptografiaAES.decrypt(Encoder_Decoder.deconderURL(id));
             Optional<Country> country = countryRepository.findById(Long.parseLong(idDecrypt));
             if(country.isPresent()){
-                CountryDto countryDto = new CountryDto(country.get());
+                CountryDto countryDto = new CountryDto(country.get())/*.encryptId()*/;
                 countryDto.setId(Encoder_Decoder.enconderURL(countryDto.getId()));
+                return ResponseEntity.ok().body(countryDto);
+            }
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<CountryDto> getCountryById(Long id){
+        try {
+            Optional<Country> country = countryRepository.findById(id);
+            if(country.isPresent()){
+                CountryDto countryDto = new CountryDto(country.get());
                 return ResponseEntity.ok().body(countryDto);
             }
             return ResponseEntity.badRequest().build();

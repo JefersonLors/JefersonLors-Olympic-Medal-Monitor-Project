@@ -28,9 +28,13 @@ public class MedalsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MedalDto> getMedal(@PathVariable String id) {
+    public ResponseEntity<MedalDto> getMedal(@PathVariable Long id) {
         return service.getMedal(id);
     }
     
+    @GetMapping("/encrypted/{id}")
+    public ResponseEntity<MedalDto> getEncryptedMedal(@PathVariable String id) {
+        return service.getEncryptedMedal(id);
+    }
     
 }

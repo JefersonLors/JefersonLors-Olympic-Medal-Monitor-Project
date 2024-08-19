@@ -11,12 +11,22 @@ public class SportDto{
 
     public SportDto(Sport s) {
         try{
-            this.id = criptografiaAES.encrypt(s.getId().toString());
+            this.id = s.getId().toString();
             this.name = s.getName();
             this.description = s.getDescription();
         }catch(Exception e){
-            throw new IllegalArgumentException("build error Country");
+            throw new RuntimeException("build error Country");
         }
+    }
+
+    public SportDto encryptId(){
+        try {
+            this.id = criptografiaAES.encrypt(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return this;
     }
 
     public String getId() {

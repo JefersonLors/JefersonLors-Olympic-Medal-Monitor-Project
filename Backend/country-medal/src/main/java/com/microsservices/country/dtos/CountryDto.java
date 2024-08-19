@@ -17,7 +17,7 @@ public class CountryDto {
 
     public CountryDto(Country c){
         try{
-            this.id = criptografiaAES.encrypt(c.getId().toString()); 
+            this.id = c.getId().toString(); 
             this.name = c.getName(); 
             this.flag = c.getFlag();
         }catch(Exception e){
@@ -25,6 +25,25 @@ public class CountryDto {
         }
     }
     
+    public CountryDto encryptId(){
+        try {
+            this.id = criptografiaAES.encrypt(this.id);
+            return this;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    // public CountryDto(Country c, boolean encrypted){
+    //     try{
+    //         this.id = criptografiaAES.encrypt(c.getId().toString()); 
+    //         this.name = c.getName(); 
+    //         this.flag = c.getFlag();
+    //     }catch(Exception e){
+    //         throw new IllegalArgumentException("build error Country DTO");
+    //     }
+    // }
     
     public String getId() {
         return id;
