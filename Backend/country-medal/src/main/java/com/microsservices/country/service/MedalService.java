@@ -14,13 +14,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.microsservices.country.repositorys.MedalRepository;
 import com.microsservices.country.repositorys.SportRepository;
+import com.microsservices.country.service.criptografia.CriptografiaAES;
+import com.microsservices.country.service.criptografia.Encoder_Decoder;
 
 import jakarta.transaction.Transactional;
 
 import com.microsservices.country.repositorys.CountryMedalInSportsRepository;
 import com.microsservices.country.repositorys.CountryRespository;
-
 import com.microsservices.country.dtos.CountryMedalInSport_PostDto;
+import com.microsservices.country.dtos.MedalDto;
+import com.microsservices.country.enums.MedalType;
 import com.microsservices.country.models.Country;
 import com.microsservices.country.models.CountryMedalInSports;
 import com.microsservices.country.models.Medal;
@@ -53,6 +56,52 @@ public class MedalService {
         }
     }
 
+    public ResponseEntity<MedalDto> getMedal(Long id){
+        try {
+            if(id == 1L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.OURO));
+            }else if(id == 2L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.PRATA));
+            }else if(id == 3L){
+                return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.BRONZE));
+            }else{
+                throw new IllegalArgumentException("id inválido");
+            }
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<MedalDto> getEncryptedMedal(String id){
+        CriptografiaAES criptografiaAES = new CriptografiaAES();
+        try {
+            int idDecrypt = Integer
+            .parseInt(criptografiaAES
+            .decrypt(Encoder_Decoder
+            .deconderURL(id)));
+            switch (idDecrypt) {
+                case 1:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.OURO).encryptId());
+                case 2:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.PRATA).encryptId());
+                case 3:
+                    return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE).encryptId());
+                default:
+                    throw new IllegalArgumentException("id inválido");
+            }
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     private CountryMedalInSports saveEntitys(Country country, Medal medal, Sport sport) throws Exception{
         Country c = findCountry(country); 
         Medal m = findMedal(medal);
@@ -79,14 +128,14 @@ public class MedalService {
 
     private Sport findSport(Sport s) throws Exception{
         Optional<Sport> sport = sportRepository.findById(s.getId());//findByName(s.getName());
-        if(sport.isPresent())
+        if(!sport.isPresent())
             throw new IllegalArgumentException("sport not find: " + s.getName());
         return sport.get();
     }
 
     private Medal findMedal(Medal m){
         Optional<Medal> medal = medalRepository.findById(m.getId());
-        if(medal.isPresent())
+        if(!medal.isPresent())
             throw new IllegalArgumentException("Tipo de medalha desconhecido: " + m.getType());
         return medal.get();
     }

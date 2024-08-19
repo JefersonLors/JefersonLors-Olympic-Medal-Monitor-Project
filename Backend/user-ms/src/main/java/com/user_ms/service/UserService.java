@@ -2,6 +2,7 @@ package com.user_ms.service;
 
 import com.user_ms.dto.GetUserDto;
 import com.user_ms.dto.PostUserDto;
+import com.user_ms.dto.PutUserDto;
 import com.user_ms.entity.User;
 import com.user_ms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,12 @@ public class UserService {
     private UserRepository userRepository;
     public GetUserDto getUserById(long id){
         Optional<User> userOp = this.userRepository.findById(id);
-
         return userOp.map(GetUserDto::new).orElse(null);
     }
 
     public Page<GetUserDto> getUsersPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
-
         Page<User> userPage = this.userRepository.findAll(pageable);
-
         return userPage.map(GetUserDto::new);
     }
 
@@ -45,24 +43,15 @@ public class UserService {
         return new GetUserDto(newUser);
     }
 
-    public GetUserDto putUser(long id, PostUserDto postUserDto){
+    public GetUserDto putUser(long id, PutUserDto putUserDto){
         Optional<User> userOp = this.userRepository.findById(id);
 
         if(!userOp.isPresent())
             throw new RuntimeException("Não há usuário com id " + id + " cadastrado no sistema");
 
-        Optional<User> userOp2 = this.userRepository.findByEmail(postUserDto.email());
-
-        if(userOp2.isPresent() && userOp2.get().getId() != id )
-            throw new RuntimeException("O email " + postUserDto.email() + " já está associado a um usuário do sistema."); //Personalizar exceção
-
-        if(!emailFormateValidator(postUserDto.email()))
-            throw new RuntimeException("Este não é um e-mail com formato válido."); //Personalizar exceção
-
         User updatedUser = userOp.get();
 
-        updatedUser.setName(postUserDto.name());
-        updatedUser.setEmail(postUserDto.email());
+        updatedUser.setName(putUserDto.name());
         updatedUser.setDth_upd(LocalDateTime.now());
 
         return new GetUserDto(updatedUser);

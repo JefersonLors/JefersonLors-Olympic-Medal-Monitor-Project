@@ -1,6 +1,7 @@
 package com.email.email_ms.entities;
 
-import com.email.email_ms.dtos.EmailDto;
+import com.email.email_ms.dtos.GetEmailDto;
+import com.email.email_ms.dtos.PostEmailDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,13 +32,13 @@ public class Email {
     @ManyToOne
     EmailStatus status;
 
-    public Email(EmailDto emailDto){
-        this.id = emailDto.id();
+    public Email(PostEmailDto emailDto){
+        this.id = 0;
         this.mailFrom = emailDto.mailFrom();
         this.mailTo = emailDto.mailTo();
         this.mailSubject = emailDto.mailSubject();
         this.mailText = emailDto.mailText();
-        this.dth_send = emailDto.mailDthSend();
-        this.status = new EmailStatus(emailDto.mailStatus());
+        this.dth_send = LocalDateTime.now();
+        this.status = null;
     }
 }
