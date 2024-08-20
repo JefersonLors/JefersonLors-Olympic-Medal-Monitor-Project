@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+
 
 function Home(){
-    const[countries, setCountries] = useState([]);
+
 
     return(
         <>

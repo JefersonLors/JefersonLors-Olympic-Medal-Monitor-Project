@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] =  useState("");
-  const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   async function confirmLogin(){
@@ -19,9 +18,8 @@ function Login() {
 
     await apiService.login(credencials)
                     .then((response)=>{
-                        setToken(response.data);
                         navigate("/Home")
-                        localStorage.setItem('authToken', token);
+                        localStorage.setItem('authToken', response.data);
                     }).catch((err)=>{
                       toast.error(err.response.data.message);
                     });
