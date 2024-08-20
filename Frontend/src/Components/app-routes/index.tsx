@@ -5,6 +5,8 @@ import Register from "../Register";
 import Home from "../home";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import CountryCard from "../Country";
+import Header from "../Header";
 
 function AppRoutes(){
     return(
@@ -14,6 +16,7 @@ function AppRoutes(){
                 <Route path="/Login" element={<Login/>}/>
                 <Route path="/Register" element={<Register/>}/>
                 <Route path="/Home" element={<Home/>}></Route>
+                <Route path="/Card" element={<CountryCard/>}></Route>
             </Routes>
         </BrowserRouter>
     );
