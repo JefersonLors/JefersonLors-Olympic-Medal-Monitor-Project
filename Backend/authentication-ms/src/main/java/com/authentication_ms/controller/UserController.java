@@ -32,7 +32,6 @@ public class UserController {
     public ResponseEntity<Page<GetUserDto>> getUsersPaginated(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "100") int size){
         Page<GetUserDto> getUserDtoList = userService.getUsersPaginated(page, size);
-
         return ResponseEntity.ok(getUserDtoList);
     }
     @PutMapping()
@@ -40,7 +39,6 @@ public class UserController {
     @Operation(summary="Atualiza as roles do usuário, se ele existir", description="Atualiza as roles do usuário, se ele existir.")
     public ResponseEntity<GetUserDto> putUserRoles(@RequestBody PutUserRolesDto putUserRolesDto){
         GetUserDto getUserDto = this.userService.updateUserRoles(putUserRolesDto);
-
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
@@ -48,7 +46,6 @@ public class UserController {
     @Operation(summary="Retorna o usuário com o id inserido, se existir", description="Retorna o usuário com o id inserido, se existir.")
     public ResponseEntity<GetUserDto> deleteUser(@PathVariable long id){
         GetUserDto getUserDto = this.userService.deleteUser(id);
-
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
 }

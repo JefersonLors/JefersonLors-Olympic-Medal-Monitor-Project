@@ -23,7 +23,6 @@ public class RoleController {
     public ResponseEntity<Page<GetRoleDto>> getRolesPaginated(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "100") int size){
         Page<GetRoleDto> getRoleDtos = roleService.getRolesPaginated(page, size);
-
         return ResponseEntity.ok(getRoleDtos);
     }
     @GetMapping("/id")

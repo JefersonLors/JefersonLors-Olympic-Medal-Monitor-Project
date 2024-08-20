@@ -30,11 +30,7 @@ public class AuthenticationController {
     @Transactional
     @Operation(summary="Cadastro de usuário", description="Cadastro de usuário.")
     public ResponseEntity<String> signUp(@RequestBody @Validated SignUpDto postUserDto){
-        GetUserDto getUserDto = this.userService.signUp(postUserDto);
-
-        if(getUserDto == null)
-            return ResponseEntity.badRequest().body("Não foi possível criar o usuário.");
-
+        this.userService.signUp(postUserDto);
         return ResponseEntity.ok("Usuário criado com sucesso!");
     }
 }
