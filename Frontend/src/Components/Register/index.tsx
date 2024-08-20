@@ -7,7 +7,7 @@ function Register() {
     <div className="container">
       <div className="center">
         <h1>Register</h1>
-        <form action="" method="POST">
+        <form>
           <div className="txt_field">
             <input type="text" name="text" required />
             <span></span>
