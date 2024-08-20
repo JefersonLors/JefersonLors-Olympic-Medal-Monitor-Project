@@ -1,13 +1,15 @@
 import React from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { apiService } from "../Services";
+import { toast } from "react-toastify";
 
 function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] =  useState("");
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   async function confirmLogin(){
     const credencials ={
@@ -18,9 +20,10 @@ function Login() {
     await apiService.login(credencials)
                     .then((response)=>{
                         setToken(response.data);
-                        console.log("token: ",token);
+                        navigate("/Home")
+                        localStorage.setItem('authToken', token);
                     }).catch((err)=>{
-                        console.log("Erro ao tentar login: ", err);
+                      toast.error(err.response.data.message);
                     });
   }
 
