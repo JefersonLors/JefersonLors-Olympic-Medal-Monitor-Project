@@ -34,7 +34,6 @@ public class Email {
 
     public Email(PostEmailDto emailDto){
         this.id = 0;
-        this.mailFrom = emailDto.mailFrom();
         this.mailTo = emailDto.mailTo();
         this.mailSubject = emailDto.mailSubject();
         this.mailText = emailDto.mailText();

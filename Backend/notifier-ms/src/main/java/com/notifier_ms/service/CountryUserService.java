@@ -1,12 +1,12 @@
 package com.notifier_ms.service;
 
+import com.notifier_ms.controller.clients.CountryController;
 import com.notifier_ms.controller.clients.UserController;
 import com.notifier_ms.dto.*;
 import com.notifier_ms.entity.CountryUser;
 import com.notifier_ms.entity.Notification;
 import com.notifier_ms.repository.CountryUserRepository;
 import com.notifier_ms.repository.NotificationRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +32,9 @@ public class CountryUserService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private CountryController countryController;
+
     @Value("${spring.rabbitmq.queue}")
     private String queue;
 
@@ -42,6 +45,8 @@ public class CountryUserService {
 
         if(countryUserOp.isPresent() && countryUserOp.get().getActive())
             throw new RuntimeException("O usuário " + dto.userId() + " já segue o país " + dto.countryId());
+
+        CountryDto countryDto = checkCountry(dto.countryId());
 
         if(countryUserOp.isPresent()){
             newCountryUser = countryUserOp.get();
@@ -54,7 +59,7 @@ public class CountryUserService {
                     user.id(),
                     user.email(),
                     dto.countryId(),
-                    "{some country name}",
+                    countryDto.name(),
                     true,
                     LocalDateTime.now(),
                     LocalDateTime.now()
@@ -80,15 +85,13 @@ public class CountryUserService {
     }
 
     public SentMessageDto sendMessage(MessageDataDto notificationDto){
-        List<CountryUser> countryUser = this.countryUserRepository.findByCountryId(notificationDto.countryId());
-
-        //checar se código da medalha existe
-
-        String medalType = "{some kind olympic medal name}";
-        String sportModality = "{some sport modality name}";
-
         if( notificationDto.medalsWon() > 1 )
             throw new RuntimeException("Quantidade de medalhas indevida.");
+
+        String medalType = checkMedal(notificationDto.medalId()).type().name();
+        String sportModality = "{some modality name}";
+
+        List<CountryUser> countryUser = this.countryUserRepository.findByCountryId(notificationDto.countryId());
 
         countryUser.forEach((registry)->{
             String message = makeMessage( registry.getCountryName(),
@@ -120,12 +123,22 @@ public class CountryUserService {
         return getUserDto.getBody();
     }
 
-    private void checkCountry(long countryId){
-        //deve checar  retornar o país
+    private CountryDto checkCountry(long countryId){
+        ResponseEntity<CountryDto> response =  this.countryController.getCountryById(countryId);
+
+        if(response.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("O país " + countryId + " não existe.");
+
+        return response.getBody();
     }
 
-    private void checkMedal(long medalId){
-        //deve checar retornar o tipo de medalha
+    private MedalDto checkMedal(long medalId){
+        ResponseEntity<MedalDto> response = this.countryController.getMedal(medalId);
+
+        if(response.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("O país " + medalId + " não existe.");
+
+        return response.getBody();
     }
 
     private String makeMessage(String countryName, long medalsWon, String medalType, String sportModality){
@@ -140,13 +153,10 @@ public class CountryUserService {
 
     private void sendEmail(String mailTo, String message){
         PostEmailDto email = new PostEmailDto(
-                "lors.jeferson@gmail.com",
                 mailTo,
                 "O país que você segue ganhou mais uma medalha. Vem cá checar!",
                 message
         );
         this.rabbitTemplate.convertAndSend(queue, email);
     }
-
-
 }

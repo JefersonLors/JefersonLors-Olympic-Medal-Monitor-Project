@@ -1,0 +1,21 @@
+.logoutDiv {
+  width: 100%;
+  height: 10px;
+  display: flex;
+  padding-left: 97%;
+  padding-top: 30px;
+}
+
+.imgLogout {
+  width: 30px;
+  height: 30px;
+}
+
+.imgLogout {
+  transition: transform 0.2s ease-in-out;
+}
+
+.imgLogout:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}

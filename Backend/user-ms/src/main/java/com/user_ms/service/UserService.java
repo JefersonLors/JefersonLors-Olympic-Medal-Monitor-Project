@@ -23,7 +23,10 @@ public class UserService {
         Optional<User> userOp = this.userRepository.findById(id);
         return userOp.map(GetUserDto::new).orElse(null);
     }
-
+    public GetUserDto getUserByEmail(String email){
+        Optional<User> userOp = this.userRepository.findByEmail(email);
+        return userOp.map(GetUserDto::new).orElse(null);
+    }
     public Page<GetUserDto> getUsersPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = this.userRepository.findAll(pageable);

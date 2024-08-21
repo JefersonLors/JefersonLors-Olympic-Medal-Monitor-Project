@@ -4,6 +4,7 @@ import com.authentication_ms.dto.SignInDto;
 import com.authentication_ms.dto.GetUserDto;
 import com.authentication_ms.dto.SignUpDto;
 import com.authentication_ms.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,16 @@ public class AuthenticationController {
     private UserService userService;
     @PostMapping("/signIn")
     @Transactional
+    @Operation(summary="Login de usuário", description="Usuário loga e recebe um token contendo suas roles.")
     public ResponseEntity<String> signIn(@RequestBody @Validated SignInDto authenticationDto){
         String token = this.userService.signIn(authenticationDto);
         return ResponseEntity.ok(token);
     }
     @PostMapping("/signUp")
     @Transactional
+    @Operation(summary="Cadastro de usuário", description="Cadastro de usuário.")
     public ResponseEntity<String> signUp(@RequestBody @Validated SignUpDto postUserDto){
-        GetUserDto getUserDto = this.userService.signUp(postUserDto);
-
-        if(getUserDto == null)
-            return ResponseEntity.badRequest().body("Não foi possível criar o usuário.");
-
+        this.userService.signUp(postUserDto);
         return ResponseEntity.ok("Usuário criado com sucesso!");
     }
 }

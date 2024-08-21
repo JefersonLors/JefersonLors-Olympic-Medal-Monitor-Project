@@ -24,9 +24,7 @@ public class RoleService {
 
     public Page<GetRoleDto> getRolesPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
-
         Page<Role> userPage = this.roleRepository.findAll(pageable);
-
         return userPage.map(GetRoleDto::new);
     }
 }
