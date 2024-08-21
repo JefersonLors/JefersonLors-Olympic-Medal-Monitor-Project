@@ -10,5 +10,5 @@ export const API_ENDPOINTS={
 export const API_ENDPOINTS={
     LOGIN: `http://localhost:8086/auth/signIn`,
     REGISTER: `http://localhost:8086/auth/signUp`,
-    COUNTRY_MEDAL: `http://localhost:8085/Country`
+    COUNTRY_MEDAL: `http://localhost:8085/country`
 };

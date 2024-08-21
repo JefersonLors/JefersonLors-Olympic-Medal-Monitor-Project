@@ -1,52 +1,6 @@
 
-.secao4 {
-  margin: 0;
-  font-family: Helvetica, sans-serif;
+.mainContainer{
 
-  display: inline-block;
-  padding: 10px;
-}
-
-.secao4-div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 10px;
-  text-align: center;
-}
-
-.secao4-div-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-  height: 320px;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  background-color: white;
-  transition: all 0.5s ease;
-}
-
-.secao4-div-card:hover {
-  transform: scale(1.1);
-  z-index: 1;
-}
-
-.secao4-div-card img {
-  width: 90%;
-  height: auto;
-}
-
-.secao4-div-card h3 {
-  margin-bottom: 0px;
-}
-
-@media (max-width: 768px) {
-  .secao4-div-card {
-    width: 100%;
-  }
 }
 
 .searchContainer{
@@ -56,20 +10,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-}
-
-.countriesContainer{
-  width: 100%;
-  height: 470px;
-  
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-
-
-.mainContainer{
 
 }
 
@@ -153,4 +93,64 @@
 .imgLogout:hover {
   transform: scale(1.05);
   cursor: pointer;
+}
+
+
+.imgFlag{
+  width: 30px;
+  height: 30px;
+}
+
+
+/*0------------------*/
+
+.countriesContainer {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  overflow-y: scroll;
+  white-space: nowrap;
+}
+
+.tableStyle {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+.tableStyle th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Striped table design */
+.tbodyStyle .even {
+  background-color: #f2f2f2;
+}
+.tbodyStyle .odd {
+  background-color: #fff;
+}
+
+/* Hover effect */
+.tbodyStyle tr:hover {
+  background-color: #eee;
+}
+
+/* Specific styling for the flag image */
+.imgFlag {
+  width: 20px; /* Adjust as needed */
+  height: auto;
+}
+
+.theadStyle th {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  z-index: 1;
+}
+
+.fixedHeader tbody {
+  height: 200px; /* Ajuste a altura conforme necessário */
+  overflow-y: auto;
 }

@@ -16,7 +16,7 @@ function AppRoutes(){
                 <Route path="/Login" element={<Login/>}/>
                 <Route path="/Register" element={<Register/>}/>
                 <Route path="/Home" element={<Home/>}></Route>
-                <Route path="/Card" element={<CountryCard/>}></Route>
+                <Route path="/CountryCard/:id" element={<CountryCard/>}></Route>
             </Routes>
         </BrowserRouter>
     );
