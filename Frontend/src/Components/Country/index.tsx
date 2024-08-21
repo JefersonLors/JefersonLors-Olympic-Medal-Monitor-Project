@@ -6,8 +6,21 @@ function CountryCard() {
     const params = useParams();
     const [country, setCountry] = useState();
 
-
     
+    function handleFollow(){
+        const button = document.getElementById('buttonFollow');
+        
+        if( button?.classList.contains('buttonFollow') ){
+            button.classList.remove('buttonFollow')
+            button.classList.toggle('buttonFollowing');
+            button.textContent = 'Seguindo';
+            
+        } else if( button?.classList.contains('buttonFollowing') ){
+            button.classList.remove('buttonFollowing')
+            button.classList.toggle('buttonFollow');
+            button.textContent = 'Seguir';
+        }
+    }
   return (
     <div className="countryCardDiv">
         <div className="contentCardDiv">
@@ -19,7 +32,7 @@ function CountryCard() {
                     decoding="async"
                     src="https://th.bing.com/th/id/OIP.RgwzDihAMttqCx8f4GGTVAHaFL?rs=1&pid=ImgDetMain"
                     alt="imagem do card 1 html e css"
-                    className="imgFlag"
+                    className="imgFlag1"
                 />
             </div>
             <div className="informationDiv">
@@ -28,57 +41,50 @@ function CountryCard() {
                         <tr>
                             <th>Modality</th>
                             <th>Medal</th>
-                            <th>Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr >
                             <td>Futebol</td>
                             <td>Prata</td>
-                            <td>{4}</td>
                          </tr>
                          <tr >
                             <td>Futebol</td>
                             <td>Ouro</td>
-                            <td>{6}</td>
                          </tr>
                          <tr >
                             <td>Futebol</td>
                             <td>Bronze</td>
-                            <td>{2}</td>
                          </tr>
                          <tr >
                             <td>Ginástica</td>
                             <td>Prata</td>
-                            <td>{4}</td>
                          </tr>
                          <tr >
                             <td>Ginástica</td>
                             <td>Ouro</td>
-                            <td>{6}</td>
                          </tr>
                          <tr >
                             <td>Ginástica</td>
                             <td>Bronze</td>
-                            <td>{2}</td>
                          </tr>
                          <tr >
                             <td>Canoagem</td>
                             <td>Prata</td>
-                            <td>{4}</td>
                          </tr>
                          <tr >
                             <td>Canoagem</td>
                             <td>Ouro</td>
-                            <td>{6}</td>
                          </tr>
                          <tr >
                             <td>Canoagem</td>
                             <td>Bronze</td>
-                            <td>{2}</td>
                          </tr>
                     </tbody>
                 </table>
+            </div>
+            <div className="followedSection">
+                <button id="buttonFollow" className="buttonFollow" onClick={()=>{handleFollow()}}>Seguir</button>
             </div>
         </div>
     </div>

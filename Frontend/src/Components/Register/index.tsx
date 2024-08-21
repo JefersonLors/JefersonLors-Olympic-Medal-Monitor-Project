@@ -54,6 +54,7 @@ function Register() {
             name="confirmRegisterButton" 
             type="button" 
             value="confirmRegister"
+            className="buttonRegister"
             onClick={()=>{confirmRegister()}}
           >
                 Confirm
