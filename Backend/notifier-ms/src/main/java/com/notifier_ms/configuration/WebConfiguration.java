@@ -1,4 +1,4 @@
-package com.authentication_ms.configuration;
+package com.notifier_ms.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

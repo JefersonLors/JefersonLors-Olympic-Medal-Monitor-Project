@@ -32,6 +32,17 @@ public class UserController {
         return ResponseEntity.ok(getUserDto);
     }
 
+    @GetMapping("/email")
+    @Operation(summary="Retorna usuário com base no email inserido, se existir", description="Retorna usuário com base no email inserido, se existir.")
+    public ResponseEntity<GetUserDto> getUserByEmail(@RequestParam String email){
+        GetUserDto getUserDto = userService.getUserByEmail(email);
+
+        if( getUserDto == null )
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(getUserDto);
+    }
+
     @GetMapping()
     @Operation(summary="Retorna página de usuários", description="Retorna página de usuários.")
     public ResponseEntity<Page<GetUserDto>> getUsersPaginated(@RequestParam(defaultValue = "0") int page,
