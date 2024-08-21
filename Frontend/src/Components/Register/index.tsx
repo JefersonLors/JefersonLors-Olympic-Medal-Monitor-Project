@@ -9,6 +9,8 @@ function Register() {
   const [password, setPassword] =  useState("");
   const navigate = useNavigate();
 
+  localStorage.clear();
+  
   async function confirmRegister(){
     const credencials ={
       login: login,
@@ -16,10 +18,24 @@ function Register() {
       rolesId:[1]
     };
 
+    const user = {
+      id: "",
+      name: "",
+      email: ""
+    }
+
     await apiService.register(credencials)
-                    .then((response)=>{
-                        navigate("/Login")
-                        toast.success(response.data);
+                    .then(async (responseA)=>{
+                      user.email = login;
+                      user.name = "user";
+                      await apiService.postUser(user)
+                                      .then((response)=>{
+                                        console.log(response)
+                                        toast.success(responseA.data);
+                                        navigate("/Login")
+                                      }).catch((error)=>{
+                                          console.log("erro ao criar usuário", error);
+                                      });
                     }).catch((err)=>{
                       toast.error(err.response.data.message);
                     });

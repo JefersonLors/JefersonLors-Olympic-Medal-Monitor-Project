@@ -9,7 +9,7 @@ function Home() {
   const navigate = useNavigate();
   //const [role, setRole] = useState("");
   //setRole("2");
-  let role = 1;
+  let role = 2;
   let pos = 1;
 
   useEffect(() => {
@@ -29,7 +29,6 @@ function Home() {
   }, []);
 
   function Logout() {
-    localStorage.clear("authToken");
     navigate("/Login");
   }
 

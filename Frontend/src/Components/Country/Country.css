@@ -110,6 +110,12 @@ thead th {
   height: 100px;
 }
 
+.followedSection button:hover {
+  background: #2691d9;
+  color: #e9f4fb;
+  transition: 0.5s;
+}
+
 .buttonFollow {
   width: 95%;
   border-radius: 5px;
@@ -128,7 +134,7 @@ thead th {
   width: 95%;
   border-radius: 5px;
   margin-top: 30px;
-  background-color: #5ea7f5; /* Azul quando ativo */; /* Inicialmente transparente */
+  background-color: #2691d9; /* Azul quando ativo */; /* Inicialmente transparente */
   border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
   color: white;
   padding: 15px 32px;

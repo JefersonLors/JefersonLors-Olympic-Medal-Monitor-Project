@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,6 +10,8 @@ function Login() {
   const [password, setPassword] =  useState("");
   const navigate = useNavigate();
 
+  localStorage.clear();
+
   async function confirmLogin(){
     const credencials ={
       login: login,
@@ -17,9 +19,16 @@ function Login() {
     };
 
     await apiService.login(credencials)
-                    .then((response)=>{
-                        navigate("/Home")
-                        localStorage.setItem('authToken', response.data);
+                    .then(async (responseA)=>{
+                        await apiService.getUserByEmail(login)
+                                  .then((response)=>{
+                                    localStorage.setItem('user', JSON.stringify(response.data));
+                                    localStorage.setItem('authToken', responseA.data);
+                                    navigate("/Home")
+                                  }).catch((error)=>{
+                                      console.log(error);
+                                  });
+
                     }).catch((err)=>{
                       toast.error(err.response.data.message);
                     });
