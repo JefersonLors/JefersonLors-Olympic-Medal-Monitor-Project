@@ -34,7 +34,7 @@ public class CountryService{
     public ResponseEntity<CountryMedalInSportsDto> getCountry(String name){
         try{
             List<CountryMedalInSports> results = repository.findByCountryName(name);
-            Map<MedalDto, List<SportDto>> medalsSportMap = new HashMap<>();
+            Map<MedalDto, SportDto> medalsSportMap = new HashMap<>();
             CountryMedalInSportsDto countryMedalInSportDto = new CountryMedalInSportsDto();
             for(CountryMedalInSports result : results){
                 MedalDto medal = new MedalDto(result.getMedal());
@@ -43,15 +43,15 @@ public class CountryService{
                 sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
                 if(medal != null){
                     medalsSportMap
-                        .computeIfAbsent(medal, k -> new ArrayList<>())
-                        .add(sport);
+                        .computeIfAbsent(medal, k -> sport);
+                        // .add(sport);
                 }
             }
             List<MedalSportsDto> medalDtos = new ArrayList<>();
-            for(Map.Entry<MedalDto, List<SportDto>> entry : medalsSportMap.entrySet()){
+            for(Map.Entry<MedalDto, SportDto> entry : medalsSportMap.entrySet()){
                 MedalSportsDto dto = new MedalSportsDto();
                 dto.setMedal(entry.getKey());
-                dto.setSports(entry.getValue());
+                dto.setSport(entry.getValue());
                 medalDtos.add(dto);
             }
             CountryDto countryDto = new CountryDto(results.get(0).getCountry())/*.encryptId()*/; 
@@ -133,7 +133,7 @@ public class CountryService{
     public ResponseEntity<CountryMedalInSportsDto> getCountryById(Long id){
         try{
             List<CountryMedalInSports> results = repository.findByCountryId(id);
-            Map<MedalDto, List<SportDto>> medalsSportMap = new HashMap<>();
+            Map<MedalDto, SportDto> medalsSportMap = new HashMap<>();
             CountryMedalInSportsDto countryMedalInSportDto = new CountryMedalInSportsDto();
             for(CountryMedalInSports result : results){
                 MedalDto medal = new MedalDto(result.getMedal());
@@ -142,15 +142,14 @@ public class CountryService{
                 sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
                 if(medal != null){
                     medalsSportMap
-                        .computeIfAbsent(medal, k -> new ArrayList<>())
-                        .add(sport);
+                        .computeIfAbsent(medal, k -> sport);
                 }
             }
             List<MedalSportsDto> medalDtos = new ArrayList<>();
-            for(Map.Entry<MedalDto, List<SportDto>> entry : medalsSportMap.entrySet()){
+            for(Map.Entry<MedalDto, SportDto> entry : medalsSportMap.entrySet()){
                 MedalSportsDto dto = new MedalSportsDto();
                 dto.setMedal(entry.getKey());
-                dto.setSports(entry.getValue());
+                dto.setSport(entry.getValue());
                 medalDtos.add(dto);
             }
             CountryDto countryDto = new CountryDto(results.get(0).getCountry())/*.encryptId()*/; 
