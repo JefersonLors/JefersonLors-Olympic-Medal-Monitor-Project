@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter 
 public class MedalSportsDto {
     private MedalDto medal;
-    private List<SportDto> sports;
+    private SportDto sport;//private List<SportDto> sports;
 }
