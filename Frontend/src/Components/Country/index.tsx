@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Country.css"
 
 function CountryCard() {
     const params = useParams();
     const [country, setCountry] = useState();
-
+    const navigate = useNavigate();
     
     function handleFollow(){
         const button = document.getElementById('buttonFollow');
@@ -23,6 +23,9 @@ function CountryCard() {
     }
   return (
     <div className="countryCardDiv">
+        <div className="backDiv">
+            <img src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" className="imgBack" onClick={()=>{navigate("/Home")}} alt="back"/>
+        </div>
         <div className="contentCardDiv">
             <div className="titleDiv">
                 <h3>Country</h3>

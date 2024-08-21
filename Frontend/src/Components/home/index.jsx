@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const [countries, setCountries] = useState([]);
   const navigate = useNavigate();
-
+  //const [role, setRole] = useState("");
+  //setRole("2");
+  let role = 1;
   let pos = 1;
 
   useEffect(() => {
@@ -75,7 +77,7 @@ function Home() {
                   key={item.country.id}
                   className=""
                   onClick={() => {
-                    navigate(`/CountryCard/${item.country.id}`);
+                    navigate(role == "2" ? `/CountryCard/${item.country.id}` : `/CountryAdminView/${item.country.id}`);
                   }}
                 >
                   <td>{pos++}</td>

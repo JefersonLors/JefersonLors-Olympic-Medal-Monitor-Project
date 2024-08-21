@@ -20,6 +20,13 @@ public interface CountryMedalInSportsRepository extends JpaRepository<CountryMed
 
 @Query("SELECT csm FROM country_medal_in_sports csm " +
            "JOIN FETCH csm.country country " +
+           "JOIN FETCH csm.sport sport " +
+           "JOIN FETCH csm.medal medal " +
+           "WHERE country.Id = :countryId")
+    List<CountryMedalInSports> findByCountryId(@Param("countryId") Long id);
+
+@Query("SELECT csm FROM country_medal_in_sports csm " +
+           "JOIN FETCH csm.country country " +
            "JOIN FETCH csm.medal medal")
     List<CountryMedalInSports> findCountriesAndMedals();
 
