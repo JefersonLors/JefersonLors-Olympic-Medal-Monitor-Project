@@ -7,6 +7,9 @@
   text-align: center;
   margin: 0;
   font-family: Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+
 }
 
 .contentCardDiv {
@@ -20,6 +23,7 @@
   box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   background-color: rgb(255, 255, 255);
+  overflow-y: auto;
 }
 
 .imgFlagDiv {
@@ -162,4 +166,8 @@ thead th {
 .imgBack:hover {
   transform: scale(1.05);
   cursor: pointer;
+}
+
+.mainDiv{
+  height: 100%;
 }

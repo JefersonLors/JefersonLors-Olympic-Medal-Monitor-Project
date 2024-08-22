@@ -8,13 +8,16 @@ function CountryCard() {
     const {id} = useParams();
     const [country, setCountry] = useState({name:""});
     const [medals, setMedals] = useState([{medal:{type:""}, sport:{name:""}}]);
-    const [user, setUser] = useState({id:"", name:"", email:""})
+    const [isFollowing, setIsFollowing] = useState(Boolean);
     const navigate = useNavigate();
-    
+
+    const user = JSON.parse(localStorage.getItem("user")??"");
+
     function changeButtonState(){
         const button = document.getElementById('buttonFollow');
-        
+        console.log("CHANGING STATE")
         if( button?.classList.contains('buttonFollow') ){
+            console.log("tá aqui")
             button.classList.remove('buttonFollow')
             button.classList.toggle('buttonFollowing');
             button.textContent = 'Unfollow';
@@ -26,48 +29,67 @@ function CountryCard() {
     }
 
     async function handleFollow(){
-        await changeButtonState();
+        const followCountry = {
+            userId: user.id,
+            countryId: id
+        }
         
-        setUser(JSON.parse(localStorage.getItem("user")??""));
-        
-
+        if( !isFollowing ){
+            console.log(user)
+            await apiService.followCountry(followCountry)
+                            .then(async (response)=>{
+                                setIsFollowing(true);
+                                toast.success("País seguido com sucesso!");
+                                await changeButtonState();
+                            }).catch((error)=>{
+                                toast.error(error.response.data.message);
+                                console.log("Erro ao seguir o país: ", error);
+                            })
+        }else{
+            console.log(user)
+            await apiService.unfollowCountry(followCountry)
+                            .then(async (response)=>{
+                                setIsFollowing(false);
+                                toast.success("Você deixou de seguir esse país com sucesso!");
+                                await changeButtonState();
+                            }).catch((error)=>{
+                                toast.error(error.response.data.message);
+                                console.log("Erro ao deixar de seguir o país: ", error);
+                            })
+        }
     }
 
     useEffect(()=>{
-        async function follow(){
-            const followCountry = {
-                userId: user.id,
-                countryId: id
-            }
-            console.log(user)
-            await apiService.followCountry(followCountry)
-                            .then((response)=>{
-                                toast.success("País seguido com sucesso!");
-                            }).catch((error)=>{
-                                console.log(error);
-                            })
-        }
-        follow();
-    }, [user])
-
-    useEffect(()=>{
-        async function loadCountry(){
+        function loadCountry(){
             console.log(id)
-            await apiService.getCountryById(id)
+             apiService.getCountryById(id)
                             .then((response)=>{
                                 console.log(response);
                                 setCountry(response.data.country);
                                 setMedals(response.data.medals); ///a atualização desses valores é assíncrona
                             }).catch((error)=>{
                                 toast.error(error.response.data.message);
-                                console.log(error);
+                                console.log("Erro ao recuperar informações do país: ", error);
                             });
                             
         }
         loadCountry();
+        function handleIfUserAlreadyFollows(){
+             apiService.getFollowedCountries(Number.parseInt(user.id))
+                            .then(async(response)=>{
+                                if( response.data.countriesId.some((item)=>item == id)){
+                                    setIsFollowing(true);
+                                }
+                            }).catch((error)=>{
+                                setIsFollowing(false);
+                                console.log("Erro ao pegar os países que o usuário segue:", error);
+                            });
+        }
+        handleIfUserAlreadyFollows();
     }, []);
 
   return (
+    <div className="mainDiv">
     <div className="countryCardDiv">
         <div className="backDiv">
             <img src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" className="imgBack" onClick={()=>{navigate("/Home")}} alt="back"/>
@@ -105,9 +127,14 @@ function CountryCard() {
                 </table>
             </div>
             <div className="followedSection">
-                <button id="buttonFollow" className="buttonFollow" onClick={()=>{handleFollow()}}>Follow</button>
+                <button 
+                    id="buttonFollow"
+                    className={isFollowing ? "buttonFollowing" : "buttonFollow" } 
+                    onClick={()=>{handleFollow()}}
+                >{isFollowing ? "Following" : "Follow" }</button>
             </div>
         </div>
+    </div>
     </div>
   );
 }
