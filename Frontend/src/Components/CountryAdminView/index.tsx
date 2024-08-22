@@ -1,38 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./CountryAdminView.css"
 import { toast } from "react-toastify";
+import { apiService } from "../Services";
 
 function CountryAdminView(){
-    const params = useParams();
-    const [country, setCountry] = useState();
+    const {id} = useParams();
+    const [country, setCountry] = useState({id:"", name:"",  flag:""});
+    const [modalities, setModalities] = useState([{id:"",  name:"", description:""}])
+    const [medalTypes, setMetalTypes] = useState([{id:"", type:""}])
     const navigate = useNavigate();
     
     const [selectedRadio, setSelectedRadio] = useState();
     const [selectedOption, setSelectedOption] = useState();
   
-    const options = [
-      { value: 'option1', label: 'futebol' },
-      { value: 'option2', label: 'ginástica' },
-      { value: 'option3', label: 'nado' },
-      { value: 'option4', label: 'corrida' },
-    ];
-  
-    const handleRadioChange = (event) => {
+    function handleRadioChange (event) {
       setSelectedRadio(event.target.value);
     };
   
     const handleOptionChange = (event) => {
+
       setSelectedOption(event.target.value);
     };
 
-    function handleSave(){
-        toast.error("Esse país já tem uma medalha nessa modalidade.")
-        toast.success("Medalha adicionada com sucesso!");
+    const handleSave = ()=>{
+        console.log(selectedOption, selectedRadio)
+        const data = {
+            country: id,
+            medal:selectedRadio,
+            sport:selectedOption
+        }
+        console.log(data);
+        apiService.addMedal(data)
+                    .then((response)=>{
+                        toast.success("Medalha adicionada com sucesso!");
+                    }).catch((error)=>{
+                        toast.error(error.response.data.message);
+                        console.log(error);
+                    });
     }
     function filterFunction(){
 
     }
+
+    useEffect(()=>{
+        function loadCountry(){
+            console.log(id)
+             apiService.getCountryById(id)
+                            .then((response)=>{
+                                console.log(response);
+                                setCountry(response.data.country);
+                            }).catch((error)=>{
+                                toast.error(error.response.data.message);
+                                console.log("Erro ao recuperar informações do país: ", error);
+                            });
+                            
+        }
+        loadCountry();
+
+        function loadModalityOptions(){
+            apiService.getAllModalities()
+                        .then((response)=>{
+                            setModalities(response.data)
+                        }).catch((error)=>{
+                            toast.error(error.response.data.message);
+                            console.log(error);
+                        })
+        }
+        loadModalityOptions();
+
+        function loadMedalTypes(){
+            apiService.getAllMedalTypes()
+                        .then((response)=>{
+                            console.log("medal types: ", response.data)
+                            setMetalTypes(response.data);
+                        }).catch((error)=>{
+                            toast.error(error.response.data.message);
+                            console.log(error);
+                        })
+
+        }
+        loadMedalTypes();
+    }, []);
+
     return(
         <div className="countryCardAdminDiv">
             <div className="backDiv">
@@ -40,45 +90,48 @@ function CountryAdminView(){
             </div>
             <div className="contentCardAdminDiv">
                 <div className="titleAdminDiv">
-                    <h3>Country</h3>
+                    <h3>{country.name}</h3>
                 </div>
                 <div className="imgFlagAdminDiv">
                     <img
                         decoding="async"
-                        src="https://th.bing.com/th/id/OIP.RgwzDihAMttqCx8f4GGTVAHaFL?rs=1&pid=ImgDetMain"
+                        src={country.flag}
                         alt="imagem do card 1 html e css"
                         className="imgFlagAdmin1"
                     />
                 </div>
                 <div className="addMedalAdminDiv">
                     <div className="medalContainer">
-                        <div className="typeMedalButton">
-                            <input type="radio" id="Ouro" value="Ouro" checked={selectedRadio === 'Ouro'} onChange={handleRadioChange} />
-                            <label htmlFor="Ouro">Ouro</label>
-                        </div>
-                        <div className="typeMedalButton">
-                            <input type="radio" id="Prata" value="Prata" checked={selectedRadio === 'Prata'} onChange={handleRadioChange} />
-                            <label htmlFor="Prata">Prata</label>
-                        </div>
-                        <div className="typeMedalButton">
-                            <input type="radio" id="Bronze" value="Bronze" checked={selectedRadio === 'Bronze'} onChange={handleRadioChange} />
-                            <label htmlFor="Bronze">Bronze</label>
-                        </div>
+                        {
+                            medalTypes.map((medalType)=>{
+                                return(
+                                    <div className="typeMedalButton">
+                                        <input type="radio" 
+                                            id="medalTypeInput"
+                                            value={medalType.id} 
+                                            checked={selectedRadio === medalType.id} 
+                                            onChange={()=>handleRadioChange(event)}
+                                         />
+                                        <label htmlFor={medalType.type}> {medalType.type.toLowerCase()}</label>
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
                     <div className="modalityContainer">
-                        <select value={selectedOption} onChange={handleOptionChange} className="selectInput">
+                        <select id="modalitiesSelect" value={selectedOption} onChange={handleOptionChange} className="selectInput">
                             <option value="">Selecione</option>
-                            {options.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                                ))
-                            }
+                                {modalities.map((option) => (
+                                    <option id={option.id}  key={option.id} value={option.id}>
+                                        {option.name}
+                                    </option>
+                                    ))
+                                }
                         </select>
                     </div>
                 </div>
                 <div className="saveSection">
-                    <button id="buttonSave" className="buttonSave" onClick={()=>{handleSave()}}>Save</button>
+                    <button id="buttonSave" className="buttonSave" onClick={handleSave}>Save</button>
                 </div>
             </div>
         </div>

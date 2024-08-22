@@ -32,6 +32,16 @@ function Login() {
                     }).catch((err)=>{
                       toast.error(err.response.data.message);
                     });
+    
+    apiService.getUserRoles({value: localStorage.getItem('authToken')})
+              .then((response)=>{
+                console.log(response.data)
+                  localStorage.setItem('userRoles', response.data);
+              }).catch((error)=>{
+                toast.error(error.response.data.message);
+                  console.log(error)
+              })
+                
   }
 
   return (

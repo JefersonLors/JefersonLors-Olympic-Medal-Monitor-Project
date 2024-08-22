@@ -6,14 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
-  const [countriesList, setCountryList] = useState([{country:{
-    id:"",
-    name:"",
-    flag:"",
+  const [countriesList, setCountryList] = useState([{
+    country:{
+      id:"",
+      name:"",
+      flag:"",
   },medals:{
-    ouro:"",
-    prata:"",
-    bronze:""
+      ouro:"",
+      prata:"",
+      bronze:""
   }} ]);
   const [followedCountries, setFollowedCountries] = useState({userId:"", countriesId:[""]});
 
@@ -21,7 +22,7 @@ function Home() {
 
   //const [role, setRole] = useState("");
   //setRole("2");
-  let role = 2;
+  let role = 1;
   let pos = 1;
 
   useEffect(() => {
@@ -49,7 +50,6 @@ function Home() {
       });
     }
     getFollowedCountries();
-
   }, []);
 
   function Logout() {
