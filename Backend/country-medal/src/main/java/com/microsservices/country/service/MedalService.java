@@ -2,7 +2,9 @@
 package com.microsservices.country.service;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,15 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.microsservices.country.repositorys.MedalRepository;
-import com.microsservices.country.repositorys.SportRepository;
+import com.microsservices.country.repositorys.interfaces.CountryMedalInSportsRepository;
+import com.microsservices.country.repositorys.interfaces.CountryRespository;
+import com.microsservices.country.repositorys.interfaces.MedalRepository;
+import com.microsservices.country.repositorys.interfaces.SportRepository;
 import com.microsservices.country.service.criptografia.CriptografiaAES;
 import com.microsservices.country.service.criptografia.Encoder_Decoder;
 
 import jakarta.transaction.Transactional;
 
-import com.microsservices.country.repositorys.CountryMedalInSportsRepository;
-import com.microsservices.country.repositorys.CountryRespository;
 import com.microsservices.country.dtos.CountryMedalInSport_PostDto;
 import com.microsservices.country.dtos.MedalDto;
 import com.microsservices.country.enums.MedalType;
@@ -74,6 +76,14 @@ public class MedalService {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity<List<MedalDto>> getMedals(){
+        List<Medal> m = medalRepository.findAll();
+        List<MedalDto> medalDtos = m.stream()
+            .map(medal -> new MedalDto(medal)) 
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().body(medalDtos);
     }
 
     public ResponseEntity<MedalDto> getEncryptedMedal(String id){

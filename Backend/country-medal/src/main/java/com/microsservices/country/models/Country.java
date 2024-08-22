@@ -1,5 +1,8 @@
 package com.microsservices.country.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.microsservices.country.dtos.CountryDto;
 import com.microsservices.country.dtos.Country_PostDto;
 import com.microsservices.country.service.criptografia.CriptografiaAES;
@@ -8,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 
 @Entity(name="countrys")
@@ -18,12 +22,25 @@ public class Country{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private byte[] flag;
+    private String flag;
+    @OneToMany(mappedBy = "country")
+    private List<CountryMedalInSports> country_medal_in_sports = new ArrayList<>();
     @Transient
     private CriptografiaAES criptografiaAES = new CriptografiaAES();
     
     public Country() {
     }
+
+    
+
+    public Country(Long id, String name, String b) {
+        this.id = id;
+        this.name = name;
+        this.flag = b;
+    }
+
+
+
     public Country(CountryDto c) {
         try{
             this.id = Long.parseLong(c.getId());
@@ -56,10 +73,10 @@ public class Country{
         this.name = name;
     }
 
-    public byte[] getFlag() {
+    public String getFlag() {
         return flag;
     }
-    public void setFlag(byte[] flag) {
+    public void setFlag(String flag) {
         this.flag = flag;
     }
 }

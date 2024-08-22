@@ -19,8 +19,20 @@ public class Sport{
     private String description;
     @Transient
     private CriptografiaAES criptografiaAES = new CriptografiaAES();
+
     public Sport() {
     }
+
+    
+
+    public Sport(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+
+
     public Sport(SportDto s) {
         this.id = Long.parseLong(s.getId());
         this.name = s.getName();

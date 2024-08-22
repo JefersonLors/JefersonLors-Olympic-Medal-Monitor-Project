@@ -1,5 +1,5 @@
 
-package com.microsservices.country.repositorys;
+package com.microsservices.country.repositorys.interfaces;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

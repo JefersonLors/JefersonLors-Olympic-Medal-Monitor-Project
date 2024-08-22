@@ -1,15 +1,17 @@
 package com.microsservices.country.dtos;
 
+import java.util.Objects;
+
 import com.microsservices.country.models.Country;
 import com.microsservices.country.service.criptografia.CriptografiaAES;
 
 public class CountryDto {
     private String id;
     private String name;
-    private byte[] flag;
+    private String flag;
     private final CriptografiaAES criptografiaAES = new CriptografiaAES();
 
-    public CountryDto(String id, String name, byte[] flag) {
+    public CountryDto(String id, String name, String flag) {
         this.id = id;
         this.name = name;
         this.flag = flag;
@@ -34,7 +36,20 @@ public class CountryDto {
             throw new RuntimeException();
         }
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CountryDto that = (CountryDto) o;
+        return Objects.equals(id, that.id) &&
+               Objects.equals(name, that.name) &&
+               Objects.equals(flag, that.flag);  // Comparação de String
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, flag);  // Inclui String no cálculo do hash
+    }
     // public CountryDto(Country c, boolean encrypted){
     //     try{
     //         this.id = criptografiaAES.encrypt(c.getId().toString()); 
@@ -61,11 +76,11 @@ public class CountryDto {
         this.name = name;
     }
 
-    public byte[] getFlag() {
+    public String getFlag() {
         return flag;
     }
 
-    public void setFlag(byte[] flag) {
+    public void setFlag(String flag) {
         this.flag = flag;
     }
 }
