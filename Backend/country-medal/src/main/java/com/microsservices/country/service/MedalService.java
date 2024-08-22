@@ -2,7 +2,9 @@
 package com.microsservices.country.service;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -74,6 +76,14 @@ public class MedalService {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity<List<MedalDto>> getMedals(){
+        List<Medal> m = medalRepository.findAll();
+        List<MedalDto> medalDtos = m.stream()
+            .map(medal -> new MedalDto(medal)) // Supondo que MedalDto tenha um construtor que aceita Medal
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().body(medalDtos);
     }
 
     public ResponseEntity<MedalDto> getEncryptedMedal(String id){
