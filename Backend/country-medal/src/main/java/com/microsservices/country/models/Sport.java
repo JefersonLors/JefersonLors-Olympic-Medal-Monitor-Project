@@ -25,6 +25,12 @@ public class Sport{
 
     
 
+    public Sport(Long id) {
+        this.id = id;
+    }
+
+
+
     public Sport(Long id, String name, String description) {
         this.id = id;
         this.name = name;
