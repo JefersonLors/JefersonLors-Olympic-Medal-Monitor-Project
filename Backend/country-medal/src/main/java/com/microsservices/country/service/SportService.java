@@ -1,6 +1,8 @@
 package com.microsservices.country.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,18 @@ public class SportService {
             if(s.isPresent())
                 return ResponseEntity.ok().body(new SportDto(s.get()));
             return ResponseEntity.badRequest().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<List<SportDto>> getSports(){
+        try{
+            List<Sport> s = repository.findAll();
+            List<SportDto> sportDtos = s.stream()
+            .map(medal -> new SportDto(medal)) 
+            .collect(Collectors.toList());
+            return ResponseEntity.ok().body(sportDtos);
         }catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
