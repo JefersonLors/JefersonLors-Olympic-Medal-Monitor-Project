@@ -17,13 +17,8 @@ function Home() {
       bronze:""
   }} ]);
   const [followedCountries, setFollowedCountries] = useState({userId:"", countriesId:[""]});
-
   const user = JSON.parse(localStorage.getItem("user")??"");
-
-  //const [role, setRole] = useState("");
-  //setRole("2");
-  let role = 1;
-  let pos = 1;
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     async function loadCountries() {
@@ -50,6 +45,11 @@ function Home() {
       });
     }
     getFollowedCountries();
+    
+    function recoverUserRoles(){
+      setRoles(localStorage.getItem('userRoles').split(','));
+    }
+    recoverUserRoles();
   }, []);
 
   function Logout() {
@@ -81,29 +81,40 @@ function Home() {
         </div>
       </div>
       <div className="countriesContainer">
-        <table className="tableStyle">
-          <thead className="theadStyle">
-            <tr>
-              <th>Pos</th>
-              <th>País</th>
-              <th>Ouro</th>
-              <th>Prata</th>
-              <th>Bronze</th>
-              <th>Total</th>
-              <th>Seguindo</th>
-            </tr>
-          </thead>
-          <tbody className="tbodyStyle">
-            {countriesList.map((item, index) => {
+      <table className="tableStyle">
+        <thead className="theadStyle">
+          <tr>
+            <th>Pos</th>
+            <th>País</th>
+            <th>Ouro</th>
+            <th>Prata</th>
+            <th>Bronze</th>
+            <th>Total</th>
+            <th>Seguindo</th>
+          </tr>
+        </thead>
+        <tbody className="tbodyStyle">
+          {countriesList
+            .map((item) => ({
+              ...item,
+              total: item.medals.ouro + item.medals.prata + item.medals.bronze,
+            }))
+            .sort((a, b) => b.total - a.total)
+            .map((item, index) => {
               return (
                 <tr
                   key={index}
                   className=""
                   onClick={() => {
-                    navigate(role == "2" ? `/CountryCard/${item.country.id}` : `/CountryAdminView/${item.country.id}`);
+                    console.log(roles);
+                    navigate(
+                      roles.includes("ROLE_ADMIN")
+                        ? `/CountryAdminView/${item.country.id}`
+                        : `/CountryCard/${item.country.id}`
+                    );
                   }}
                 >
-                  <td>{pos++}</td>
+                  <td>{index + 1}</td>
                   <td>
                     <img
                       decoding="async"
@@ -116,13 +127,20 @@ function Home() {
                   <td>{item.medals.ouro}</td>
                   <td>{item.medals.prata}</td>
                   <td>{item.medals.bronze}</td>
-                  <td>{item.medals.ouro + item.medals.prata + item.medals.bronze}</td>
-                  <td>{followedCountries.countriesId.some((followedCountryId)=>{ return followedCountryId == item.country.id}) ? "Sim" :"Não" }</td>
+                  <td>{item.total}</td>
+                  <td>
+                    {followedCountries.countriesId.length > 0 &&
+                      followedCountries.countriesId.some(
+                      (followedCountryId) => followedCountryId === item.country.id
+                    )
+                      ? "Sim"
+                      : "Não"}
+                  </td>
                 </tr>
               );
             })}
-          </tbody>
-        </table>
+        </tbody>
+      </table>
       </div>
     </div>
   );
