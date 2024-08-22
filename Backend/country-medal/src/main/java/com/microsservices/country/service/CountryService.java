@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.microsservices.country.dtos.CountMedals_Dto;
 import com.microsservices.country.dtos.CountryDto;
 import com.microsservices.country.dtos.CountryMedalDto;
 import com.microsservices.country.dtos.CountryMedalInSportsDto;
@@ -73,7 +74,7 @@ public class CountryService{
     public ResponseEntity<List<CountryMedalDto>> getCountrys(){
         try{
             var results = concreteRepository.getAllCountrys();//repository.findCountriesAndMedals();
-            Map<CountryDto, List<Medal>> countryMedalsMap = new HashMap<>();//Map<Country, List<Medal>> countryMedalsMap = new HashMap<>();
+            Map<CountryDto, CountMedals_Dto> countryMedalsMap = new HashMap<>();//Map<Country, List<Medal>> countryMedalsMap = new HashMap<>();
 
             for(CountryMedalInSports result : results){
                 Country country = result.getCountry();
@@ -82,18 +83,31 @@ public class CountryService{
     
                 if (countryDto != null) {
                     countryMedalsMap
-                        .computeIfAbsent(countryDto, k -> new ArrayList<>());
+                        .computeIfAbsent(countryDto, k -> new CountMedals_Dto());
                         //.add(medal);
                     if(medal != null){
-                        List<Medal> m = countryMedalsMap.get(countryDto);
-                        m.add(medal);
-                        countryMedalsMap.put(countryDto, m);
+                        CountMedals_Dto m = countryMedalsMap.get(countryDto);
+                        switch (medal.getType()) {
+                            case OURO:
+                                m.setOuro();
+                                break;
+                            case PRATA:
+                                m.setPrata();
+                                break;
+                            case BRONZE:
+                                m.getBronze();
+                                break;
+                            default:
+                                break;
+                        }
+                        // m.add(medal);
+                        // countryMedalsMap.put(countryDto, m);
                     }
                 }
             }
             
             List<CountryMedalDto> dtos = new ArrayList<>();
-            for (Map.Entry<CountryDto, List<Medal>> entry : countryMedalsMap.entrySet()) {
+            for (Map.Entry<CountryDto, CountMedals_Dto> entry : countryMedalsMap.entrySet()) {
                 CountryMedalDto dto = new CountryMedalDto();
                 CountryDto countryDto = entry.getKey();
                 countryDto.setId(Encoder_Decoder.enconderURL(countryDto.getId()));
