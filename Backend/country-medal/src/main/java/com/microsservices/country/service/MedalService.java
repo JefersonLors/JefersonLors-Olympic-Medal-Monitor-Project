@@ -49,7 +49,12 @@ public class MedalService {
             Country country = new Country(entity.country());
             Medal medal = new Medal(entity.medal());
             Sport sport = new Sport(entity.sport());
-            if(csmRepository.existsMedalForCountryAndSport(country.getId(), sport.getId()))
+            if
+            (
+                csmRepository.existsMedalForCountryAndSport(country.getId(), sport.getId())
+                ||
+                csmRepository.isThereSuchAMedalForAnyCountryInThisSport(sport.getId(), medal.getId())
+            )
                 throw new IllegalArgumentException("the country "+ country.getName() +" already has a medal for the sport");
             CountryMedalInSports retorno = saveEntitys(country, medal, sport);
             return buildReturn(retorno);
