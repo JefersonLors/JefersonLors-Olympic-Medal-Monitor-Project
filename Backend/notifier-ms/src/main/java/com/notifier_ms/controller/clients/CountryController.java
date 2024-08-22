@@ -13,7 +13,7 @@ public interface CountryController {
     @RequestMapping(method= RequestMethod.GET, value="/medal/{id}")
     ResponseEntity<MedalDto> getMedal(@PathVariable Long id);
 
-    @RequestMapping(method= RequestMethod.GET, value="/Country/ById/{id}")
+    @RequestMapping(method= RequestMethod.GET, value="/country/ById/{id}")
     ResponseEntity<CountryDto> getCountryById(@PathVariable Long id);
 
 }

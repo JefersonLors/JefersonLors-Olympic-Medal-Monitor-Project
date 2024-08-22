@@ -1,6 +1,5 @@
 package com.notifier_ms.controller;
 
-import com.notifier_ms.controller.clients.TokenValidator;
 import com.notifier_ms.dto.*;
 import com.notifier_ms.entity.Role;
 import com.notifier_ms.service.CountryUserService;
@@ -12,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/notifier")
 public class NotifierController {
@@ -23,6 +20,17 @@ public class NotifierController {
     @Autowired
     private RoleValidationService roleValidationService;
 
+
+    @GetMapping("/id")
+    @Operation(summary="Retorna a lista de países que um usuário segue", description="Retorna a lista de países que um usuário segue.")
+    public ResponseEntity<GetFollowedCountriesDto> getFollowedCountries(@RequestHeader("Authorization") String requestHeader,
+                                                                        @RequestParam long id){
+        if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_USER)) {
+            GetFollowedCountriesDto response = this.countryUserService.followedCountries(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
+    }
     @PostMapping("/follow")
     @Transactional
     @Operation(summary="Vincula um país a um usuário", description="Vincula um país a um usuário para que seja notificado quando houver atualização de medalha.")

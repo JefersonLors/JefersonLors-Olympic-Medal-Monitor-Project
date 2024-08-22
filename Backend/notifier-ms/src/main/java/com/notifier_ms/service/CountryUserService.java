@@ -113,7 +113,10 @@ public class CountryUserService {
         });
         return null;
     }
+    public GetFollowedCountriesDto followedCountries(long userId){
 
+        return null;
+    }
     private GetUserDto checkUser(long userId){
         ResponseEntity<GetUserDto> getUserDto = this.userController.getUserById(userId);
 

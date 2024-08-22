@@ -70,10 +70,10 @@ function Home() {
             </tr>
           </thead>
           <tbody className="tbodyStyle">
-            {countries.map((item) => {
+            {countries.map((item, index) => {
               return (
                 <tr
-                  key={item.country.id}
+                  key={index}
                   className=""
                   onClick={() => {
                     navigate(role == "2" ? `/CountryCard/${item.country.id}` : `/CountryAdminView/${item.country.id}`);

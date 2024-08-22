@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 function CountryCard() {
     const {id} = useParams();
     const [country, setCountry] = useState({name:""});
-    const [medals, setMedals] = useState([{medal:{type:""}, sports:{name:""}}]);
+    const [medals, setMedals] = useState([{medal:{type:""}, sport:{name:""}}]);
+    const [user, setUser] = useState({id:"", name:"", email:""})
     const navigate = useNavigate();
     
     function changeButtonState(){
@@ -27,19 +28,27 @@ function CountryCard() {
     async function handleFollow(){
         await changeButtonState();
         
-        const followCountry = {
-            userId: localStorage.getItem("userId"),
-            countryId: 5
-        }
-        await apiService.followCountry(followCountry)
-                        .then((response)=>{
-                            
-                        }).catch((error)=>{
-                            console.log(error);
-                        })
-
+        setUser(JSON.parse(localStorage.getItem("user")??""));
+        
 
     }
+
+    useEffect(()=>{
+        async function follow(){
+            const followCountry = {
+                userId: user.id,
+                countryId: id
+            }
+            console.log(user)
+            await apiService.followCountry(followCountry)
+                            .then((response)=>{
+                                toast.success("País seguido com sucesso!");
+                            }).catch((error)=>{
+                                console.log(error);
+                            })
+        }
+        follow();
+    }, [user])
 
     useEffect(()=>{
         async function loadCountry(){
@@ -48,7 +57,7 @@ function CountryCard() {
                             .then((response)=>{
                                 console.log(response);
                                 setCountry(response.data.country);
-                                setMedals(response.data.medals); ///atualização desses valores são assíncrono
+                                setMedals(response.data.medals); ///a atualização desses valores é assíncrona
                             }).catch((error)=>{
                                 toast.error(error.response.data.message);
                                 console.log(error);
@@ -87,7 +96,7 @@ function CountryCard() {
                          {medals.map((item, index) => {
                             return (
                                 <tr key={index} className="">
-                                    <td>item.sports[0].name</td>
+                                    <td>{item.sport.name}</td>
                                     <td>{item.medal.type}</td>
                                 </tr>
                             );
