@@ -95,7 +95,7 @@ public class CountryService{
                                 m.setPrata();
                                 break;
                             case BRONZE:
-                                m.getBronze();
+                                m.setBronze();
                                 break;
                             default:
                                 break;
