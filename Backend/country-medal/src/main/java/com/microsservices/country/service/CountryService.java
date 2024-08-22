@@ -154,14 +154,14 @@ public class CountryService{
 
     public ResponseEntity<CountryMedalInSportsDto> getCountryWithMedalsById(Long id){
         try{
-            List<CountryMedalInSports> results = repository.findByCountryId(id);
+            List<CountryMedalInSports> results = concreteRepository.getCountryById(id);//repository.findByCountryId(id);
             Map<MedalDto, SportDto> medalsSportMap = new HashMap<>();
             CountryMedalInSportsDto countryMedalInSportDto = new CountryMedalInSportsDto();
             for(CountryMedalInSports result : results){
-                MedalDto medal = new MedalDto(result.getMedal());
-                SportDto sport = new SportDto(result.getSport())/* .encryptId()*/ ;
-                medal.setId(Encoder_Decoder.enconderURL(medal.getId()));
-                sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
+                MedalDto medal = result.getMedal() != null ? new MedalDto(result.getMedal()) : null;
+                SportDto sport = result.getSport() != null ? new SportDto(result.getSport())/* .encryptId()*/ : null;
+                // medal.setId(Encoder_Decoder.enconderURL(medal.getId()));
+                // sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
                 if(medal != null){
                     medalsSportMap
                         .computeIfAbsent(medal, k -> sport);
