@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 function CountryCard() {
     const {id} = useParams();
-    const [country, setCountry] = useState({name:""});
+    const [country, setCountry] = useState({name:"", id:"", flag:""});
     const [medals, setMedals] = useState([{medal:{type:""}, sport:{name:""}}]);
     const [isFollowing, setIsFollowing] = useState(Boolean);
     const navigate = useNavigate();
@@ -101,7 +101,7 @@ function CountryCard() {
             <div className="imgFlagDiv">
                 <img
                     decoding="async"
-                    src="https://th.bing.com/th/id/OIP.RgwzDihAMttqCx8f4GGTVAHaFL?rs=1&pid=ImgDetMain"
+                    src={country.flag}
                     alt="imagem do card 1 html e css"
                     className="imgFlag1"
                 />

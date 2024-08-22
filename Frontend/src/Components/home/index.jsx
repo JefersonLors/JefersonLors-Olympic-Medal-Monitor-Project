@@ -5,8 +5,20 @@ import"./Home.css";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [countries, setCountries] = useState([]);
   const navigate = useNavigate();
+  const [countriesList, setCountryList] = useState([{country:{
+    id:"",
+    name:"",
+    flag:"",
+  },medals:{
+    ouro:"",
+    prata:"",
+    bronze:""
+  }} ]);
+  const [followedCountries, setFollowedCountries] = useState({userId:"", countriesId:[""]});
+
+  const user = JSON.parse(localStorage.getItem("user")??"");
+
   //const [role, setRole] = useState("");
   //setRole("2");
   let role = 2;
@@ -16,16 +28,28 @@ function Home() {
     async function loadCountries() {
       await apiService
         .getCountries()
-        .then((response) => {
-          setCountries(response.data);
+        .then(async (response) => {
+          setCountryList(response.data)
           console.log("response: ", response.data);
         })
         .catch((error) => {
-          console.log("error: ", error);
+          console.log("erro ao recuperar países: ", error);
           toast(error.response.message);
         });
-    }
+    }    
     loadCountries();
+
+    async function getFollowedCountries(){
+      await apiService.getFollowedCountries(Number.parseInt(user.id))
+      .then(async(response)=>{
+          setFollowedCountries(response.data);
+          console.log(response.data)
+      }).catch((error)=>{
+          console.log("Erro ao recuperar os países que o usuário segue:", error);
+      });
+    }
+    getFollowedCountries();
+
   }, []);
 
   function Logout() {
@@ -70,7 +94,7 @@ function Home() {
             </tr>
           </thead>
           <tbody className="tbodyStyle">
-            {countries.map((item, index) => {
+            {countriesList.map((item, index) => {
               return (
                 <tr
                   key={index}
@@ -83,16 +107,17 @@ function Home() {
                   <td>
                     <img
                       decoding="async"
-                      src="https://th.bing.com/th/id/OIP.RgwzDihAMttqCx8f4GGTVAHaFL?rs=1&pid=ImgDetMain"
+                      src={item.country.flag}
                       alt="imagem do card 1 html e css"
                       className="imgFlag"
                     />
+                    {item.country.name}
                   </td>
-                  <td>{0}</td>
-                  <td>{0}</td>
-                  <td>{0}</td>
-                  <td>{0}</td>
-                  <td>Não</td>
+                  <td>{item.medals.ouro}</td>
+                  <td>{item.medals.prata}</td>
+                  <td>{item.medals.bronze}</td>
+                  <td>{item.medals.ouro + item.medals.prata + item.medals.bronze}</td>
+                  <td>{followedCountries.countriesId.some((followedCountryId)=>{ return followedCountryId == item.country.id}) ? "Sim" :"Não" }</td>
                 </tr>
               );
             })}
