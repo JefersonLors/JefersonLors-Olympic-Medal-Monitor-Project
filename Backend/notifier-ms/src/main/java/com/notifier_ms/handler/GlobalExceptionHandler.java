@@ -1,6 +1,6 @@
-package com.authentication_ms.handler;
+package com.notifier_ms.handler;
 
-import com.authentication_ms.dto.ErrorResponseDto;
+import com.notifier_ms.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

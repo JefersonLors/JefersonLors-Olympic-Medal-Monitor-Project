@@ -1,4 +1,4 @@
-package com.authentication_ms.dto;
+package com.notifier_ms.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

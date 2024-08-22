@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class CountryUserService {
         CountryUser newCountryUser;
 
         if(countryUserOp.isPresent() && countryUserOp.get().getActive())
-            throw new RuntimeException("O usuário " + dto.userId() + " já segue o país " + dto.countryId());
+            throw new RuntimeException("O usuário já segue esse país.");
 
         CountryDto countryDto = checkCountry(dto.countryId());
 
@@ -74,7 +75,7 @@ public class CountryUserService {
                 .findByUserIdAndCountryId(dto.userId(), dto.countryId());
 
         if(!countryUserOp.isPresent() || !countryUserOp.get().getActive() )
-            throw new RuntimeException("O usuário " + dto.userId() + " não segue o país " + dto.countryId());
+            throw new RuntimeException("O usuário não segue esse país.");
 
         CountryUser countryUser = countryUserOp.get();
         countryUser.setActive(false);
@@ -114,8 +115,15 @@ public class CountryUserService {
         return null;
     }
     public GetFollowedCountriesDto followedCountries(long userId){
+        List<CountryUser> countryUsers = this.countryUserRepository.findByUserId(userId);
+        List<Long> countryIds = new ArrayList<>();
 
-        return null;
+        countryUsers.stream().forEach((item)->{
+            if(item.getActive()){
+                countryIds.add(item.getCountryId());
+            }});
+
+        return new GetFollowedCountriesDto(userId, countryIds);
     }
     private GetUserDto checkUser(long userId){
         ResponseEntity<GetUserDto> getUserDto = this.userController.getUserById(userId);

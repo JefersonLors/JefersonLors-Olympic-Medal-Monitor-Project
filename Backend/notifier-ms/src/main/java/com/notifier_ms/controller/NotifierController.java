@@ -21,7 +21,7 @@ public class NotifierController {
     private RoleValidationService roleValidationService;
 
 
-    @GetMapping("/id")
+    @GetMapping("/followeds/id")
     @Operation(summary="Retorna a lista de países que um usuário segue", description="Retorna a lista de países que um usuário segue.")
     public ResponseEntity<GetFollowedCountriesDto> getFollowedCountries(@RequestHeader("Authorization") String requestHeader,
                                                                         @RequestParam long id){

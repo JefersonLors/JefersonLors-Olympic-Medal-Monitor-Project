@@ -1,6 +1,6 @@
-package com.authentication_ms.handler;
+package com.token_validator_ms.handler;
 
-import com.authentication_ms.dto.ErrorResponseDto;
+import com.token_validator_ms.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
