@@ -1,12 +1,7 @@
 
-package com.microsservices.country.repositorys;
-
-import java.util.List;
+package com.microsservices.country.repositorys.interfaces;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.microsservices.country.dtos.CountryMedalDto;
 import com.microsservices.country.models.Country;
 
 public interface CountryRespository  extends JpaRepository<Country, Long>{

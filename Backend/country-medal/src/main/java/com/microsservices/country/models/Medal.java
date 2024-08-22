@@ -20,6 +20,11 @@ public class Medal{
     
     public Medal() {
     }
+    
+    public Medal(Long id) {
+        this.id = id;
+    }
+
     public Medal(Medal_PostDto m) {
         this.id = Long.parseLong(m.id());
     }

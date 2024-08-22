@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CountryUserRepository extends JpaRepository<CountryUser, Long> {
     Optional<CountryUser> findByUserIdAndCountryId(long userId, long countryId);
     List<CountryUser> findByCountryId(long countryId);
+    List<CountryUser> findByUserId(long userId);
 }

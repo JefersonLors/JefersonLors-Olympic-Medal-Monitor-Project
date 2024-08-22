@@ -141,6 +141,7 @@
 .imgFlag {
   width: 20px; /* Adjust as needed */
   height: auto;
+  margin-right: 20px;
 }
 
 .theadStyle th {

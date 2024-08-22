@@ -30,7 +30,22 @@ public class CountryMedalInSports{
     public CountryMedalInSports() {
     }
 
+    
+    
+    public CountryMedalInSports(Long id, Medal medal, Country country) {
+        this.id = id;
+        this.medal = medal;
+        this.country = country;
+    }
+
+
     public CountryMedalInSports(Sport sport, Medal medal, Country country) {
+        this.sport = sport;
+        this.medal = medal;
+        this.country = country;
+    }
+
+    public CountryMedalInSports(Long id, Sport sport, Medal medal, Country country) {
         this.sport = sport;
         this.medal = medal;
         this.country = country;

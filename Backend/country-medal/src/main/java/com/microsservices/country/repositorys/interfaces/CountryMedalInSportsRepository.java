@@ -1,4 +1,4 @@
-package com.microsservices.country.repositorys;
+package com.microsservices.country.repositorys.interfaces;
 
 
 import java.util.List;
@@ -29,7 +29,7 @@ public interface CountryMedalInSportsRepository extends JpaRepository<CountryMed
            "JOIN FETCH csm.country country " +
            "JOIN FETCH csm.medal medal")
 // @Query("SELECT csm FROM country_medal_in_sports csm " +
-//            "RIGHT JOIN FETCH csm.country country ")
+//            "RIGHT JOIN FETCH csm.country country")
     // @Query("SELECT c FROM Country c " +
     //    "LEFT JOIN FETCH c.countryMedalInSports cms " +
     //    "LEFT JOIN FETCH cms.medal")
