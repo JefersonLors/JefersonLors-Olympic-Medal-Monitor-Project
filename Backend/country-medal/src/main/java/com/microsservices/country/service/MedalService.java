@@ -81,7 +81,7 @@ public class MedalService {
     public ResponseEntity<List<MedalDto>> getMedals(){
         List<Medal> m = medalRepository.findAll();
         List<MedalDto> medalDtos = m.stream()
-            .map(medal -> new MedalDto(medal)) // Supondo que MedalDto tenha um construtor que aceita Medal
+            .map(medal -> new MedalDto(medal)) 
             .collect(Collectors.toList());
         return ResponseEntity.ok().body(medalDtos);
     }
