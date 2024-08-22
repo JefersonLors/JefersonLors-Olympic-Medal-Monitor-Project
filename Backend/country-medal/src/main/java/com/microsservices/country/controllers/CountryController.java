@@ -46,15 +46,15 @@ public class CountryController {
         return service.getCountryByEncryptedId(id);
     }
     
-    // @GetMapping("/ById/{id}")
-    // @Operation(summary = "Busca o país por id" , description = "Retorna a entidade país")
-    // public ResponseEntity<CountryDto> getCountryById(@PathVariable Long id) {
-    //     return service.getCountryById(id);
-    // }
-    
     @GetMapping("/ById/{id}")
     @Operation(summary = "Busca o país por id" , description = "Retorna a entidade país")
-    public ResponseEntity<CountryMedalInSportsDto> getCountryById(@PathVariable Long id) {
+    public ResponseEntity<CountryDto> getCountryById(@PathVariable Long id) {
         return service.getCountryById(id);
+    }
+    
+    @GetMapping("/WithMedalsById/{id}")
+    @Operation(summary = "Busca o país por id" , description = "Retorna a entidade país com todas as suas medalhas")
+    public ResponseEntity<CountryMedalInSportsDto> getCountryWithMedalsById(@PathVariable Long id) {
+        return service.getCountryWithMedalsById(id);
     }
 }

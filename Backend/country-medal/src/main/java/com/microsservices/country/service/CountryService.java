@@ -124,21 +124,21 @@ public class CountryService{
         }
     }
 
-    // public ResponseEntity<CountryDto> getCountryById(Long id){
-    //     try {
-    //         Optional<Country> country = countryRepository.findById(id);
-    //         if(country.isPresent()){
-    //             CountryDto countryDto = new CountryDto(country.get());
-    //             return ResponseEntity.ok().body(countryDto);
-    //         }
-    //         return ResponseEntity.badRequest().build();
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return ResponseEntity.badRequest().build();
-    //     }
-    // }
+    public ResponseEntity<CountryDto> getCountryById(Long id){
+        try {
+            Optional<Country> country = countryRepository.findById(id);
+            if(country.isPresent()){
+                CountryDto countryDto = new CountryDto(country.get());
+                return ResponseEntity.ok().body(countryDto);
+            }
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
-    public ResponseEntity<CountryMedalInSportsDto> getCountryById(Long id){
+    public ResponseEntity<CountryMedalInSportsDto> getCountryWithMedalsById(Long id){
         try{
             List<CountryMedalInSports> results = repository.findByCountryId(id);
             Map<MedalDto, SportDto> medalsSportMap = new HashMap<>();
