@@ -12,15 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.microsservices.country.repositorys.MedalRepository;
-import com.microsservices.country.repositorys.SportRepository;
+import com.microsservices.country.repositorys.interfaces.CountryMedalInSportsRepository;
+import com.microsservices.country.repositorys.interfaces.CountryRespository;
+import com.microsservices.country.repositorys.interfaces.MedalRepository;
+import com.microsservices.country.repositorys.interfaces.SportRepository;
 import com.microsservices.country.service.criptografia.CriptografiaAES;
 import com.microsservices.country.service.criptografia.Encoder_Decoder;
 
 import jakarta.transaction.Transactional;
 
-import com.microsservices.country.repositorys.CountryMedalInSportsRepository;
-import com.microsservices.country.repositorys.CountryRespository;
 import com.microsservices.country.dtos.CountryMedalInSport_PostDto;
 import com.microsservices.country.dtos.MedalDto;
 import com.microsservices.country.enums.MedalType;

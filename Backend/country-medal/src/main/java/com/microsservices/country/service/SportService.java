@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.microsservices.country.dtos.SportDto;
 import com.microsservices.country.models.Sport;
-import com.microsservices.country.repositorys.SportRepository;
+import com.microsservices.country.repositorys.interfaces.SportRepository;
 
 @Service
 public class SportService {

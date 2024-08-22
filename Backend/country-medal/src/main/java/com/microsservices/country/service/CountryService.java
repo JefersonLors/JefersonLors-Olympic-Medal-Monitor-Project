@@ -19,8 +19,9 @@ import com.microsservices.country.dtos.SportDto;
 import com.microsservices.country.models.Country;
 import com.microsservices.country.models.CountryMedalInSports;
 import com.microsservices.country.models.Medal;
-import com.microsservices.country.repositorys.CountryMedalInSportsRepository;
-import com.microsservices.country.repositorys.CountryRespository;
+import com.microsservices.country.repositorys.implementations.CountryMedalInSportsConcreteRepository;
+import com.microsservices.country.repositorys.interfaces.CountryMedalInSportsRepository;
+import com.microsservices.country.repositorys.interfaces.CountryRespository;
 import com.microsservices.country.service.criptografia.CriptografiaAES;
 import com.microsservices.country.service.criptografia.Encoder_Decoder;
 
@@ -30,6 +31,8 @@ public class CountryService{
     private CountryMedalInSportsRepository repository;
     @Autowired
     private CountryRespository countryRepository;
+    @Autowired
+    private CountryMedalInSportsConcreteRepository concreteRepository;
 
     public ResponseEntity<CountryMedalInSportsDto> getCountry(String name){
         try{
@@ -69,7 +72,7 @@ public class CountryService{
 
     public ResponseEntity<List<CountryMedalDto>> getCountrys(){
         try{
-            var results = repository.findCountriesAndMedals();
+            var results = concreteRepository.getAllCountrys();//repository.findCountriesAndMedals();
             Map<CountryDto, List<Medal>> countryMedalsMap = new HashMap<>();//Map<Country, List<Medal>> countryMedalsMap = new HashMap<>();
 
             for(CountryMedalInSports result : results){
@@ -79,8 +82,13 @@ public class CountryService{
     
                 if (countryDto != null) {
                     countryMedalsMap
-                        .computeIfAbsent(countryDto, k -> new ArrayList<>())
-                        .add(medal);
+                        .computeIfAbsent(countryDto, k -> new ArrayList<>());
+                        //.add(medal);
+                    if(medal != null){
+                        List<Medal> m = countryMedalsMap.get(countryDto);
+                        m.add(medal);
+                        countryMedalsMap.put(countryDto, m);
+                    }
                 }
             }
             
