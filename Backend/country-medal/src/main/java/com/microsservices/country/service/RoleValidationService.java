@@ -16,15 +16,31 @@ public class RoleValidationService {
     @Autowired
     private TokenValidator tokenValidator;
 
-    public Boolean currentUserHasRole(String requestHeader, Role role){
+    public Boolean currentUserHasRole(String requestHeader, List<Role> role){
         String token = recoverToken(requestHeader);
         List<String> roles = this.tokenValidator.extractRolesFromToken(new TokenDto(token)).getBody();
-        return roles.stream().anyMatch(item->item.equalsIgnoreCase(role.toString()));
+        return verifyRoles(roles, role);
+        // return roles.stream().anyMatch(item->item.equalsIgnoreCase(role.toString()));
     }
 
     private String recoverToken(String token){
         if( token == null || token.isEmpty() || !token.startsWith("Bearer "))
             return null;
         return token.replace("Bearer ", "");
+    }
+
+    private boolean verifyRoles(List<String> roles, List<Role> role){
+        int validateRoles = 0;
+        for (String roleToken : roles) {
+            for (Role rolePermision : role) {
+                if(roleToken.equalsIgnoreCase(rolePermision.toString())){
+                    validateRoles++;
+                }
+            }
+        }
+        if(validateRoles == role.size()){
+            return true;
+        }
+        return false;
     }
 }
