@@ -24,7 +24,7 @@ public class MedalDto {
             this.id = criptografiaAES.encrypt(this.id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         return this;
     }
