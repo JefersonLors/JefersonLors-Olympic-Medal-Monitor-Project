@@ -9,6 +9,7 @@ import com.microsservices.country.service.SportService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class SportController {
     @GetMapping("/{id}")
     @Operation(summary = "Busca esporte por id")
     public ResponseEntity<SportDto> getSportById(@RequestHeader("Authorization") String requestHeader, @PathVariable Long id) {
-        if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_ADMIN))
+        if(this.roleValidationService.currentUserHasRole(requestHeader, new ArrayList<>(List.of(Role.ROLE_USER))))
             return service.getSportById(id);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -40,7 +41,7 @@ public class SportController {
     @GetMapping()
     @Operation(summary = "Busca todos os sports")
     public ResponseEntity<List<SportDto>> getSports(@RequestHeader("Authorization") String requestHeader) {
-        if(this.roleValidationService.currentUserHasRole(requestHeader, Role.ROLE_ADMIN))
+        if(this.roleValidationService.currentUserHasRole(requestHeader, new ArrayList<>(List.of(Role.ROLE_USER))))
             return service.getSports();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
