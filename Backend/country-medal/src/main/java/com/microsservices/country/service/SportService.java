@@ -22,9 +22,9 @@ public class SportService {
             Optional<Sport> s = repository.findById(id);
             if(s.isPresent())
                 return ResponseEntity.ok().body(new SportDto(s.get()));
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException("Sport não encontrado");
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ public class SportService {
             .collect(Collectors.toList());
             return ResponseEntity.ok().body(sportDtos);
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

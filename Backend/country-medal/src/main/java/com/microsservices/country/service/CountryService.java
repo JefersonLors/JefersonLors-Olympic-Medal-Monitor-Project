@@ -67,7 +67,7 @@ public class CountryService{
             return ResponseEntity.ok().body(countryMedalInSportDto);
 
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class CountryService{
             }
         return ResponseEntity.ok().body(dtos);
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -131,10 +131,10 @@ public class CountryService{
                 countryDto.setId(Encoder_Decoder.enconderURL(countryDto.getId()));
                 return ResponseEntity.ok().body(countryDto);
             }
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException("País não encontrado");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -145,10 +145,10 @@ public class CountryService{
                 CountryDto countryDto = new CountryDto(country.get());
                 return ResponseEntity.ok().body(countryDto);
             }
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException("Páis não encotrado");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -183,7 +183,7 @@ public class CountryService{
             return ResponseEntity.ok().body(countryMedalInSportDto);
 
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
