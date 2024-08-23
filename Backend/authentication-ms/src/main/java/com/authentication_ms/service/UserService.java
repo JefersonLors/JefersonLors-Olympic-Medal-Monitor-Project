@@ -67,7 +67,8 @@ public class UserService {
 
         UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(login, signInDto.password());
         Authentication auth = this.authenticationManager.authenticate(loginToken);
-        return this.tokenService.generateToken((User) auth.getPrincipal());
+        String token = this.tokenService.generateToken((User) auth.getPrincipal());
+        return token;
     }
 
     public Page<GetUserDto> getUsersPaginated(int page, int size) throws RuntimeException{

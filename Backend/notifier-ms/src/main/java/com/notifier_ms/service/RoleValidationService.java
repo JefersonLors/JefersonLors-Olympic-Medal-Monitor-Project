@@ -16,12 +16,17 @@ public class RoleValidationService {
     public Boolean currentUserHasRole(String requestHeader, Role role){
         String token = recoverToken(requestHeader);
         List<String> roles = this.tokenValidator.extractRolesFromToken(new TokenDto(token)).getBody();
-        return roles.stream().anyMatch(item->item.equalsIgnoreCase(role.toString()));
+        Boolean result = roles.stream().anyMatch(item->item.equalsIgnoreCase(role.name()));
+
+        if( !result ){
+            throw new RuntimeException("Usuário não tem acesso a esse recurso.");
+        }
+        return result;
     }
 
     private String recoverToken(String token){
         if( token == null || token.isEmpty() || !token.startsWith("Bearer "))
-            return null;
+            throw new RuntimeException("Token vazio ou não é um token Bearer ");
         return token.replace("Bearer ", "");
     }
 }
