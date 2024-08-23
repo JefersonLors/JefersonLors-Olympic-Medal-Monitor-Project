@@ -1,4 +1,4 @@
-//package com.token_validator_ms.configurations;
+//package com.email.email_ms.configurations;
 //
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Configuration;

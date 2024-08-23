@@ -1,25 +1,18 @@
-/*
-const BASE_URL = "http://localhost:8081/";
+const BASE_URL = "http://localhost:8081";
 
 export const API_ENDPOINTS={
-    LOGIN: `${BASE_URL}authentication-ms/auth/signIn`,
-    REGISTER: `${BASE_URL}authentication-ms/auth/signUp`
-};
-*/
-
-export const API_ENDPOINTS={
-    LOGIN: `http://localhost:8086/auth/signIn`,
-    REGISTER: `http://localhost:8086/auth/signUp`,
-    COUNTRY_MEDAL: `http://localhost:8085/country`,
-    COUNTRY_MEDALBY_ID: `http://localhost:8085/country/WithMedalsById/`,
-    COUNTRY_GET_ALL_MODALITIES: `http://localhost:8085/sport`,
-    COUNTRY_GET_ALL_MEDALS_TYPE: `http://localhost:8085/medal`,
-    COUNTRY_ADD_MEDAL: `http://localhost:8085/medal`,
-    NOTIFIER_FOLLOW_COUNTRY: `http://localhost:8084/notifier/follow`,
-    NOTIFIER_UNFOLLOW_COUNTRY: `http://localhost:8084/notifier/unfollow`,
-    NOTIFIER_NOTIFY_USER: `http://localhost:8084/notifier/notify`,
-    NOTIFER_GET_FOLLOWED_COUNTRIES: `http://localhost:8084/notifier/followeds/id?id=`,
-    USER_POST: `http://localhost:8082/user`,
-    USER_GET_BY_EMAIL:`http://localhost:8082/user/email?email=`,
-    GET_USER_ROLES: `http://localhost:8087/tokenValidator/roles`
+    LOGIN: `${BASE_URL}/authentication-ms/auth/signIn`,
+    REGISTER: `${BASE_URL}/authentication-ms/auth/signUp`,
+    COUNTRY_MEDAL: `${BASE_URL}/country/country`,
+    COUNTRY_MEDALBY_ID: `${BASE_URL}/country/country/WithMedalsById/`,
+    COUNTRY_GET_ALL_MODALITIES: `${BASE_URL}/country/sport`,
+    COUNTRY_GET_ALL_MEDALS_TYPE: `${BASE_URL}/country/medal`,
+    COUNTRY_ADD_MEDAL: `${BASE_URL}/country/medal`,
+    NOTIFIER_FOLLOW_COUNTRY: `${BASE_URL}/notifier-ms/notifier/follow`,
+    NOTIFIER_UNFOLLOW_COUNTRY: `${BASE_URL}/notifier-ms/notifier/unfollow`,
+    NOTIFIER_NOTIFY_USER: `${BASE_URL}/notifier-ms/notifier/notify`,
+    NOTIFER_GET_FOLLOWED_COUNTRIES: `${BASE_URL}/notifier-ms/notifier/followeds/id?id=`,
+    USER_POST: `${BASE_URL}/user-ms/user`,
+    USER_GET_BY_EMAIL:`${BASE_URL}/user-ms/user/email?email=`,
+    GET_USER_ROLES: `${BASE_URL}/token-validator-ms/tokenValidator/roles`
 };
