@@ -23,34 +23,30 @@ function CountryAdminView(){
       setSelectedModality(event.target.value);
     };
 
-    const handleSave = ()=>{
+    const handleSave = async ()=>{
         if( validateSelectedOptions() ){
-            console.log(selectedModality, selectedMedal)
-            apiService.addMedal({country: id, medal:selectedMedal, sport:selectedModality})
+            await apiService.addMedal({country: id, medal:selectedMedal, sport:selectedModality})
                         .then((response)=>{
                             toast.success("Medalha adicionada com sucesso!");
+                            apiService.notifyUser({countryId: id, sportModalityId: selectedModality, medalId: selectedMedal, medalsWon: 1})
+                                        .catch((error)=>{
+                                            toast.error(error.response.data.message);
+                                            console.log("Erro ao notificar seguidores do país: ", error);
+                                        })
                         }).catch((error)=>{
                             toast.error(error.response.data.message);
-                            console.log(error);
+                            console.log("Erro ao adicionar medalha: ", error);
                         });
     
-            apiService.notifyUser({countryId: id, sportModalityId: selectedModality, medalId: selectedMedal, medalsWon: 1})
-                        .then((response)=>{
-    
-                        }).catch((error)=>{
-                            toast.error(error.response.data.message);
-                            console.log(error);
-                        })
+
         }
 
     }
 
     useEffect(()=>{
         function loadCountry(){
-            console.log(id)
              apiService.getCountryById(id)
                             .then((response)=>{
-                                console.log(response);
                                 setCountry(response.data.country);
                             }).catch((error)=>{
                                 toast.error(error.response.data.message);
@@ -66,7 +62,7 @@ function CountryAdminView(){
                             setModalities(response.data)
                         }).catch((error)=>{
                             toast.error(error.response.data.message);
-                            console.log(error);
+                            console.log("Erro ao recuperar as modalidades esportivas: ", error);
                         })
         }
         loadModalityOptions();
@@ -74,11 +70,10 @@ function CountryAdminView(){
         function loadMedalTypes(){
             apiService.getAllMedalTypes()
                         .then((response)=>{
-                            console.log("medal types: ", response.data)
                             setMetalTypes(response.data);
                         }).catch((error)=>{
                             toast.error(error.response.data.message);
-                            console.log(error);
+                            console.log("Erro ao recuperar os tipos de medalha disponíveis: ", error);
                         })
 
         }

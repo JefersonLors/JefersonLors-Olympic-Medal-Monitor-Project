@@ -17,10 +17,8 @@ function Home() {
       bronze:""
   }} ]);
 
-
   const [followedCountries, setFollowedCountries] = useState({userId:"", countriesId:[""]});
   const user = JSON.parse(localStorage.getItem("user")??"");
-  console.log("começo: ", localStorage.getItem('userRoles'));
   const roles = localStorage.getItem('userRoles')??"".split(',');
 
   useEffect(() => {
@@ -28,7 +26,6 @@ function Home() {
       await apiService.getCountries()
                       .then(async (response) => {
                         setCountryList(response.data)
-                        console.log("response: ", response.data);
                       })
                       .catch((error) => {
                         console.log("erro ao recuperar países: ", error);
@@ -41,7 +38,6 @@ function Home() {
       await apiService.getFollowedCountries(Number.parseInt(user.id))
       .then(async(response)=>{
           setFollowedCountries(response.data);
-          console.log("followed contries: ", response.data)
       }).catch((error)=>{
           console.log("Erro ao recuperar os países que o usuário segue:", error);
       });
@@ -107,7 +103,6 @@ function Home() {
                   key={index}
                   className=""
                   onClick={() => {
-                    console.log(roles);
                     navigate(
                       roles.includes("ROLE_ADMIN")
                         ? `/CountryAdminView/${item.country.id}`

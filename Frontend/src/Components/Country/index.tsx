@@ -16,9 +16,7 @@ function CountryCard() {
 
     function changeButtonState(){
         const button = document.getElementById('buttonFollow');
-        console.log("CHANGING STATE")
         if( button?.classList.contains('buttonFollow') ){
-            console.log("tá aqui")
             button.classList.remove('buttonFollow')
             button.classList.toggle('buttonFollowing');
             button.textContent = 'Unfollow';
@@ -36,7 +34,6 @@ function CountryCard() {
         }
         
         if( !isFollowing ){
-            console.log(user)
             await apiService.followCountry(followCountry)
                             .then(async (response)=>{
                                 setIsFollowing(true);
@@ -47,7 +44,6 @@ function CountryCard() {
                                 console.log("Erro ao seguir o país: ", error);
                             })
         }else{
-            console.log(user)
             await apiService.unfollowCountry(followCountry)
                             .then(async (response)=>{
                                 setIsFollowing(false);
@@ -62,10 +58,8 @@ function CountryCard() {
 
     useEffect(()=>{
         function loadCountry(){
-            console.log(id)
              apiService.getCountryById(id)
                             .then((response)=>{
-                                console.log(response);
                                 setCountry(response.data.country);
                                 setMedals(response.data.medals); ///a atualização desses valores é assíncrona
                             }).catch((error)=>{

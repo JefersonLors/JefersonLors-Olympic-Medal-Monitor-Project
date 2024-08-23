@@ -21,7 +21,6 @@ function Register() {
                       .then(async (responseA)=>{
                         await apiService.postUser({name: name, email: login})
                                         .then((response)=>{
-                                            console.log(response)
                                             toast.success(responseA.data);
                                             navigate("/Login")
                                         }).catch((error)=>{
