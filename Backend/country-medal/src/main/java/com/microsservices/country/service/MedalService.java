@@ -50,16 +50,14 @@ public class MedalService {
             Medal medal = new Medal(entity.medal());
             Sport sport = new Sport(entity.sport());
             if
-            (
-                csmRepository.existsMedalForCountryAndSport(country.getId(), sport.getId())
-                ||
-                csmRepository.isThereSuchAMedalForAnyCountryInThisSport(sport.getId(), medal.getId())
-            )
-                throw new IllegalArgumentException("the country "+ country.getName() +" already has a medal for the sport");
+            (csmRepository.existsMedalForCountryAndSport(country.getId(), sport.getId()))
+                throw new RuntimeException("O país já tem medalha para o esporte");
+            if(csmRepository.isThereSuchAMedalForAnyCountryInThisSport(sport.getId(), medal.getId()))
+                throw new RuntimeException("Já existe medalha esse tipo de medalha para o esporte desejado");
             CountryMedalInSports retorno = saveEntitys(country, medal, sport);
             return buildReturn(retorno);
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -72,14 +70,14 @@ public class MedalService {
             }else if(id == 3L){
                 return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.BRONZE));
             }else{
-                throw new IllegalArgumentException("id inválido");
+                throw new RuntimeException("id inválido");
             }
         }catch (NumberFormatException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -106,14 +104,14 @@ public class MedalService {
                 case 3:
                     return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE).encryptId());
                 default:
-                    throw new IllegalArgumentException("id inválido");
+                throw new RuntimeException("id inválido");
             }
         }catch (NumberFormatException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -137,21 +135,21 @@ public class MedalService {
     private Country findCountry(Country c) throws Exception{
         Optional<Country> country =  countryRespository.findById(c.getId());//countryRespository.findByName(c.getName());
         if(!country.isPresent())
-            throw new IllegalArgumentException("country not find: " + c.getName());
+            throw new RuntimeException("País não encontrado: " + c.getName());
         return country.get();
     }
 
     private Sport findSport(Sport s) throws Exception{
         Optional<Sport> sport = sportRepository.findById(s.getId());//findByName(s.getName());
         if(!sport.isPresent())
-            throw new IllegalArgumentException("sport not find: " + s.getName());
+            throw new RuntimeException("Esporte não encontrado: " + s.getName());
         return sport.get();
     }
 
     private Medal findMedal(Medal m){
         Optional<Medal> medal = medalRepository.findById(m.getId());
         if(!medal.isPresent())
-            throw new IllegalArgumentException("Tipo de medalha desconhecido: " + m.getType());
+            throw new RuntimeException("Tipo de medalha desconhecido: " + m.getType());
         return medal.get();
     }
     
