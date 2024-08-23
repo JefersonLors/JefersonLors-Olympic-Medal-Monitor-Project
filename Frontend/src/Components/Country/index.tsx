@@ -12,6 +12,7 @@ function CountryCard() {
     const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem("user")??"");
+    const roles = localStorage.getItem('userRoles')??"".split(',');
 
     function changeButtonState(){
         const button = document.getElementById('buttonFollow');
@@ -91,8 +92,31 @@ function CountryCard() {
   return (
     <div className="mainDiv">
     <div className="countryCardDiv">
-        <div className="backDiv">
-            <img src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" className="imgBack" onClick={()=>{navigate("/Home")}} alt="back"/>
+        <div className="headerCardCountryUserDiv">
+            <div className="backUserDiv">
+                <img 
+                    src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" 
+                    className="imgBack" 
+                    onClick={()=>{navigate("/Home")}}
+                    alt="back"
+                />
+            </div>
+            <div className="changeViewUserDiv">
+            {
+                roles.includes("ROLE_ADMIN") ? (
+                    <button 
+                        id="buttonSave" 
+                        className="buttonChangeUserView" 
+                        onClick={()=>{navigate(`/CountryAdminView/${id}`)}}
+                    >
+                        Admin
+                    </button>
+                ) : (
+                    <>
+                    </>
+                )
+            }
+            </div>
         </div>
         <div className="contentCardDiv">
             <div className="titleDiv">

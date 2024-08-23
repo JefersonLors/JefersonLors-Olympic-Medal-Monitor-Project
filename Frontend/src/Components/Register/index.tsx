@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 function Register() {
   const [login, setLogin] = useState("");
   const [password, setPassword] =  useState("");
+  const [name, setName] = useState("");
   const [isloading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Register() {
     if(validateCredencials()){
       await apiService.register({login: login, password: password, rolesId:[2]})
                       .then(async (responseA)=>{
-                        await apiService.postUser({id: "", name: "", email: ""})
+                        await apiService.postUser({name: name, email: login})
                                         .then((response)=>{
                                             console.log(response)
                                             toast.success(responseA.data);
@@ -62,12 +63,22 @@ function Register() {
           <div className="txt_field">
             <input 
               type="text" 
+              name="registerNameField" 
+              value={name}
+              onChange={(e)=>{setName(e.target.value)}}
+              required />
+            <span></span>
+            <label>Name</label>
+          </div>
+          <div className="txt_field">
+            <input 
+              type="text" 
               name="registerLoginField" 
               value={login}
               onChange={(e)=>{setLogin(e.target.value)}}
               required />
             <span></span>
-            <label>Username</label>
+            <label>Login</label>
           </div>
 
           <div className="txt_field">

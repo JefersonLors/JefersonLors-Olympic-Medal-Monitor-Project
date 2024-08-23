@@ -55,15 +55,20 @@ function Home() {
   return (  
     <div className="mainContainer">
       <div className="searchContainer">
-        <div className="logoutDiv">
-          <img
-            src="src\assets\logout-image.jpeg"
-            className="imgLogout"
-            onClick={() => {
-              Logout();
-            }}
-            alt="logout"
-          />
+        <div className="headerHomeDiv">
+          <div className="nameDiv">
+              <h1>{user.name}</h1>
+          </div>
+          <div className="logoutDiv">
+            <img
+              src="src\assets\logout-image.jpeg"
+              className="imgLogout"
+              onClick={() => {
+                Logout();
+              }}
+              alt="logout"
+            />
+          </div>
         </div>
         <div className="olympicRingsDiv">
           <img

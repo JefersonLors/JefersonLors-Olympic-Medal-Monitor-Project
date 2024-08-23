@@ -84,8 +84,24 @@ function CountryAdminView(){
 
     return(
         <div className="countryCardAdminDiv">
-            <div className="backDiv">
-                <img src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" className="imgBack" onClick={()=>{navigate("/Home")}} alt="back"/>
+            <div className="headerCardCountryAdminDiv">
+                <div className="backDivAdmin">
+                    <img 
+                        src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg" 
+                        className="imgBack" 
+                        onClick={()=>{navigate("/Home")}}
+                        alt="back"
+                    />
+                </div>
+                <div className="changeViewDiv">
+                    <button 
+                        id="buttonSave" 
+                        className="buttonChangeView" 
+                        onClick={()=>{navigate(`/CountryCard/${id}`)}}
+                    >
+                        User
+                    </button>
+                </div>
             </div>
             <div className="contentCardAdminDiv">
                 <div className="titleAdminDiv">
