@@ -62,14 +62,14 @@ public class CountryMedalInSportsConcreteRepository {
             return countryMedalInSports;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }catch(IllegalArgumentException e){
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         catch(NullPointerException e){
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         
     }
@@ -93,7 +93,7 @@ public class CountryMedalInSportsConcreteRepository {
             return cms;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         
     }

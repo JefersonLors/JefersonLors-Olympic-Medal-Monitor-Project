@@ -24,7 +24,7 @@ public class SportDto{
             this.id = criptografiaAES.encrypt(id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
         return this;
     }

@@ -18,28 +18,18 @@ import java.util.List;
 public class WebConfiguration  {
     @Value("${spring.front.url}")
     private String frontURL;
-//    @Bean
-//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder)
-//    {
-//        return builder.routes()
-//                .route(p -> p
-//                        .path("/authentication-ms/auth/**")
-//                        .uri("http://localhost:8086"))
-//                .build();
-//    }
 
     @Bean
-    public CorsWebFilter corsFilter()
-    {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials( true );
-        config.setAllowedOrigins( List.of( "*" ) );
-        config.setAllowedMethods( List.of( "GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD" ) );
-        config.setAllowedHeaders( List.of( "origin", "content-type", "accept", "authorization", "cookie" ) );
+    public CorsWebFilter corsWebFilter() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.addAllowedOrigin(frontURL);
+        corsConfig.addAllowedMethod("*"); // Permite todos os métodos (GET, POST, etc.)
+        corsConfig.addAllowedHeader("*"); // Permite todos os cabeçalhos
+        corsConfig.setAllowCredentials(true); // Permite envio de credenciais como cookies
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration( "/**", config );
+        source.registerCorsConfiguration("/**", corsConfig);
 
-        return new CorsWebFilter( source );
+        return new CorsWebFilter(source);
     }
 }
