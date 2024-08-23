@@ -128,10 +128,10 @@
     width: 90%;
 }
 
-.tableStyle th,
-td {
+.tableStyle th, td {
     padding: 10px;
     text-align: center;
+    cursor: pointer;
     border: 1px solid #ddd;
 }
 
