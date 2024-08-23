@@ -11,35 +11,38 @@ function CountryAdminView(){
     const [medalTypes, setMetalTypes] = useState([{id:"", type:""}])
     const navigate = useNavigate();
     
-    const [selectedRadio, setSelectedRadio] = useState();
-    const [selectedOption, setSelectedOption] = useState();
+    const [selectedMedal, setSelectedMedal] = useState();
+    const [selectedModality, setSelectedModality] = useState();
   
     function handleRadioChange (event) {
-      setSelectedRadio(event.target.value);
+      setSelectedMedal(event.target.value);
     };
   
     const handleOptionChange = (event) => {
 
-      setSelectedOption(event.target.value);
+      setSelectedModality(event.target.value);
     };
 
     const handleSave = ()=>{
-        console.log(selectedOption, selectedRadio)
-        apiService.addMedal({country: id, medal:selectedRadio, sport:selectedOption})
-                    .then((response)=>{
-                        toast.success("Medalha adicionada com sucesso!");
-                    }).catch((error)=>{
-                        toast.error(error.response.data.message);
-                        console.log(error);
-                    });
+        if( validateSelectedOptions() ){
+            console.log(selectedModality, selectedMedal)
+            apiService.addMedal({country: id, medal:selectedMedal, sport:selectedModality})
+                        .then((response)=>{
+                            toast.success("Medalha adicionada com sucesso!");
+                        }).catch((error)=>{
+                            toast.error(error.response.data.message);
+                            console.log(error);
+                        });
+    
+            apiService.notifyUser({countryId: id, sportModalityId: selectedModality, medalId: selectedMedal, medalsWon: 1})
+                        .then((response)=>{
+    
+                        }).catch((error)=>{
+                            toast.error(error.response.data.message);
+                            console.log(error);
+                        })
+        }
 
-        apiService.notifyUser({countryId: id, sportModalityId: selectedOption, medalId: selectedRadio, medalsWon: 1})
-                    .then((response)=>{
-
-                    }).catch((error)=>{
-                        toast.error(error.response.data.message);
-                        console.log(error);
-                    })
     }
 
     useEffect(()=>{
@@ -81,6 +84,18 @@ function CountryAdminView(){
         }
         loadMedalTypes();
     }, []);
+
+    function validateSelectedOptions(){
+        if(  selectedModality == null || selectedModality == "" ){
+            toast.error("A modalidade é obrigatória.");
+            return false;
+        }
+        if( selectedMedal == null || selectedMedal == ""){
+            toast.error("A medalha é obrigatória.");
+            return false;
+        }
+        return true;
+    }
 
     return(
         <div className="countryCardAdminDiv">
@@ -125,7 +140,7 @@ function CountryAdminView(){
                                             key={index}
                                             id={medalType.type}
                                             value={medalType.id} 
-                                            checked={selectedRadio === medalType.id} 
+                                            checked={selectedMedal === medalType.id} 
                                             onChange={()=>handleRadioChange(event)}
                                          />
                                         <label htmlFor={medalType.type}> {medalType.type.toLowerCase()}</label>
@@ -135,7 +150,7 @@ function CountryAdminView(){
                         }
                     </div>
                     <div className="modalityContainer">
-                        <select id="modalitiesSelect" value={selectedOption} onChange={handleOptionChange} className="selectInput">
+                        <select id="modalitiesSelect" value={selectedModality} onChange={handleOptionChange} className="selectInput">
                             <option value="">Selecione</option>
                                 {modalities.map((option, index) => (
                                     <option id={option.id}  key={index} value={option.id}>
