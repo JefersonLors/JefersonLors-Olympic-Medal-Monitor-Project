@@ -1,10 +1,6 @@
 
 package com.microsservices.country.dtos;
 
-import java.util.List;
-
-import com.microsservices.country.models.Medal;
-
 import lombok.Getter;
 import lombok.Setter;
 

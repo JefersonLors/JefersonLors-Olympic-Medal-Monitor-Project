@@ -43,4 +43,13 @@ public interface CountryMedalInSportsRepository extends JpaRepository<CountryMed
     "WHERE country.id = :countryId AND sport.id = :sportId")
     boolean existsMedalForCountryAndSport(@Param("countryId") Long countryId, @Param("sportId") Long sportId);
 
+
+    @Query("SELECT CASE WHEN COUNT(cms) > 0 THEN true ELSE false END " +
+    "FROM country_medal_in_sports cms " +
+    "JOIN cms.country country " +
+    "JOIN cms.sport sport " +
+    "JOIN cms.medal medal " +
+    "WHERE sport.id = :sportId AND medal.id = :medalId")
+boolean isThereSuchAMedalForAnyCountryInThisSport(@Param("sportId") Long sportId, @Param("medalId") Long medalId);
+
 }
