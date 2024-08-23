@@ -119,7 +119,7 @@ function Home() {
                     <img
                       decoding="async"
                       src={item.country.flag}
-                      alt="imagem do card 1 html e css"
+                      alt="flag"
                       className="imgFlag"
                     />
                     {item.country.name}

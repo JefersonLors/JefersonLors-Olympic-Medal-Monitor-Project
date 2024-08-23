@@ -103,10 +103,11 @@ function CountryAdminView(){
                 <div className="addMedalAdminDiv">
                     <div className="medalContainer">
                         {
-                            medalTypes.map((medalType)=>{
+                            medalTypes.map((medalType, index)=>{
                                 return(
-                                    <div className="typeMedalButton">
+                                    <div className="typeMedalButton" key={index}>
                                         <input type="radio" 
+                                            key={index}
                                             id="medalTypeInput"
                                             value={medalType.id} 
                                             checked={selectedRadio === medalType.id} 
@@ -121,8 +122,8 @@ function CountryAdminView(){
                     <div className="modalityContainer">
                         <select id="modalitiesSelect" value={selectedOption} onChange={handleOptionChange} className="selectInput">
                             <option value="">Selecione</option>
-                                {modalities.map((option) => (
-                                    <option id={option.id}  key={option.id} value={option.id}>
+                                {modalities.map((option, index) => (
+                                    <option id={option.id}  key={index} value={option.id}>
                                         {option.name}
                                     </option>
                                     ))
