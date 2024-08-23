@@ -7,38 +7,53 @@ import { toast } from "react-toastify";
 function Register() {
   const [login, setLogin] = useState("");
   const [password, setPassword] =  useState("");
+  const [name, setName] = useState("");
+  const [isloading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   localStorage.clear();
   
   async function confirmRegister(){
-    const credencials ={
-      login: login,
-      password: password,
-      rolesId:[1]
-    };
-
-    const user = {
-      id: "",
-      name: "",
-      email: ""
+    setIsLoading(true);
+    if(validateCredencials()){
+      await apiService.register({login: login, password: password, rolesId:[2]})
+                      .then(async (responseA)=>{
+                        await apiService.postUser({name: name, email: login})
+                                        .then((response)=>{
+                                            console.log(response)
+                                            toast.success(responseA.data);
+                                            navigate("/Login")
+                                        }).catch((error)=>{
+                                            toast.error(error.response.data.message);
+                                            console.log("erro ao criar usuário", error);
+                                        });
+                      }).catch((error)=>{
+                          toast.error(error.response.data.message);
+                          console.log("erro ao autenticar o usuário", error);
+                      });
+      }
+      setIsLoading(false);
+  }
+  function validateCredencials(){
+    if( login.length < 1 ){
+      toast.error("O login é obrigatório.");
+      return false;
     }
 
-    await apiService.register(credencials)
-                    .then(async (responseA)=>{
-                      user.email = login;
-                      user.name = "user";
-                      await apiService.postUser(user)
-                                      .then((response)=>{
-                                        console.log(response)
-                                        toast.success(responseA.data);
-                                        navigate("/Login")
-                                      }).catch((error)=>{
-                                          console.log("erro ao criar usuário", error);
-                                      });
-                    }).catch((err)=>{
-                      toast.error(err.response.data.message);
-                    });
+    if( password.length < 1 ){
+      toast.error("A senha é obrigatória.");
+      return false;
+    }
+    return true;
+  }
+
+  if(isloading){
+    return(
+      <div className="base">
+        <div className="loader"></div>
+      </div>
+    );
   }
   return (
     <div className="container">
@@ -48,12 +63,22 @@ function Register() {
           <div className="txt_field">
             <input 
               type="text" 
+              name="registerNameField" 
+              value={name}
+              onChange={(e)=>{setName(e.target.value)}}
+              required />
+            <span></span>
+            <label>Name</label>
+          </div>
+          <div className="txt_field">
+            <input 
+              type="text" 
               name="registerLoginField" 
               value={login}
               onChange={(e)=>{setLogin(e.target.value)}}
               required />
             <span></span>
-            <label>Username</label>
+            <label>Login</label>
           </div>
 
           <div className="txt_field">

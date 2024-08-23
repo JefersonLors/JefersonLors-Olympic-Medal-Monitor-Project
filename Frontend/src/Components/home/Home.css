@@ -73,12 +73,28 @@
   color: #757474;
 }
 
-.logoutDiv {
+.headerHomeDiv {
   width: 100%;
-  height: 30px;
+  height: 60px;
   display: flex;
-  padding-left: 192%;
-  padding-top: 30px;
+}
+
+.logoutDiv{
+  box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
+  background-color: rgb(136, 127, 255);
+  width: 10%;
+  padding-left: 70px;
+  padding-top: 15px;
+}
+
+.nameDiv{
+  box-sizing: border-box;
+  background-color: rgb(109, 190, 114);
+  width: 90%;
+  color: #303030;
+  padding-left: 5%;
+  display: flex;
+  align-items: center;
 }
 
 .imgLogout {
@@ -155,3 +171,5 @@
   height: 200px; /* Ajuste a altura conforme necessário */
   overflow-y: auto;
 }
+
+

@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 10px;
   text-align: center;
   margin: 0;
   font-family: Helvetica, sans-serif;
@@ -100,6 +99,7 @@
 .modalityContainer {
   display: flex;
   flex-direction: row;
+  margin-left: 15px;
   width: 40%;
 }
 .typeMedalButton {
@@ -112,4 +112,47 @@
   width: 70%;
   height: 30px;
   margin: 10px;
+}
+
+.headerCardCountryAdminDiv {
+  width: 100%;
+  height: 60px;
+  margin-top: 25px;
+  display: flex;
+}
+
+.backDivAdmin{
+  width: 90%;
+  display: flex;
+  padding-left: 3%;
+  box-sizing: border-box;
+  background-color: rgb(109, 190, 114);
+  color: #303030;
+  align-items: center;
+}
+
+.changeViewDiv{
+  box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
+  background-color: rgb(136, 127, 255);
+  width: 10%;
+  padding-top: 5px;
+}
+
+.buttonChangeView {
+  width: 80px;
+  height: 50px;
+  border-radius: 90px;
+  background-color: transparent; /* Inicialmente transparente */
+  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+  color: #000000;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.changeViewDiv button:hover {
+  background: #2691d9;
+  color: #e9f4fb;
+  transition: 0.5s;
 }

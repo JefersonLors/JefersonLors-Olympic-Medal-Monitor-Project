@@ -8,32 +8,60 @@ import { toast } from "react-toastify";
 function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] =  useState("");
+  const [isloading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   localStorage.clear();
 
   async function confirmLogin(){
-    const credencials ={
-      login: login,
-      password: password
-    };
+    setIsLoading(true);
+    if(validateCredencials()){
+        await apiService.login({login: login, password: password})
+                        .then(async (responseA)=>{
+                            await apiService.getUserByEmail(login)
+                                      .then(async(responseB)=>{
+                                        localStorage.setItem('user', JSON.stringify(responseB.data));
+                                        localStorage.setItem('authToken', responseA.data);
+                                        await apiService.getUserRoles({value: localStorage.getItem('authToken')})
+                                                        .then((responseC)=>{
+                                                          console.log(responseC.data)
+                                                          localStorage.setItem('userRoles', responseC.data);
+                                                          navigate("/Home")
+                                                        }).catch((error)=>{
+                                                            toast.error(error.response.data.message);
+                                                            console.log("error durante a recuperação das roles do usuário.", error)
+                                                      });
+                                      }).catch((error)=>{
+                                          toast.error(error.response.data.message);
+                                          console.log("Erro durante a recuperação do usuário por email", error);
+                                      });
+                        }).catch((error)=>{
+                          toast.error(error.response.data.message);
+                          console.log("Erro durante validar credenciais do usuário", error);
+                        });      
+    }
+    setIsLoading(false);
+  }
+  function validateCredencials(){
+    if( login.length < 1 ){
+      toast.error("O login é obrigatório.");
+      return false;
+    }
 
-    await apiService.login(credencials)
-                    .then(async (responseA)=>{
-                        await apiService.getUserByEmail(login)
-                                  .then((response)=>{
-                                    localStorage.setItem('user', JSON.stringify(response.data));
-                                    localStorage.setItem('authToken', responseA.data);
-                                    navigate("/Home")
-                                  }).catch((error)=>{
-                                      console.log(error);
-                                  });
-
-                    }).catch((err)=>{
-                      toast.error(err.response.data.message);
-                    });
+    if( password.length < 1 ){
+      toast.error("A senha é obrigatória.");
+      return false;
+    }
+    return true;
   }
 
+  if(isloading){
+    return(
+      <div className="base">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <div className="container">
       <div className="center">

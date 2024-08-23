@@ -90,7 +90,7 @@ public class CountryUserService {
             throw new RuntimeException("Quantidade de medalhas indevida.");
 
         String medalType = checkMedal(notificationDto.medalId()).type().name();
-        String sportModality = "{some modality name}";
+        String sportModality = checkModality(notificationDto.sportModalityId()).name();
 
         List<CountryUser> countryUser = this.countryUserRepository.findByCountryId(notificationDto.countryId());
 
@@ -147,11 +147,18 @@ public class CountryUserService {
         ResponseEntity<MedalDto> response = this.countryController.getMedal(medalId);
 
         if(response.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException("O país " + medalId + " não existe.");
+            throw new RuntimeException("A medalha " + medalId + " não existe.");
 
         return response.getBody();
     }
+    private SportDto checkModality(long modalityId){
+        ResponseEntity<SportDto> response = this.countryController.getSportById(modalityId);
 
+        if(response.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("A modalidade " + modalityId + " não existe.");
+
+        return response.getBody();
+    }
     private String makeMessage(String countryName, long medalsWon, String medalType, String sportModality){
         StringBuilder message = new StringBuilder();
 
