@@ -38,7 +38,7 @@ public class RoleValidationService {
                 }
             }
         }
-        if(validateRoles == role.size()){
+        if(validateRoles != 0){
             return true;
         }
         return false;
