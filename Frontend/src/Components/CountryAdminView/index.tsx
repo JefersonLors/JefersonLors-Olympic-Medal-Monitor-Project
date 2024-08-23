@@ -149,7 +149,7 @@ function CountryAdminView() {
                 </div>
                 <div className="saveSection">
                     <button id="buttonSave" className="buttonSave" onClick={handleSave}>
-                        Save
+                        Adicionar
                     </button>
                 </div>
             </div>

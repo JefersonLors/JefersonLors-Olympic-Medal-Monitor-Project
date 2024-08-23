@@ -69,7 +69,7 @@ function Login() {
     return (
         <div className="container">
             <div className="center">
-                <h1>Login</h1>
+                <h1>Entrar</h1>
                 <form>
                     <div className="txt_field">
                         <input
@@ -98,7 +98,7 @@ function Login() {
                             required
                         />
                         <span></span>
-                        <label>Password</label>
+                        <label>Senha</label>
                     </div>
                     <button
                         type="button"
@@ -109,10 +109,10 @@ function Login() {
                             confirmLogin();
                         }}
                     >
-                        Confirm
+                        Confirmar
                     </button>
                     <div className="signup_link">
-                        Not a Member ? <Link to="/Register">Register</Link>
+                        Não tem cadastro ? <Link to="/Register">Cadastrar</Link>
                     </div>
                 </form>
             </div>

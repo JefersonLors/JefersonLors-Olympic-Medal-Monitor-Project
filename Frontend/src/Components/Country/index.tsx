@@ -131,8 +131,8 @@ function CountryCard() {
                         <table className="tableStyle">
                             <thead>
                                 <tr>
-                                    <th>Modality</th>
-                                    <th>Medal</th>
+                                    <th>Modalidade</th>
+                                    <th>Medalha</th>
                                 </tr>
                             </thead>
                             <tbody>

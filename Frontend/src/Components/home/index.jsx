@@ -77,14 +77,14 @@ function Home() {
                     <img src="src\assets\olympic-rings-2.jpg" className="imgOlympicRing" alt="Olympic Rings" />
                 </div>
                 <div className="titlePageDiv">
-                    <h1 className="titlePage">Olympic Medal Monitor</h1>
+                    <h1 className="titlePage">Monitor de Medalha Olímpica</h1>
                 </div>
             </div>
             <div className="countriesContainer">
                 <table className="tableStyle">
                     <thead className="theadStyle">
                         <tr>
-                            <th>Pos</th>
+                            <th>Pos.</th>
                             <th>País</th>
                             <th>Ouro</th>
                             <th>Prata</th>

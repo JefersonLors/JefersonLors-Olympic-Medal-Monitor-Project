@@ -79,7 +79,7 @@ function Register() {
                             required
                         />
                         <span></span>
-                        <label>Name</label>
+                        <label>Nome</label>
                     </div>
                     <div className="txt_field">
                         <input
@@ -92,7 +92,7 @@ function Register() {
                             required
                         />
                         <span></span>
-                        <label>Login</label>
+                        <label>Email</label>
                     </div>
 
                     <div className="txt_field">
@@ -106,7 +106,7 @@ function Register() {
                             required
                         />
                         <span></span>
-                        <label>Password</label>
+                        <label>Senha</label>
                     </div>
                     <button
                         name="confirmRegisterButton"
@@ -117,10 +117,10 @@ function Register() {
                             confirmRegister();
                         }}
                     >
-                        Confirm
+                        Confirmar
                     </button>
                     <div className="signup_link">
-                        Already a Member ? <Link to="/Login">Login</Link>
+                        Já tem cadastro ? <Link to="/Login">Entrar</Link>
                     </div>
                 </form>
             </div>
