@@ -16,22 +16,24 @@ function Home() {
       prata:"",
       bronze:""
   }} ]);
+
+
   const [followedCountries, setFollowedCountries] = useState({userId:"", countriesId:[""]});
   const user = JSON.parse(localStorage.getItem("user")??"");
-  const [roles, setRoles] = useState([]);
+  console.log("começo: ", localStorage.getItem('userRoles'));
+  const roles = localStorage.getItem('userRoles')??"".split(',');
 
   useEffect(() => {
     async function loadCountries() {
-      await apiService
-        .getCountries()
-        .then(async (response) => {
-          setCountryList(response.data)
-          console.log("response: ", response.data);
-        })
-        .catch((error) => {
-          console.log("erro ao recuperar países: ", error);
-          toast(error.response.message);
-        });
+      await apiService.getCountries()
+                      .then(async (response) => {
+                        setCountryList(response.data)
+                        console.log("response: ", response.data);
+                      })
+                      .catch((error) => {
+                        console.log("erro ao recuperar países: ", error);
+                        toast(error.response.message);
+                      });
     }    
     loadCountries();
 
@@ -39,24 +41,18 @@ function Home() {
       await apiService.getFollowedCountries(Number.parseInt(user.id))
       .then(async(response)=>{
           setFollowedCountries(response.data);
-          console.log(response.data)
+          console.log("followed contries: ", response.data)
       }).catch((error)=>{
           console.log("Erro ao recuperar os países que o usuário segue:", error);
       });
     }
     getFollowedCountries();
-    
-    function recoverUserRoles(){
-      setRoles(localStorage.getItem('userRoles').split(','));
-    }
-    recoverUserRoles();
   }, []);
-
+  
   function Logout() {
     navigate("/Login");
   }
-
-  return (
+  return (  
     <div className="mainContainer">
       <div className="searchContainer">
         <div className="logoutDiv">
@@ -129,9 +125,10 @@ function Home() {
                   <td>{item.medals.bronze}</td>
                   <td>{item.total}</td>
                   <td>
-                    {followedCountries.countriesId.length > 0 &&
+                    {
+                      followedCountries.countriesId.length > 0 &&
                       followedCountries.countriesId.some(
-                      (followedCountryId) => followedCountryId === item.country.id
+                      (followedCountryId) => followedCountryId == item.country.id
                     )
                       ? "Sim"
                       : "Não"}

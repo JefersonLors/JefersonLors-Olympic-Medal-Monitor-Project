@@ -25,22 +25,21 @@ function CountryAdminView(){
 
     const handleSave = ()=>{
         console.log(selectedOption, selectedRadio)
-        const data = {
-            country: id,
-            medal:selectedRadio,
-            sport:selectedOption
-        }
-        console.log(data);
-        apiService.addMedal(data)
+        apiService.addMedal({country: id, medal:selectedRadio, sport:selectedOption})
                     .then((response)=>{
                         toast.success("Medalha adicionada com sucesso!");
                     }).catch((error)=>{
                         toast.error(error.response.data.message);
                         console.log(error);
                     });
-    }
-    function filterFunction(){
 
+        apiService.notifyUser({countryId: id, sportModalityId: selectedOption, medalId: selectedRadio, medalsWon: 1})
+                    .then((response)=>{
+
+                    }).catch((error)=>{
+                        toast.error(error.response.data.message);
+                        console.log(error);
+                    })
     }
 
     useEffect(()=>{
@@ -108,7 +107,7 @@ function CountryAdminView(){
                                     <div className="typeMedalButton" key={index}>
                                         <input type="radio" 
                                             key={index}
-                                            id="medalTypeInput"
+                                            id={medalType.type}
                                             value={medalType.id} 
                                             checked={selectedRadio === medalType.id} 
                                             onChange={()=>handleRadioChange(event)}
