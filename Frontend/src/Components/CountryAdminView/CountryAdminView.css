@@ -1,158 +1,158 @@
 .countryCardAdminDiv {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  text-align: center;
-  margin: 0;
-  font-family: Helvetica, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
 }
 
 .contentCardAdminDiv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-  height: 600px;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    height: 600px;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
 }
 
 .imgFlagAdminDiv {
-  width: 100%;
-  height: 400px;
-  background-color: rgb(221, 221, 221);
-  border-radius: 15px;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 @media (max-width: 768px) {
-  .contentCardAdminDiv {
-    width: 100%;
-  }
+    .contentCardAdminDiv {
+        width: 100%;
+    }
 }
 
 .imgFlagAdmin1 {
-  width: 90%;
-  height: 300px;
+    width: 90%;
+    height: 300px;
 }
 
 .titleAdminDiv {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 50px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 30px;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    justify-content: center;
 }
 
 .addMedalAdminDiv {
-  width: 100%;
-  height: 100px;
-  background-color: rgb(221, 221, 221);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-  white-space: nowrap;
-  margin-top: 50px;
+    white-space: nowrap;
+    margin-top: 50px;
 }
 
 .buttonSave {
-  width: 95%;
-  border-radius: 5px;
-  margin-top: 30px;
-  background-color: transparent; /* Inicialmente transparente */
-  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-  color: #000000;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    width: 95%;
+    border-radius: 5px;
+    margin-top: 30px;
+    background-color: transparent; /* Inicialmente transparente */
+    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+    color: #000000;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .saveSection button:hover {
-  background: #2691d9;
-  color: #e9f4fb;
-  transition: 0.5s;
+    background: #2691d9;
+    color: #e9f4fb;
+    transition: 0.5s;
 }
 
 .saveSection {
-  width: 100%;
-  height: 100px;
+    width: 100%;
+    height: 100px;
 }
 
 .medalContainer {
-  display: flex;
-  flex-direction: row;
-  width: 60%;
+    display: flex;
+    flex-direction: row;
+    width: 60%;
 }
 
 .modalityContainer {
-  display: flex;
-  flex-direction: row;
-  margin-left: 15px;
-  width: 40%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 15px;
+    width: 40%;
 }
 .typeMedalButton {
-  width: 25%;
-  height: auto;
-  margin: 10px;
+    width: 25%;
+    height: auto;
+    margin: 10px;
 }
 
 .selectInput {
-  width: 70%;
-  height: 30px;
-  margin: 10px;
+    width: 70%;
+    height: 30px;
+    margin: 10px;
 }
 
 .headerCardCountryAdminDiv {
-  width: 100%;
-  height: 60px;
-  margin-top: 25px;
-  display: flex;
+    width: 100%;
+    height: 60px;
+    margin-top: 25px;
+    display: flex;
 }
 
-.backDivAdmin{
-  width: 90%;
-  display: flex;
-  padding-left: 3%;
-  box-sizing: border-box;
-  background-color: rgb(109, 190, 114);
-  color: #303030;
-  align-items: center;
+.backDivAdmin {
+    width: 90%;
+    display: flex;
+    padding-left: 3%;
+    box-sizing: border-box;
+    background-color: rgb(109, 190, 114);
+    color: #303030;
+    align-items: center;
 }
 
-.changeViewDiv{
-  box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
-  background-color: rgb(136, 127, 255);
-  width: 10%;
-  padding-top: 5px;
+.changeViewDiv {
+    box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
+    background-color: rgb(136, 127, 255);
+    width: 10%;
+    padding-top: 5px;
 }
 
 .buttonChangeView {
-  width: 80px;
-  height: 50px;
-  border-radius: 90px;
-  background-color: transparent; /* Inicialmente transparente */
-  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-  color: #000000;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    width: 80px;
+    height: 50px;
+    border-radius: 90px;
+    background-color: transparent; /* Inicialmente transparente */
+    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .changeViewDiv button:hover {
-  background: #2691d9;
-  color: #e9f4fb;
-  transition: 0.5s;
+    background: #2691d9;
+    color: #e9f4fb;
+    transition: 0.5s;
 }

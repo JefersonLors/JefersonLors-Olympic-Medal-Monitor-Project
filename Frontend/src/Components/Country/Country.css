@@ -1,217 +1,212 @@
-
 .countryCardDiv {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  text-align: center;
-  margin: 0;
-  font-family: Helvetica, sans-serif;
-  width: 100%;
-  height: 100%;
-
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    width: 100%;
+    height: 100%;
 }
 
 .contentCardDiv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-  height: 800px;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  background-color: rgb(255, 255, 255);
-  overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    height: 800px;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    overflow-y: auto;
 }
 
 .imgFlagDiv {
-  width: 100%;
-  height: 400px;
-  background-color: rgb(221, 221, 221);
-  border-radius: 15px;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 @media (max-width: 768px) {
-  .contentCardDiv {
-    width: 100%;
-  }
+    .contentCardDiv {
+        width: 100%;
+    }
 }
 
 .imgFlag1 {
-  width: 90%;
-  height: 300px;
+    width: 90%;
+    height: 300px;
 }
 
 .titleDiv {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 50px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 30px;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    justify-content: center;
 }
 
 /*sasasasasa*/
 
 .informationDiv {
-  width: 100%;
-  height: 300px;
-  background-color: rgb(221, 221, 221);
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  overflow-y: scroll;
-  white-space: nowrap;
-  margin-top: 50px;
+    width: 100%;
+    height: 300px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    white-space: nowrap;
+    margin-top: 50px;
 }
 
 .tableStyle2 {
-  border-collapse: collapse;
-  width: 1000%;
+    border-collapse: collapse;
+    width: 1000%;
 }
 
 th,
 td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
 }
 
 /* Striped table design */
 .even {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
 .odd {
-  background-color: #fff;
+    background-color: #fff;
 }
 
 /* Hover effect */
 tr:hover {
-  background-color: #eee;
+    background-color: #eee;
 }
 
 thead th {
-  position: sticky;
-  top: 0;
-  background-color: #f2f2f2;
-  z-index: 1;
+    position: sticky;
+    top: 0;
+    background-color: #f2f2f2;
+    z-index: 1;
 }
 
 .fixed-header tbody {
-  height: 200px; /* Ajuste a altura conforme necessário */
-  overflow-y: auto;
+    height: 200px; /* Ajuste a altura conforme necessário */
+    overflow-y: auto;
 }
 
-.followedSection{
-  width: 100%;
-  height: 100px;
+.followedSection {
+    width: 100%;
+    height: 100px;
 }
 
 .followedSection button:hover {
-  background: #2691d9;
-  color: #e9f4fb;
-  transition: 0.5s;
+    background: #2691d9;
+    color: #e9f4fb;
+    transition: 0.5s;
 }
 
 .buttonFollow {
-  width: 95%;
-  border-radius: 5px;
-  margin-top: 30px;
-  background-color: transparent; /* Inicialmente transparente */
-  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-  color: #000000;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    width: 95%;
+    border-radius: 5px;
+    margin-top: 30px;
+    background-color: transparent; /* Inicialmente transparente */
+    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+    color: #000000;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .buttonFollowing {
-  width: 95%;
-  border-radius: 5px;
-  margin-top: 30px;
-  background-color: #2691d9; /* Azul quando ativo */; /* Inicialmente transparente */
-  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    width: 95%;
+    border-radius: 5px;
+    margin-top: 30px;
+    background-color: #2691d9; /* Azul quando ativo */ /* Inicialmente transparente */
+    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
-
 .backDiv {
-  width: 100%;
-  height: 10px;
-  display: flex;
-  padding-left: 10px;
-  padding-top: 30px;
+    width: 100%;
+    height: 10px;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 30px;
 }
 
 .imgBack {
-  width: 30px;
-  height: 30px;
-  transition: transform 0.2s ease-in-out;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease-in-out;
 }
 
 .imgBack:hover {
-  transform: scale(1.05);
-  cursor: pointer;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-.mainDiv{
-  height: 100%;
+.mainDiv {
+    height: 100%;
 }
-
-
 
 .headerCardCountryUserDiv {
-  width: 100%;
-  height: 60px;
-  margin-top: 25px;
-  display: flex;
+    width: 100%;
+    height: 60px;
+    margin-top: 25px;
+    display: flex;
 }
 
-.backUserDiv{
-  width: 90%;
-  display: flex;
-  padding-left: 3%;
-  box-sizing: border-box;
-  background-color: rgb(109, 190, 114);
-  color: #303030;
-  align-items: center;
+.backUserDiv {
+    width: 90%;
+    display: flex;
+    padding-left: 3%;
+    box-sizing: border-box;
+    background-color: rgb(109, 190, 114);
+    color: #303030;
+    align-items: center;
 }
 
-.changeViewUserDiv{
-  box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
-  background-color: rgb(136, 127, 255);
-  width: 10%;
-  padding-top: 5px;
+.changeViewUserDiv {
+    box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
+    background-color: rgb(136, 127, 255);
+    width: 10%;
+    padding-top: 5px;
 }
 
 .buttonChangeUserView {
-  width: 80px;
-  height: 50px;
-  border-radius: 90px;
-  background-color: transparent; /* Inicialmente transparente */
-  border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-  color: #000000;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+    width: 80px;
+    height: 50px;
+    border-radius: 90px;
+    background-color: transparent; /* Inicialmente transparente */
+    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .changeViewUserDiv button:hover {
-  background: #2691d9;
-  color: #e9f4fb;
-  transition: 0.5s;
+    background: #2691d9;
+    color: #e9f4fb;
+    transition: 0.5s;
 }

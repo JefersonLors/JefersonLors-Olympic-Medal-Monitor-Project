@@ -1,6 +1,6 @@
-const BASE_URL = "http://localhost:8081";
+const BASE_URL = 'http://localhost:8081';
 
-export const API_ENDPOINTS={
+export const API_ENDPOINTS = {
     LOGIN: `${BASE_URL}/authentication-ms/auth/signIn`,
     REGISTER: `${BASE_URL}/authentication-ms/auth/signUp`,
     COUNTRY_MEDAL: `${BASE_URL}/country/country`,
@@ -13,6 +13,6 @@ export const API_ENDPOINTS={
     NOTIFIER_NOTIFY_USER: `${BASE_URL}/notifier-ms/notifier/notify`,
     NOTIFER_GET_FOLLOWED_COUNTRIES: `${BASE_URL}/notifier-ms/notifier/followeds/id?id=`,
     USER_POST: `${BASE_URL}/user-ms/user`,
-    USER_GET_BY_EMAIL:`${BASE_URL}/user-ms/user/email?email=`,
-    GET_USER_ROLES: `${BASE_URL}/token-validator-ms/tokenValidator/roles`
+    USER_GET_BY_EMAIL: `${BASE_URL}/user-ms/user/email?email=`,
+    GET_USER_ROLES: `${BASE_URL}/token-validator-ms/tokenValidator/roles`,
 };
