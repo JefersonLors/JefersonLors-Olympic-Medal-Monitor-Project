@@ -145,7 +145,7 @@ public class CountryService{
                 CountryDto countryDto = new CountryDto(country.get());
                 return ResponseEntity.ok().body(countryDto);
             }
-            throw new RuntimeException("Páis não encotrado");
+            throw new RuntimeException("País não encotrado");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

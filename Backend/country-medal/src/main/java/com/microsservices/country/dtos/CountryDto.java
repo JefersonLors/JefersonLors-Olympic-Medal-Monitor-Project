@@ -33,7 +33,7 @@ public class CountryDto {
             return this;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
     }
     @Override
