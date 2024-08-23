@@ -43,12 +43,12 @@ function Login() {
     setIsLoading(false);
   }
   function validateCredencials(){
-    if( login.length < 1 ){
+    if( login == null || login.length < 1 ){
       toast.error("O login é obrigatório.");
       return false;
     }
 
-    if( password.length < 1 ){
+    if( password == null || password.length < 1 ){
       toast.error("A senha é obrigatória.");
       return false;
     }

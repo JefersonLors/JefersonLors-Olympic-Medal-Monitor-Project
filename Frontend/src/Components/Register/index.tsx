@@ -36,6 +36,11 @@ function Register() {
       setIsLoading(false);
   }
   function validateCredencials(){
+    if( name.length < 1 ){
+      toast.error("O nome é obrigatório.");
+      return false;
+    }
+
     if( login.length < 1 ){
       toast.error("O login é obrigatório.");
       return false;
