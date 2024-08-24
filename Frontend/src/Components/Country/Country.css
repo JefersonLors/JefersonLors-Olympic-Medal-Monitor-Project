@@ -94,7 +94,7 @@ tr:hover {
     background-color: #eee;
 }
 
-thead th {
+.theadStyle2 th {
     position: sticky;
     top: 0;
     background-color: #f2f2f2;
@@ -210,3 +210,5 @@ thead th {
     color: #e9f4fb;
     transition: 0.5s;
 }
+
+

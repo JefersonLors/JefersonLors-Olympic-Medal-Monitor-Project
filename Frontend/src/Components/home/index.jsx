@@ -64,7 +64,7 @@ function Home() {
                     </div>
                     <div className="logoutDiv">
                         <img
-                            src="src\assets\logout-image.jpeg"
+                            src="src\assets\logout.jpg"
                             className="imgLogout"
                             onClick={() => {
                                 Logout();
@@ -74,7 +74,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="olympicRingsDiv">
-                    <img src="src\assets\olympic-rings-2.jpg" className="imgOlympicRing" alt="Olympic Rings" />
+                    <img src="src\assets\olympic-rings.jpg" className="imgOlympicRing" alt="Olympic Rings" />
                 </div>
                 <div className="titlePageDiv">
                     <h1 className="titlePage">Monitor de Medalha Olímpica</h1>
@@ -86,9 +86,9 @@ function Home() {
                         <tr>
                             <th>Pos.</th>
                             <th>País</th>
-                            <th>Ouro</th>
-                            <th>Prata</th>
-                            <th>Bronze</th>
+                            <th><img src="src\assets\gold-medal.png" className="medalIcon" alt="Ouro" /></th>
+                            <th><img src="src\assets\silver-medal.png" className="medalIcon" alt="Prata" /></th>
+                            <th><img src="src\assets\bronze-medal.png" className="medalIcon" alt="Bronze" /></th>
                             <th>Total</th>
                             <th>Seguindo</th>
                         </tr>

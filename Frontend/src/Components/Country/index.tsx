@@ -129,7 +129,7 @@ function CountryCard() {
                     </div>
                     <div className="informationDiv">
                         <table className="tableStyle">
-                            <thead>
+                            <thead className="theadStyle2">
                                 <tr>
                                     <th>Modalidade</th>
                                     <th>Medalha</th>

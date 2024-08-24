@@ -77,25 +77,25 @@
 
 .logoutDiv {
     box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
-    background-color: rgb(136, 127, 255);
+    background-color: rgb(170, 168, 201);
     width: 10%;
     padding-left: 70px;
-    padding-top: 15px;
+    padding-top: 0px;
 }
 
 .nameDiv {
     box-sizing: border-box;
-    background-color: rgb(109, 190, 114);
+    background-color: rgb(160, 201, 162);
     width: 90%;
-    color: #303030;
+    color: #757474;
     padding-left: 5%;
     display: flex;
     align-items: center;
 }
 
 .imgLogout {
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
 }
 
 .imgLogout {
@@ -125,17 +125,31 @@
 
 .tableStyle {
     border-collapse: collapse;
-    width: 90%;
+    width: 70%;
 }
 
-.tableStyle th, td {
-    padding: 10px;
+.tbodyStyle td {
     text-align: center;
     cursor: pointer;
+    height: 30px;
+    border-left: none !important;
+    border-right: none !important;
     border: 1px solid #ddd;
 }
 
-/* Striped table design */
+.theadStyle th {
+    text-align: center;
+    height: 10px !important;
+    padding-top: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    border-left: none !important;
+    border-right: none !important;
+    border: 1px solid #ddd;
+}
+
 .tbodyStyle .even {
     background-color: #f2f2f2;
 }
@@ -143,14 +157,12 @@
     background-color: #fff;
 }
 
-/* Hover effect */
 .tbodyStyle tr:hover {
     background-color: #eee;
 }
 
-/* Specific styling for the flag image */
 .imgFlag {
-    width: 20px; /* Adjust as needed */
+    width: 25px;
     height: auto;
     margin-right: 20px;
 }
@@ -163,6 +175,28 @@
 }
 
 .fixedHeader tbody {
-    height: 200px; /* Ajuste a altura conforme necessário */
+    height: 200px; 
     overflow-y: auto;
+}
+
+.tbodyStyle tr td:nth-child(2) {
+    text-align: left;
+}
+.theadStyle tr th:nth-child(2) {
+    text-align: left;
+}
+
+.tbodyStyle tr td:nth-child(1) {
+    width: 60px;
+}
+
+.theadStyle tr th:nth-child(1) {
+    width: 60px;
+}
+
+.medalIcon{
+    width: 40px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
 }
