@@ -126,14 +126,14 @@
     display: flex;
     padding-left: 3%;
     box-sizing: border-box;
-    background-color: rgb(109, 190, 114);
+    background-color: rgb(160, 201, 162);
     color: #303030;
     align-items: center;
 }
 
 .changeViewDiv {
     box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
-    background-color: rgb(136, 127, 255);
+    background-color: rgb(170, 168, 201);
     width: 10%;
     padding-top: 5px;
 }
