@@ -65,7 +65,6 @@ function CountryCard() {
         function adjustsCountryFontSize() {
             const div = document.getElementById('titleDiv');
             if (div && div.innerText.length > 12) {
-                console.log(div.innerText);
                 div!.style.fontSize = '20px';
             }
         }
@@ -169,7 +168,7 @@ function CountryCard() {
                     <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlag1" />
                 </div>
                 <div className="informationDiv">
-                    <table className="tableStyle">
+                    <table className="tableStyle2">
                         <thead className="theadStyle2">
                             <tr>
                                 <th></th>
@@ -177,14 +176,9 @@ function CountryCard() {
                                 <th>Medalha</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className='tbodyStyle2'>
                             {medals
-                                .map((item) => {
-                                    if (item.medal.type.toLocaleLowerCase() == 'ouro') item.medal.id = '1';
-                                    if (item.medal.type.toLocaleLowerCase() == 'prata') item.medal.id = '2';
-                                    if (item.medal.type.toLocaleLowerCase() == 'bronze') item.medal.id = '3';
-                                    return item;
-                                })
+                                
                                 .sort((itemA, itemB) => {
                                     return itemA.medal.id.localeCompare(itemB.medal.id);
                                 })
