@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    image: khan468/country_medal_api:1.0 #country_medal_api
+    container_name: api_country_medal
+    ports:
+      - "8085:8085"
+    networks:
+      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dbcountry_sport_medal
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8085/actuator/health || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    restart: always
+
+  postgres:
+    image: khan468/country_medal_postgres:1.0
+    container_name: db_country_medal
+    networks:
+      - app-network
+    environment:
+      POSTGRES_DB: dbcountry_sport_medal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dbcountry_sport_medal"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - ./db-scripts:/scripts
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
