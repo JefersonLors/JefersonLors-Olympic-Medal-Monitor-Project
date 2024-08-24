@@ -7,7 +7,7 @@ import './Country.css';
 function CountryCard() {
     const { id } = useParams();
     const [country, setCountry] = useState({ name: '', id: '', flag: '' });
-    const [medals, setMedals] = useState([{ medal: { type: '' }, sport: { name: '' } }]);
+    const [medals, setMedals] = useState([{ medal: { type: '', id:'' }, sport: { name: '' } }]);
     const [isFollowing, setIsFollowing] = useState(Boolean);
     const navigate = useNavigate();
 
@@ -90,62 +90,49 @@ function CountryCard() {
         handleIfUserAlreadyFollows();
     }, []);
 
+    function resolveIcon(type){
+        if( type == "ouro")
+            return "https://img.icons8.com/?size=512w&id=33486&format=png"
+        if( type == "prata")
+            return "https://img.icons8.com/?size=512w&id=23876&format=png"
+        if( type == "bronze")
+            return "https://img.icons8.com/?size=512w&id=23875&format=png"
+        return ""
+    }
+
     return (
-        <div className="mainDiv">
-            <div className="countryCardDiv">
-                <div className="headerCardCountryUserDiv">
-                    <div className="backUserDiv">
-                        <img
-                            src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg"
-                            className="imgBack"
-                            onClick={() => {
-                                navigate('/Home');
-                            }}
-                            alt="back"
-                        />
-                    </div>
-                    <div className="changeViewUserDiv">
-                        {roles.includes('ROLE_ADMIN') ? (
-                            <button
-                                id="buttonSave"
-                                className="buttonChangeUserView"
-                                onClick={() => {
-                                    navigate(`/CountryAdminView/${id}`);
-                                }}
-                            >
-                                Admin
-                            </button>
-                        ) : (
-                            <></>
-                        )}
-                    </div>
+        <div className="countryCardDiv">
+            <div className="headerCardCountryUserDiv">
+                <div className="backUserDiv">
+                    <img
+                        src="https://th.bing.com/th/id/OIP.m8smT-nQUAC02ciI31r1CwAAAA?rs=1&pid=ImgDetMain"
+                        className="imgBack"
+                        onClick={() => {
+                            navigate('/Home');
+                        }}
+                        alt="back"
+                    />
                 </div>
-                <div className="contentCardDiv">
+                <div className="changeViewUserDiv">
+                    {roles.includes('ROLE_ADMIN') ? (
+                        <img
+                            id="changeViewToUserButon"
+                            src="https://s3.amazonaws.com/freestock-prod/450/freestock_569747701.jpg"
+                            onClick={() => {
+                                navigate(`/CountryAdminView/${id}`);
+                            }}
+                            className="buttonChangeUserView"
+                            alt="userIcon"
+                        />
+                    ) : (
+                        <></>
+                    )}
+                </div>
+            </div>
+            <div className="contentCardDiv">
+                <div className="headerCardDiv">
                     <div className="titleDiv">
                         <h3>{country.name}</h3>
-                    </div>
-                    <div className="imgFlagDiv">
-                        <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlag1" />
-                    </div>
-                    <div className="informationDiv">
-                        <table className="tableStyle">
-                            <thead className="theadStyle2">
-                                <tr>
-                                    <th>Modalidade</th>
-                                    <th>Medalha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {medals.map((item, index) => {
-                                    return (
-                                        <tr key={index} className="">
-                                            <td>{item.sport.name}</td>
-                                            <td>{item.medal.type}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
                     </div>
                     <div className="followedSection">
                         <button
@@ -158,6 +145,48 @@ function CountryCard() {
                             {isFollowing ? 'Following' : 'Follow'}
                         </button>
                     </div>
+                </div>
+                <div className="imgFlagDiv">
+                    <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlag1" />
+                </div>
+                <div className="informationDiv">
+                    <table className="tableStyle">
+                        <thead className="theadStyle2">
+                            <tr>
+                                <th></th>
+                                <th>Modalidade</th>
+                                <th>Medalha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {medals.map((item)=>{
+                                if( item.medal.type.toLocaleLowerCase()=="ouro" )
+                                    item.medal.id = '1';
+                                if( item.medal.type.toLocaleLowerCase()=="prata" )
+                                    item.medal.id = '2';
+                                if( item.medal.type.toLocaleLowerCase()=="bronze" )
+                                    item.medal.id = '3';
+                                return item;
+                            }).sort((itemA, itemB)=>{
+                                
+                                return itemA.medal.id.localeCompare(itemB.medal.id);
+                            }).map((item, index) => {
+                                return (
+                                    <tr key={index} className="">
+                                        <td>{index+1}</td>
+                                        <td>{item.sport.name}</td>
+                                        <td>
+                                            <img 
+                                                src={resolveIcon(item.medal.type.toLocaleLowerCase())}
+                                                alt={item.medal.type.toLocaleLowerCase()}
+                                                className='iconMedalUser'
+                                            />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

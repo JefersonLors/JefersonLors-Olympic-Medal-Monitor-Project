@@ -116,7 +116,7 @@ function CountryAdminView() {
                         alt="back"
                     />
                 </div>
-                <div className="changeViewDiv">
+                <div className="changeViewAdminDiv">
                     <img 
                         id="changeViewToUserButon"
                         src='https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg'
