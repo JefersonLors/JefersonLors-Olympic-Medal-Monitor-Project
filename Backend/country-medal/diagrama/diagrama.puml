@@ -1,0 +1,196 @@
+@startuml
+class CountryController {
+    - CountryService service
+    - RoleValidationService roleValidationService
+    + getCountrys(String requestHeader) : ResponseEntity<List<CountryMedalDto>>
+    + getCountry(String requestHeader, String name) : ResponseEntity<CountryMedalInSportsDto>
+    + getCountryByEncryptedId(String requestHeader, String id) : ResponseEntity<CountryDto>
+    + getCountryById(String requestHeader, Long id) : ResponseEntity<CountryDto>
+    + getCountryWithMedalsById(String requestHeader, Long id) : ResponseEntity<CountryMedalInSportsDto>
+}
+
+class MedalsController {
+    - MedalService service
+    - RoleValidationService roleValidationService
+    + postMedals(String requestHeader, CountryMedalInSport_PostDto entity) : ResponseEntity<Void>
+    + getMedal(String requestHeader, Long id) : ResponseEntity<MedalDto>
+    + getEncryptedMedal(String requestHeader, String id) : ResponseEntity<MedalDto>
+    + getMedals(String requestHeader) : ResponseEntity<List<MedalDto>>
+}
+
+class SportController {
+    - SportService service
+    - RoleValidationService roleValidationService
+    + getSportById(String requestHeader, Long id) : ResponseEntity<SportDto>
+    + getSports(String requestHeader) : ResponseEntity<List<SportDto>>
+}
+
+class CountryService {
+    - CountryMedalInSportsRepository repository
+    - CountryRespository countryRepository
+    - CountryMedalInSportsConcreteRepository concreteRepository
+    + getCountry(String name) : ResponseEntity<CountryMedalInSportsDto>
+    + getCountrys() : ResponseEntity<List<CountryMedalDto>>
+    + getCountryByEncryptedId(String id) : ResponseEntity<CountryDto>
+    + getCountryById(Long id) : ResponseEntity<CountryDto>
+    + getCountryWithMedalsById(Long id) : ResponseEntity<CountryMedalInSportsDto>
+}
+
+class MedalService {
+    - MedalRepository medalRepository
+    - SportRepository sportRepository
+    - CountryRespository countryRespository
+    - CountryMedalInSportsRepository csmRepository
+    + postMedals(CountryMedalInSport_PostDto entity) : ResponseEntity<Void>
+    + getMedal(Long id) : ResponseEntity<MedalDto>
+    + getEncryptedMedal(String id) : ResponseEntity<MedalDto>
+    + getMedals() : ResponseEntity<List<MedalDto>>
+    - saveEntitys(Country country, Medal medal, Sport sport) : CountryMedalInSports
+    - buildReturn(CountryMedalInSports csm) : ResponseEntity<Void>
+    - findCountry(Country c) : Country
+    - findSport(Sport s) : Sport
+    - findMedal(Medal m) : Medal
+}
+
+class SportService {
+    - SportRepository repository
+    + getSportById(Long id) : ResponseEntity<SportDto>
+    + getSports() : ResponseEntity<List<SportDto>>
+}
+
+class RoleValidationService {
+    - TokenValidator tokenValidator
+    + currentUserHasRole(String requestHeader, List<Role> role) : Boolean
+    - recoverToken(String token) : String
+    - verifyRoles(List<String> roles, List<Role> role) : boolean
+}
+
+class TokenValidator {
+    + extractRolesFromToken(TokenDto token) : ResponseEntity<List<String]>
+}
+
+interface CountryMedalInSportsRepository {
+    + findByCountryName(String countryName) : List<CountryMedalInSports>
+    + findByCountryId(Long countryId) : List<CountryMedalInSports>
+    + findCountriesAndMedals() : List<CountryMedalInSports>
+    + existsMedalForCountryAndSport(Long countryId, Long sportId) : boolean
+    + isThereSuchAMedalForAnyCountryInThisSport(Long sportId, Long medalId) : boolean
+}
+
+interface CountryRespository {
+    + findByName(String name) : Country
+}
+
+interface MedalRepository {
+    + findAll() : List<Medal>
+    + findById(Long id) : Optional<Medal>
+}
+
+interface SportRepository {
+    + findById(Long id) : Optional<Sport>
+    + findAll() : List<Sport>
+}
+
+class CountryMedalInSports {
+    - Long id
+    - Sport sport
+    - Medal medal
+    - Country country
+    + getId() : Long
+    + setId(Long id)
+    + getSport() : Sport
+    + setSport(Sport sport)
+    + getMedal() : Medal
+    + setMedal(Medal medal)
+    + getCountry() : Country
+    + setCountry(Country country)
+}
+
+class Sport {
+    - Long id
+    - String name
+    - String description
+    - CriptografiaAES criptografiaAES
+    + getId() : Long
+    + setId(Long id)
+    + getName() : String
+    + setName(String name)
+    + getDescription() : String
+    + setDescription(String description)
+}
+
+class Medal {
+    - Long id
+    - MedalType type
+    + getId() : Long
+    + setId(Long id)
+    + getType() : MedalType
+    + setType(MedalType type)
+}
+
+class Country {
+    - Long id
+    - String name
+    - String flag
+    - List<CountryMedalInSports> country_medal_in_sports
+    - CriptografiaAES criptografiaAES
+    + getId() : Long
+    + setId(Long id)
+    + getName() : String
+    + setName(String name)
+    + getFlag() : String
+    + setFlag(String flag)
+}
+
+class CountryMedalInSportsConcreteRepository {
+    - InstaceDatabase instance
+    + getAllCountrys() : List<CountryMedalInSports>
+    + getCountryById(Long id) : List<CountryMedalInSports>
+}
+
+class InstaceDatabase {
+    - static final String URL
+    - static final String USER
+    - static final String PASSWORD
+    - static InstaceDatabase instance
+    - InstaceDatabase()
+    + getInstance() : InstaceDatabase
+    + getConnection() : Connection
+}
+
+CountryController --> CountryService : uses
+CountryController --> RoleValidationService : uses
+MedalsController --> MedalService : uses
+MedalsController --> RoleValidationService : uses
+SportController --> SportService : uses
+SportController --> RoleValidationService : uses
+CountryService --> CountryMedalInSportsRepository : uses
+CountryService --> CountryRespository : uses
+CountryService --> CountryMedalInSportsConcreteRepository : uses
+MedalService --> MedalRepository : uses
+MedalService --> SportRepository : uses
+MedalService --> CountryRespository : uses
+MedalService --> CountryMedalInSportsRepository : uses
+SportService --> SportRepository : uses
+RoleValidationService --> TokenValidator : uses
+CountryMedalInSportsRepository --> CountryMedalInSports : manages
+CountryRespository --> Country : manages
+MedalRepository --> Medal : manages
+SportRepository --> Sport : manages
+
+CountryMedalInSports --> Sport : association
+CountryMedalInSports --> Medal : association
+CountryMedalInSports --> Country : association
+Country --> CountryMedalInSports : "1..*"
+
+CountryMedalInSportsConcreteRepository --> CountryMedalInSports : manages
+CountryMedalInSportsConcreteRepository --> Country : creates
+CountryMedalInSportsConcreteRepository --> Medal : creates
+CountryMedalInSportsConcreteRepository --> Sport : creates
+
+InstaceDatabase --> CountryMedalInSportsConcreteRepository : provides connection
+InstaceDatabase --> Country : manages
+InstaceDatabase --> Medal : manages
+InstaceDatabase --> Sport : manages
+InstaceDatabase --> CountryMedalInSports : manages
+@enduml
