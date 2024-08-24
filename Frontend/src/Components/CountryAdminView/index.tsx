@@ -98,8 +98,8 @@ function CountryAdminView() {
             <div className="headerCardCountryAdminDiv">
                 <div className="backDivAdmin">
                     <img
-                        src="https://static.vecteezy.com/system/resources/previews/000/589/654/original/vector-back-icon.jpg"
-                        className="imgBack"
+                        src="https://cdn0.iconfinder.com/data/icons/web-seo-and-advertising-media-1/512/218_Arrow_Arrows_Back-512.png"
+                        className="imgBackAdminDiv"
                         onClick={() => {
                             navigate('/Home');
                         }}

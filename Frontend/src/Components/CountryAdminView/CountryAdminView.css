@@ -156,3 +156,8 @@
     color: #e9f4fb;
     transition: 0.5s;
 }
+
+.imgBackAdminDiv{
+    width: 60px;
+    height: auto;
+}
