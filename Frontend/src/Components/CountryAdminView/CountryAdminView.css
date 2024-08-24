@@ -1,5 +1,7 @@
 .countryCardAdminDiv {
     display: flex;
+    height: auto;
+    width: 100%;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
@@ -11,18 +13,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
-    height: 600px;
+    width: 25%;
+    height: auto;
     margin: 10px;
     padding: 20px;
-    box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(202, 201, 201);
 }
 
 .imgFlagAdminDiv {
     width: 100%;
-    height: 400px;
+    height: 350px;
     background-color: rgb(221, 221, 221);
     border-radius: 15px;
     justify-content: center;
@@ -49,29 +50,33 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 30px;
     justify-content: center;
+    background-color: #9c9c9c;
+    color: #ffffff;;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
 
 .addMedalAdminDiv {
     width: 100%;
-    height: 100px;
+    height: 10%;
     background-color: rgb(221, 221, 221);
     border-radius: 15px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
     white-space: nowrap;
-    margin-top: 50px;
+    margin-top: 5%;
 }
 
-.buttonSave {
+.buttonAdd {
     width: 95%;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 30px;
-    background-color: transparent; /* Inicialmente transparente */
-    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-    color: #000000;
+    background-color: rgb(112, 112, 112); /* Inicialmente transparente */
+    border: none; /* Borda azul para todos os estados */
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -79,15 +84,17 @@
     font-size: 16px;
 }
 
-.saveSection button:hover {
-    background: #2691d9;
-    color: #e9f4fb;
-    transition: 0.5s;
+.addMedalSection {
+    width: 50%;
+    height: 100px;
 }
 
-.saveSection {
-    width: 100%;
-    height: 100px;
+.addMedalSection button:hover {
+    background: #727272;
+    color: #e9f4fb;
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .medalContainer {
@@ -100,18 +107,71 @@
     display: flex;
     flex-direction: row;
     margin-left: 15px;
-    width: 40%;
-}
-.typeMedalButton {
-    width: 25%;
-    height: auto;
-    margin: 10px;
+    width: 30%;
+    height: 35px;
+    background-color: #adadad;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
 }
 
 .selectInput {
     width: 70%;
     height: 30px;
     margin: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #adadad;
+}
+
+.typeMedalButton {
+    width: 25%;
+    height: auto;
+    margin-top: 8px;
+    margin-left: 15px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.iconMedal{
+    width: 30px;
+    height: auto;
+    margin-left: 5px;
+}
+
+.radioContainer{
+    display: flex;
+    flex-direction: row;
+    background-color: #adadad;
+    border-radius: 30px;
+    margin-left: 20px;
+}
+
+.radioContainer:hover {
+    background: #727272;
+    color: #e9f4fb;
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.modalityContainer:hover {
+    background: #727272;
+    color: #e9f4fb;
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.modalityContainer .selectInput:hover {
+    background: #727272;
+    color: #e9f4fb;
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .headerCardCountryAdminDiv {
@@ -132,32 +192,34 @@
 }
 
 .changeViewDiv {
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box; /*faz com que o padding se restrinja à borda da div, isto é, ao tamanho estabelecido em width*/
     background-color: rgb(170, 168, 201);
     width: 10%;
     padding-top: 5px;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttonChangeView {
-    width: 80px;
-    height: 50px;
-    border-radius: 90px;
-    background-color: transparent; /* Inicialmente transparente */
-    border: 1px solid #6d6d6d; /* Borda azul para todos os estados */
-    color: #000000;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    width: 70px;
+    height: auto;
 }
 
-.changeViewDiv button:hover {
-    background: #2691d9;
-    color: #e9f4fb;
-    transition: 0.5s;
+.changeViewDiv .buttonChangeView:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-.imgBackAdminDiv{
+
+.imgBackAdmin {
     width: 60px;
     height: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.imgBackAdmin:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }

@@ -93,13 +93,23 @@ function CountryAdminView() {
         return true;
     }
 
+    function resolveIcon(type){
+        if( type == "ouro")
+            return "https://img.icons8.com/?size=512w&id=33486&format=png"
+        if( type == "prata")
+            return "https://img.icons8.com/?size=512w&id=23876&format=png"
+        if( type == "bronze")
+            return "https://img.icons8.com/?size=512w&id=23875&format=png"
+        return ""
+    }
+
     return (
         <div className="countryCardAdminDiv">
             <div className="headerCardCountryAdminDiv">
                 <div className="backDivAdmin">
                     <img
-                        src="https://cdn0.iconfinder.com/data/icons/web-seo-and-advertising-media-1/512/218_Arrow_Arrows_Back-512.png"
-                        className="imgBackAdminDiv"
+                        src="https://th.bing.com/th/id/OIP.m8smT-nQUAC02ciI31r1CwAAAA?rs=1&pid=ImgDetMain"
+                        className="imgBackAdmin"
                         onClick={() => {
                             navigate('/Home');
                         }}
@@ -107,15 +117,15 @@ function CountryAdminView() {
                     />
                 </div>
                 <div className="changeViewDiv">
-                    <button
-                        id="buttonSave"
-                        className="buttonChangeView"
+                    <img 
+                        id="changeViewToUserButon"
+                        src='https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg'
                         onClick={() => {
                             navigate(`/CountryCard/${id}`);
                         }}
-                    >
-                        User
-                    </button>
+                        className="buttonChangeView"
+                        alt='userIcon'
+                    />
                 </div>
             </div>
             <div className="contentCardAdminDiv">
@@ -129,9 +139,26 @@ function CountryAdminView() {
                     <div className="medalContainer">
                         {medalTypes.map((medalType, index) => {
                             return (
-                                <div className="typeMedalButton" key={index}>
-                                    <input type="radio" key={index} id={medalType.type} value={medalType.id} checked={selectedMedal === medalType.id} onChange={() => handleRadioChange(event)} />
-                                    <label htmlFor={medalType.type}> {medalType.type.toLowerCase()}</label>
+                                <div className="radioContainer" key={index}>
+                                    <div className="typeMedalButton">
+                                        <input 
+                                            type="radio" 
+                                            key={index} id={medalType.type} 
+                                            value={medalType.id} 
+                                            
+                                            checked={selectedMedal === medalType.id} 
+                                            onChange={() => handleRadioChange(event)} 
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor={medalType.type} > 
+                                            <img 
+                                                src={resolveIcon(medalType.type.toLocaleLowerCase())}
+                                                className='iconMedal'
+                                                alt={medalType.type.toLocaleLowerCase()}
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
                             );
                         })}
@@ -147,12 +174,13 @@ function CountryAdminView() {
                         </select>
                     </div>
                 </div>
-                <div className="saveSection">
-                    <button id="buttonSave" className="buttonSave" onClick={handleSave}>
+                <div className="addMedalSection">
+                    <button id="buttonAddMedal" className="buttonAdd" onClick={handleSave}>
                         Adicionar
                     </button>
                 </div>
             </div>
+
         </div>
     );
 }
