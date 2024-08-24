@@ -60,11 +60,11 @@ function Home() {
             <div className="searchContainer">
                 <div className="headerHomeDiv">
                     <div className="nameDiv">
-                        <h1>{user.name}</h1>
+                        <h1 className='h1UserName'>{user.name}</h1>
                     </div>
                     <div className="logoutDiv">
                         <img
-                            src="src\assets\logout.jpg"
+                            src="https://media.istockphoto.com/id/1254028816/vector/emergency-exit-solid-icon-navigation-concept-exit-sign-on-white-background-exit-door-icon-in.jpg?s=612x612&w=0&k=20&c=HeN4c-m7hbjFO1irDgmMNLF8c821F6dqmdyc-BiHxQ0="
                             className="imgLogout"
                             onClick={() => {
                                 Logout();
@@ -118,7 +118,17 @@ function Home() {
                                         <td>{item.medals.prata}</td>
                                         <td>{item.medals.bronze}</td>
                                         <td>{item.total}</td>
-                                        <td>{followedCountries.countriesId.length > 0 && followedCountries.countriesId.some((followedCountryId) => followedCountryId == item.country.id) ? 'Sim' : 'Não'}</td>
+                                        <td>{followedCountries.countriesId.length > 0 
+                                                && followedCountries.countriesId.some((followedCountryId) => followedCountryId == item.country.id) 
+                                                ? 
+                                                <img 
+                                                    src="https://static.vecteezy.com/system/resources/previews/013/743/605/original/golden-star-icon-png.png"
+                                                    alt='alt'
+                                                    className='starImgFollowing'
+                                                />
+                                                : 
+                                                ''
+                                            }</td>
                                     </tr>
                                 );
                             })}
