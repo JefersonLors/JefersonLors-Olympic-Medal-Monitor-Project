@@ -24,7 +24,17 @@ public class CountryMedalInSportsConcreteRepository {
 
     public List<CountryMedalInSports> getAllCountrys(){
         // Connection conn = instance.getConnection();
-        String sql = "SELECT cms.id AS cms_id, c.id AS country_id, c.name AS country_name, c.flag AS country_flag, m.id AS medal_id, m.type AS medal_type FROM country_medal_in_sports AS cms RIGHT JOIN countrys AS c ON c.id = cms.id_country LEFT JOIN medals AS m ON m.id = cms.id_medal;";
+        // String sql = "SELECT cms.id AS cms_id, c.id AS country_id, c.name AS country_name, c.flag AS country_flag, m.id AS medal_id, m.type AS medal_type FROM country_medal_in_sports AS cms RIGHT JOIN countrys AS c ON c.id = cms.id_country LEFT JOIN medals AS m ON m.id = cms.id_medal;";
+        String sql = "SELECT cms.id AS cms_id, "+  
+       "c.id AS country_id, "+ 
+       "c.name AS country_name, "+ 
+       "c.flag AS country_flag, "+
+       "m.id AS medal_id, "+
+       "m.type AS medal_type "+
+"FROM country_medal_in_sports AS cms "+
+"RIGHT JOIN countrys AS c ON c.id = cms.id_country "+
+"LEFT JOIN medals AS m ON m.id = cms.id_medal "+
+"ORDER BY cms.id;";
         Statement statement;
         try {
             List<CountryMedalInSports> countryMedalInSports = new ArrayList<>();
@@ -77,7 +87,23 @@ public class CountryMedalInSportsConcreteRepository {
 
     public List<CountryMedalInSports> getCountryById(Long id){
         // Connection conn = instance.getConnection();
-        String sql = "select cms.id AS cms_id, c.id AS country_id, c.name AS country_name, c.flag AS country_flag, m.id AS medal_id, m.type AS medal_type, s.id AS sport_id, s.description AS sport_description, s.name AS sport_name from country_medal_in_sports AS cms RIGHT JOIN countrys AS c ON c.id = cms.id_country LEFT JOIN medals AS m ON m.id = cms.id_medal LEFT JOIN sports AS s ON s.id = cms.id_sport where c.id = ?;";
+        // String sql = "select cms.id AS cms_id, c.id AS country_id, c.name AS country_name, c.flag AS country_flag, m.id AS medal_id, m.type AS medal_type, s.id AS sport_id, s.description AS sport_description, s.name AS sport_name from country_medal_in_sports AS cms RIGHT JOIN countrys AS c ON c.id = cms.id_country LEFT JOIN medals AS m ON m.id = cms.id_medal LEFT JOIN sports AS s ON s.id = cms.id_sport where c.id = ?;";
+        String sql = "SELECT " +
+             "cms.id AS cms_id, " +
+             "c.id AS country_id, " +
+             "c.name AS country_name, " +
+             "c.flag AS country_flag, " +
+             "m.id AS medal_id, " +
+             "m.type AS medal_type, " +
+             "s.id AS sport_id, " +
+             "s.description AS sport_description, " +
+             "s.name AS sport_name " +
+             "FROM country_medal_in_sports AS cms " +
+             "RIGHT JOIN countrys AS c ON c.id = cms.id_country " +
+             "LEFT JOIN medals AS m ON m.id = cms.id_medal " +
+             "LEFT JOIN sports AS s ON s.id = cms.id_sport " +
+             "WHERE c.id = ? " +
+             "ORDER BY cms.id;";
         PreparedStatement prepStatement;
         try {
             prepStatement = conn.prepareStatement(sql);
