@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -7,8 +7,9 @@ import './Country.css';
 function CountryCard() {
     const { id } = useParams();
     const [country, setCountry] = useState({ name: '', id: '', flag: '' });
-    const [medals, setMedals] = useState([{ medal: { type: '', id:'' }, sport: { name: '' } }]);
+    const [medals, setMedals] = useState([{ medal: { type: '', id: '' }, sport: { name: '' } }]);
     const [isFollowing, setIsFollowing] = useState(Boolean);
+    const [isloading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem('user') ?? '');
@@ -61,8 +62,20 @@ function CountryCard() {
     }
 
     useEffect(() => {
-        function loadCountry() {
-            apiService
+        function adjustsCountryFontSize() {
+            const div = document.getElementById('titleDiv');
+            if (div && div.innerText.length > 12) {
+                console.log(div.innerText);
+                div!.style.fontSize = '20px';
+            }
+        }
+        adjustsCountryFontSize();
+    }, [country.name]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        async function loadCountry() {
+            await apiService
                 .getCountryById(id)
                 .then((response) => {
                     setCountry(response.data.country);
@@ -74,8 +87,9 @@ function CountryCard() {
                 });
         }
         loadCountry();
-        function handleIfUserAlreadyFollows() {
-            apiService
+
+        async function handleIfUserAlreadyFollows() {
+            await apiService
                 .getFollowedCountries(Number.parseInt(user.id))
                 .then(async (response) => {
                     if (response.data.countriesId.some((item) => item == id)) {
@@ -88,18 +102,23 @@ function CountryCard() {
                 });
         }
         handleIfUserAlreadyFollows();
+        setIsLoading(false);
     }, []);
 
-    function resolveIcon(type){
-        if( type == "ouro")
-            return "https://img.icons8.com/?size=512w&id=33486&format=png"
-        if( type == "prata")
-            return "https://img.icons8.com/?size=512w&id=23876&format=png"
-        if( type == "bronze")
-            return "https://img.icons8.com/?size=512w&id=23875&format=png"
-        return ""
+    function resolveIcon(type) {
+        if (type == 'ouro') return 'https://img.icons8.com/?size=512w&id=33486&format=png';
+        if (type == 'prata') return 'https://img.icons8.com/?size=512w&id=23876&format=png';
+        if (type == 'bronze') return 'https://img.icons8.com/?size=512w&id=23875&format=png';
+        return '';
     }
 
+    if (isloading) {
+        return (
+            <div className="loading">
+                <div className="loading-circle"></div>
+            </div>
+        );
+    }
     return (
         <div className="countryCardDiv">
             <div className="headerCardCountryUserDiv">
@@ -131,7 +150,7 @@ function CountryCard() {
             </div>
             <div className="contentCardDiv">
                 <div className="headerCardDiv">
-                    <div className="titleDiv">
+                    <div id="titleDiv" className="titleDiv">
                         <h3>{country.name}</h3>
                     </div>
                     <div className="followedSection">
@@ -159,32 +178,27 @@ function CountryCard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {medals.map((item)=>{
-                                if( item.medal.type.toLocaleLowerCase()=="ouro" )
-                                    item.medal.id = '1';
-                                if( item.medal.type.toLocaleLowerCase()=="prata" )
-                                    item.medal.id = '2';
-                                if( item.medal.type.toLocaleLowerCase()=="bronze" )
-                                    item.medal.id = '3';
-                                return item;
-                            }).sort((itemA, itemB)=>{
-                                
-                                return itemA.medal.id.localeCompare(itemB.medal.id);
-                            }).map((item, index) => {
-                                return (
-                                    <tr key={index} className="">
-                                        <td>{index+1}</td>
-                                        <td>{item.sport.name}</td>
-                                        <td>
-                                            <img 
-                                                src={resolveIcon(item.medal.type.toLocaleLowerCase())}
-                                                alt={item.medal.type.toLocaleLowerCase()}
-                                                className='iconMedalUser'
-                                            />
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                            {medals
+                                .map((item) => {
+                                    if (item.medal.type.toLocaleLowerCase() == 'ouro') item.medal.id = '1';
+                                    if (item.medal.type.toLocaleLowerCase() == 'prata') item.medal.id = '2';
+                                    if (item.medal.type.toLocaleLowerCase() == 'bronze') item.medal.id = '3';
+                                    return item;
+                                })
+                                .sort((itemA, itemB) => {
+                                    return itemA.medal.id.localeCompare(itemB.medal.id);
+                                })
+                                .map((item, index) => {
+                                    return (
+                                        <tr key={index} className="">
+                                            <td>{index + 1}</td>
+                                            <td>{item.sport.name}</td>
+                                            <td>
+                                                <img src={resolveIcon(item.medal.type.toLocaleLowerCase())} alt={item.medal.type.toLocaleLowerCase()} className="iconMedalUser" />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                         </tbody>
                     </table>
                 </div>

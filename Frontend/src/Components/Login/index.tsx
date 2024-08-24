@@ -61,8 +61,8 @@ function Login() {
 
     if (isloading) {
         return (
-            <div className="base">
-                <div className="loader"></div>
+            <div className="loading">
+                <div className="loading-circle"></div>
             </div>
         );
     }

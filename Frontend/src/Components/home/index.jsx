@@ -74,7 +74,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="olympicRingsDiv">
-                    <img src="src\assets\olympic-rings.jpg" className="imgOlympicRing" alt="Olympic Rings" />
+                    <img src="src\assets\olympic-rings-2.jpg" className="imgOlympicRing" alt="Olympic Rings" />
                 </div>
                 <div className="titlePageDiv">
                     <h1 className="titlePage">Monitor de Medalha Olímpica</h1>
