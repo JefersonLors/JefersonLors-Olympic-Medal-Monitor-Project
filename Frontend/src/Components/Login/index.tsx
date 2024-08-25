@@ -18,13 +18,14 @@ function Login() {
             await apiService
                 .login({ login: login, password: password })
                 .then(async (responseA) => {
+                    localStorage.setItem('authToken', responseA.data);
+                    const token = responseA.data;
                     await apiService
                         .getUserByEmail(login)
                         .then(async (responseB) => {
                             localStorage.setItem('user', JSON.stringify(responseB.data));
-                            localStorage.setItem('authToken', responseA.data);
                             await apiService
-                                .getUserRoles({ value: "Bearer " + localStorage.getItem('authToken') })
+                                .getUserRoles({ value: "Bearer " + token })
                                 .then((responseC) => {
                                     localStorage.setItem('userRoles', responseC.data);
                                     navigate('/Home');

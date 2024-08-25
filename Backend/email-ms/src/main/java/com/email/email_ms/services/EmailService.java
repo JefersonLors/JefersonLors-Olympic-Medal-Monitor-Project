@@ -30,20 +30,24 @@ public class EmailService {
     private String mailFrom;
 
     public GetEmailDto sendEmail(PostEmailDto emailDto){
-        SimpleMailMessage message =  new SimpleMailMessage();
-        message.setFrom(mailFrom);
-        message.setTo(emailDto.mailTo());
-        message.setText(emailDto.mailText());
-        message.setSubject(emailDto.mailSubject());
+        try{
+            SimpleMailMessage message =  new SimpleMailMessage();
+            message.setFrom(mailFrom);
+            message.setTo(emailDto.mailTo());
+            message.setText(emailDto.mailText());
+            message.setSubject(emailDto.mailSubject());
 
-        javaMailSender.send(message);
+            javaMailSender.send(message);
 
-        Email email = new Email(emailDto);
-        email.setDth_send(LocalDateTime.now());
-        email.setMailFrom(mailFrom);
-        email.setStatus(new EmailStatus(EmailStatusEnum.SENT.getCodigo(),
-                        EmailStatusEnum.SENT.getName()));
+            Email email = new Email(emailDto);
+            email.setDth_send(LocalDateTime.now());
+            email.setMailFrom(mailFrom);
+            email.setStatus(new EmailStatus(EmailStatusEnum.SENT.getCodigo(),
+                    EmailStatusEnum.SENT.getName()));
 
-        return new GetEmailDto(emailRepository.save(email));
+            return new GetEmailDto(emailRepository.save(email));
+        }catch (Exception exception){
+            throw new RuntimeException("Houve falha no envio do email.", exception);
+        }
     }
 }

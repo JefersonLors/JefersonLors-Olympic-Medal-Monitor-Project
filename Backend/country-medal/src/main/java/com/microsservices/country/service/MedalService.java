@@ -51,9 +51,9 @@ public class MedalService {
             Sport sport = new Sport(entity.sport());
             if
             (csmRepository.existsMedalForCountryAndSport(country.getId(), sport.getId()))
-                throw new RuntimeException("O país já tem medalha para o esporte");
+                throw new RuntimeException("O país já tem medalha para o esporte.");
             if(csmRepository.isThereSuchAMedalForAnyCountryInThisSport(sport.getId(), medal.getId()))
-                throw new RuntimeException("Já existe medalha esse tipo de medalha para o esporte desejado");
+                throw new RuntimeException("Outro país já ganhou essa medalha nesse esporte.");
             CountryMedalInSports retorno = saveEntitys(country, medal, sport);
             return buildReturn(retorno);
         }catch(Exception e){
@@ -70,7 +70,7 @@ public class MedalService {
             }else if(id == 3L){
                 return ResponseEntity.ok().body(new MedalDto(id.toString(), MedalType.BRONZE));
             }else{
-                throw new RuntimeException("id inválido");
+                throw new RuntimeException("Id inválido");
             }
         }catch (NumberFormatException e) {
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class MedalService {
                 case 3:
                     return ResponseEntity.ok().body(new MedalDto(id, MedalType.BRONZE).encryptId());
                 default:
-                throw new RuntimeException("id inválido");
+                throw new RuntimeException("Id inválido");
             }
         }catch (NumberFormatException e) {
             e.printStackTrace();
@@ -135,14 +135,14 @@ public class MedalService {
     private Country findCountry(Country c) throws Exception{
         Optional<Country> country =  countryRespository.findById(c.getId());//countryRespository.findByName(c.getName());
         if(!country.isPresent())
-            throw new RuntimeException("País não encontrado: " + c.getName());
+            throw new RuntimeException("País " + c.getName() + " não encontrado.");
         return country.get();
     }
 
     private Sport findSport(Sport s) throws Exception{
         Optional<Sport> sport = sportRepository.findById(s.getId());//findByName(s.getName());
         if(!sport.isPresent())
-            throw new RuntimeException("Esporte não encontrado: " + s.getName());
+            throw new RuntimeException("Esporte " + s.getName() + " não encontrado.");
         return sport.get();
     }
 

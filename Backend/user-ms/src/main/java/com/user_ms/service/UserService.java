@@ -24,7 +24,7 @@ public class UserService {
         return userOp.map(GetUserDto::new).orElse(null);
     }
     public GetUserDto getUserByEmail(String email){
-        Optional<User> userOp = this.userRepository.findByEmail(email);
+        Optional<User> userOp = this.userRepository.findByEmail(email.toLowerCase());
         return userOp.map(GetUserDto::new).orElse(null);
     }
     public Page<GetUserDto> getUsersPaginated(int page, int size){

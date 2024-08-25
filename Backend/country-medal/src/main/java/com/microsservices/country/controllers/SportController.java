@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microsservices.country.dtos.SportDto;
 import com.microsservices.country.enums.Role;
-import com.microsservices.country.service.RoleValidationService;
 import com.microsservices.country.service.SportService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @RestController()
 @RequestMapping("/sport")
 public class SportController {
     @Autowired
     SportService service;
-    @Autowired
-    private RoleValidationService roleValidationService;
 
     @Autowired
     private TokenValidator tokenValidator;

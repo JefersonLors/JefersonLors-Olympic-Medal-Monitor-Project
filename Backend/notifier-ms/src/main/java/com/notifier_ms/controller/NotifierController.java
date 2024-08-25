@@ -27,6 +27,7 @@ public class NotifierController {
     public ResponseEntity<GetFollowedCountriesDto> getFollowedCountries(@RequestHeader("Authorization") String requestHeader,
                                                                         @RequestParam long id){
         UserHasRoleDto data = new UserHasRoleDto(requestHeader, List.of(Role.ROLE_ADMIN.name(), Role.ROLE_USER.name()));
+
         if(this.tokenValidator.userHasRole(data).getBody().booleanValue()){
             GetFollowedCountriesDto response = this.countryUserService.followedCountries(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -39,6 +40,7 @@ public class NotifierController {
     public ResponseEntity<UserFollowCountryDto> followCountry(@RequestHeader("Authorization") String requestHeader,
                                                                 @RequestBody UserFollowCountryDto userFollowCountryDto){
         UserHasRoleDto data = new UserHasRoleDto(requestHeader, List.of(Role.ROLE_ADMIN.name(), Role.ROLE_USER.name()));
+
         if(this.tokenValidator.userHasRole(data).getBody().booleanValue()){
             UserFollowCountryDto response = this.countryUserService.userFollowCountry(userFollowCountryDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -52,6 +54,7 @@ public class NotifierController {
     public ResponseEntity<UserUnfollowCountryDto> unfollowCountry( @RequestHeader("Authorization") String requestHeader,
                                                                     @RequestBody UserUnfollowCountryDto userUnfollowCountryDto){
         UserHasRoleDto data = new UserHasRoleDto(requestHeader, List.of(Role.ROLE_ADMIN.name(), Role.ROLE_USER.name()));
+
         if(this.tokenValidator.userHasRole(data).getBody().booleanValue()){
             UserUnfollowCountryDto response = this.countryUserService.userUnfollowCountry(userUnfollowCountryDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -65,9 +68,10 @@ public class NotifierController {
     public ResponseEntity<SentMessageDto> notifyUsers(@RequestHeader("Authorization") String requestHeader,
                                                         @RequestBody MessageDataDto messageDataDto){
         UserHasRoleDto data = new UserHasRoleDto(requestHeader, List.of(Role.ROLE_ADMIN.name()));
+
         if(this.tokenValidator.userHasRole(data).getBody().booleanValue()){
-            SentMessageDto response = this.countryUserService.sendMessage(messageDataDto);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            this.countryUserService.sendMessage(messageDataDto);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

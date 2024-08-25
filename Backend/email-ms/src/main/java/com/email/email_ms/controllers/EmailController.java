@@ -22,10 +22,6 @@ public class EmailController {
     @Operation(summary="Realiza envio de e-mail", description="Realiza envio de e-mail com base nas informações recebidas.")
     public ResponseEntity<GetEmailDto> send(@RequestBody PostEmailDto emailDto){
         GetEmailDto getEmailDto = emailService.sendEmail(emailDto);
-
-        if( emailDto == null )
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         return ResponseEntity.ok(getEmailDto);
     }
 }
