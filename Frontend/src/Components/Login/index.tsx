@@ -24,7 +24,7 @@ function Login() {
                             localStorage.setItem('user', JSON.stringify(responseB.data));
                             localStorage.setItem('authToken', responseA.data);
                             await apiService
-                                .getUserRoles({ value: localStorage.getItem('authToken') })
+                                .getUserRoles({ value: "Bearer " + localStorage.getItem('authToken') })
                                 .then((responseC) => {
                                     localStorage.setItem('userRoles', responseC.data);
                                     navigate('/Home');
