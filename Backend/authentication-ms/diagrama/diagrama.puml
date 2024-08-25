@@ -1,0 +1,142 @@
+@startuml
+package com.authentication_ms.controller {
+    class AuthenticationController {
+        - UserService userService
+        + ResponseEntity<String> signIn(SignInDto authenticationDto)
+        + ResponseEntity<String> signUp(SignUpDto postUserDto)
+    }
+
+    class RoleController {
+        - RoleService roleService
+        + ResponseEntity<Page<GetRoleDto>> getRolesPaginated(int page, int size)
+        + ResponseEntity<GetRoleDto> getRoleById(long id)
+    }
+
+    class UserController {
+        - UserService userService
+        + ResponseEntity<GetUserDto> getUserById(long id)
+        + ResponseEntity<Page<GetUserDto>> getUsersPaginated(int page, int size)
+        + ResponseEntity<GetUserDto> putUserRoles(PutUserRolesDto putUserRolesDto)
+        + ResponseEntity<GetUserDto> deleteUser(long id)
+    }
+}
+
+package com.authentication_ms.dto {
+    class GetRoleDto {
+        + long id
+        + String description
+        + GetRoleDto(Role role)
+    }
+
+    class GetUserDto {
+        + long id
+        + String login
+        + List<GetRoleDto> roles
+        + LocalDateTime dth_inc
+        + LocalDateTime dth_upd
+        + GetUserDto(User user)
+    }
+
+    class PutUserRolesDto {
+        + String login
+        + List<Long> rolesId
+    }
+
+    class SignInDto {
+        + String login
+        + String password
+    }
+
+    class SignUpDto {
+        + String login
+        + String password
+        + List<Long> rolesId
+    }
+}
+
+package com.authentication_ms.entity {
+    class Role {
+        + Long id
+        + String description
+    }
+
+    class User {
+        + Long id
+        + String login
+        + String password
+        + LocalDateTime dth_inc
+        + LocalDateTime dth_upd
+        + List<Role> roles
+        + User(String login, String password, List<Role> roles)
+        + Collection<? extends GrantedAuthority> getAuthorities()
+        + String getUsername()
+        + boolean isAccountNonExpired()
+        + boolean isAccountNonLocked()
+        + boolean isCredentialsNonExpired()
+        + boolean isEnabled()
+    }
+
+    User --> Role : *roles
+}
+
+package com.authentication_ms.repository {
+    interface RoleRepository
+    interface UserRepository
+}
+
+package com.authentication_ms.service {
+    class UserService {
+        - RoleRepository roleRepository
+        - UserRepository userRepository
+        - AuthenticationManager authenticationManager
+        - JWTokenService tokenService
+        + GetUserDto signUp(SignUpDto signUpDto)
+        + String signIn(SignInDto signInDto)
+        + Page<GetUserDto> getUsersPaginated(int page, int size)
+        + GetUserDto getUserById(long id)
+        + GetUserDto updateUserRoles(PutUserRolesDto putUserRolesDto)
+        + GetUserDto deleteUser(long id)
+        - List<Role> getRolesList(List<Long> roleIdList)
+        - boolean emailFormateValidator(String email)
+    }
+
+    class JWTokenService {
+        - String secret
+        - String issuer
+        + String generateToken(User user)
+        + String validateToken(String token)
+        - Instant generateTokenExpireDate()
+        - Algorithm getAlgorithm()
+        - List<String> getRolesStringList(List<Role> roles)
+    }
+
+    class RoleService {
+        - RoleRepository roleRepository
+        + GetRoleDto getRoleById(long id)
+        + Page<GetRoleDto> getRolesPaginated(int page, int size)
+    }
+}
+
+AuthenticationController --> UserService : uses
+UserService --> SignInDto : uses
+UserService --> SignUpDto : uses
+UserService --> GetUserDto : returns
+UserService --> PutUserRolesDto : uses
+UserService --> Role : uses
+UserService --> User : uses
+UserService --> RoleRepository : uses
+UserService --> UserRepository : uses
+UserService --> AuthenticationManager : uses
+UserService --> JWTokenService : uses
+RoleService --> RoleRepository : uses
+RoleService --> GetRoleDto : returns
+RoleService --> Role : uses
+RoleController --> RoleService : uses
+RoleController --> GetRoleDto : returns
+GetUserDto --> GetRoleDto : *roles
+GetRoleDto --> Role : creates
+GetUserDto --> User : creates
+UserController --> UserService : uses
+UserController --> GetUserDto : returns
+UserController --> PutUserRolesDto : uses
+@enduml
