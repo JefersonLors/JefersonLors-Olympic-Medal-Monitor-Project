@@ -1,0 +1,159 @@
+@startuml
+package com.notifier_ms.controller {
+    class NotifierController {
+        +getFollowedCountries(requestHeader: String, id: long): ResponseEntity<GetFollowedCountriesDto>
+        +followCountry(requestHeader: String, userFollowCountryDto: UserFollowCountryDto): ResponseEntity<UserFollowCountryDto>
+        +unfollowCountry(requestHeader: String, userUnfollowCountryDto: UserUnfollowCountryDto): ResponseEntity<UserUnfollowCountryDto>
+        +notifyUsers(requestHeader: String, messageDataDto: MessageDataDto): ResponseEntity<SentMessageDto>
+    }
+}
+
+package com.notifier_ms.service {
+    class CountryUserService {
+        +userFollowCountry(dto: UserFollowCountryDto): UserFollowCountryDto
+        +userUnfollowCountry(dto: UserUnfollowCountryDto): UserUnfollowCountryDto
+        +sendMessage(notificationDto: MessageDataDto): SentMessageDto
+        +followedCountries(userId: long): GetFollowedCountriesDto
+    }
+
+    class RoleValidationService {
+        +currentUserHasRole(requestHeader: String, role: Role): boolean
+    }
+}
+
+package com.notifier_ms.dto {
+    class GetFollowedCountriesDto {
+        +userId: long
+        +countriesId: List<Long>
+    }
+
+    class UserFollowCountryDto {
+        +userId: long
+        +countryId: long
+    }
+
+    class UserUnfollowCountryDto {
+        +userId: long
+        +countryId: long
+    }
+
+    class MessageDataDto {
+        +countryId: long
+        +sportModalityId: long
+        +medalId: long
+        +medalsWon: long
+    }
+
+    class SentMessageDto {
+        +message: String
+    }
+
+    class CountryDto {
+        +id: String
+        +name: String
+    }
+
+    class MedalDto {
+        +id: String
+        +type: MedalType
+    }
+
+    class PostEmailDto {
+        +mailTo: String
+        +mailSubject: String
+        +mailText: String
+    }
+
+    class SportDto {
+        +id: String
+        +name: String
+        +description: String
+    }
+
+    class GetUserDto {
+        +id: long
+        +name: String
+        +email: String
+        +dth_inc: LocalDateTime
+        +dth_upd: LocalDateTime
+    }
+}
+
+package com.notifier_ms.entity {
+    class CountryUser {
+        +id: Long
+        +userId: Long
+        +userEmail: String
+        +countryId: Long
+        +countryName: String
+        +active: Boolean
+        +dth_inc: LocalDateTime
+        +dth_upd: LocalDateTime
+    }
+
+    class Notification {
+        +id
+        +countryUser
+        +sportModalityId
+        +medalsWon
+        +createdAt
+        +updatedAt
+    }
+
+    class Role {
+        <<enumeration>>
+        +ROLE_USER
+        +ROLE_ADMIN
+    }
+
+    class EmailStatusEnum {
+        <<enumeration>>
+        +SENT("sent", 1)
+        +ERROR("error", 2)
+    }
+}
+
+package com.notifier_ms.controller.clients {
+    class UserController {
+        +getUserById(userId: long): ResponseEntity<GetUserDto>
+    }
+
+    class CountryController {
+        +getCountryById(countryId: long): ResponseEntity<CountryDto>
+        +getMedal(medalId: long): ResponseEntity<MedalDto>
+        +getSportById(modalityId: long): ResponseEntity<SportDto>
+    }
+}
+
+package com.notifier_ms.repository {
+    class CountryUserRepository {
+        +findByUserIdAndCountryId(userId: long, countryId: long): Optional<CountryUser>
+        +findByCountryId(countryId: long): List<CountryUser>
+        +findByUserId(userId: long): List<CountryUser>
+        +save(countryUser: CountryUser): CountryUser
+    }
+
+    class NotificationRepository {
+        +save(notification: Notification): Notification
+    }
+}
+
+' Relationships
+NotifierController ..> CountryUserService : uses
+NotifierController ..> RoleValidationService : uses
+
+CountryUserService ..> UserController : uses
+CountryUserService ..> CountryController : uses
+CountryUserService ..> CountryUserRepository : uses
+CountryUserService ..> NotificationRepository : uses
+CountryUserService ..> RabbitTemplate : uses
+
+CountryUserService ..> CountryUser : creates
+CountryUserService ..> Notification : creates
+
+UserController ..> GetUserDto : uses
+CountryController ..> CountryDto : uses
+CountryController ..> MedalDto : uses
+CountryController ..> SportDto : uses
+CountryController ..> PostEmailDto : uses
+@enduml
