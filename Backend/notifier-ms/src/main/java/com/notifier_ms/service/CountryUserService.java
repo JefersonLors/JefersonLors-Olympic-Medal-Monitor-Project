@@ -85,7 +85,7 @@ public class CountryUserService {
         return dto;
     }
 
-    public SentMessageDto sendMessage(MessageDataDto notificationDto){
+    public void sendMessage(MessageDataDto notificationDto){
         if( notificationDto.medalsWon() > 1 )
             throw new RuntimeException("Quantidade de medalhas indevida.");
 
@@ -112,7 +112,6 @@ public class CountryUserService {
                     LocalDateTime.now()
             ));
         });
-        return null;
     }
     public GetFollowedCountriesDto followedCountries(long userId){
         List<CountryUser> countryUsers = this.countryUserRepository.findByUserId(userId);
@@ -162,9 +161,10 @@ public class CountryUserService {
     private String makeMessage(String countryName, long medalsWon, String medalType, String sportModality){
         StringBuilder message = new StringBuilder();
 
-        message.append("Hey! E aí, tudo certo?\n\nTHE GOAT " + countryName +
-                " gain more " + medalsWon + " " + medalType + " medal" + (medalsWon > 1 ? "s " : " ") +
-                " on " + sportModality + " modality!");
+        message.append("Hey! E aí, tudo certo?\n\n" + countryName +
+                        " ganhou mais " + medalsWon + " medalha" + (medalsWon > 1 ? "s " : "") + " de " + medalType +
+                        " em " + sportModality.toUpperCase() +"."
+                        );
 
         return message.toString();
     }

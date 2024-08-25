@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { API_ENDPOINTS } from '../API';
 import { api } from '../Interceptor/Interceptor';
 

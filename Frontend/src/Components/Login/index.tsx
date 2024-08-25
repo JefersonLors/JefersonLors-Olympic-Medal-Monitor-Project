@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -8,6 +8,7 @@ function Login() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [isloading, setIsLoading] = useState(false);
+    const [hasFocus, setHasFocus] = useState(false);
     const navigate = useNavigate();
 
     localStorage.clear();
@@ -18,13 +19,14 @@ function Login() {
             await apiService
                 .login({ login: login, password: password })
                 .then(async (responseA) => {
+                    localStorage.setItem('authToken', responseA.data);
+                    const token = responseA.data;
                     await apiService
                         .getUserByEmail(login)
                         .then(async (responseB) => {
                             localStorage.setItem('user', JSON.stringify(responseB.data));
-                            localStorage.setItem('authToken', responseA.data);
                             await apiService
-                                .getUserRoles({ value: localStorage.getItem('authToken') })
+                                .getUserRoles({ value: 'Bearer ' + token })
                                 .then((responseC) => {
                                     localStorage.setItem('userRoles', responseC.data);
                                     navigate('/Home');
@@ -46,6 +48,7 @@ function Login() {
         }
         setIsLoading(false);
     }
+
     function validateCredencials() {
         if (login == null || login.length < 1) {
             toast.error('O login é obrigatório.');
@@ -58,6 +61,21 @@ function Login() {
         }
         return true;
     }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' && hasFocus) {
+            const botao = document.getElementById('confirmButton');
+            botao!.click();
+        }
+    }
+
+    useEffect(()=>{
+        function putFocus(){
+            const input = document.getElementById("emailField");
+            input?.focus();
+        }
+        putFocus();
+    }, [])
 
     if (isloading) {
         return (
@@ -76,6 +94,11 @@ function Login() {
                             id="emailField"
                             type="text"
                             name="emailField"
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             value={login}
                             onChange={(e) => {
                                 setLogin(e.target.value);
@@ -91,6 +114,11 @@ function Login() {
                             id="passwordField"
                             type="password"
                             name="passwordField"
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value);

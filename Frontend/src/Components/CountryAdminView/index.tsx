@@ -14,6 +14,8 @@ function CountryAdminView() {
     const [selectedMedal, setSelectedMedal] = useState();
     const [selectedModality, setSelectedModality] = useState();
 
+    const roles = localStorage.getItem('userRoles') ?? ''.split(',');
+
     function handleRadioChange(event) {
         setSelectedMedal(event.target.value);
     }
@@ -117,15 +119,21 @@ function CountryAdminView() {
                     />
                 </div>
                 <div className="changeViewAdminDiv">
-                    <img 
-                        id="changeViewToUserButon"
-                        src='https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg'
-                        onClick={() => {
-                            navigate(`/CountryCard/${id}`);
-                        }}
-                        className="buttonChangeView"
-                        alt='userIcon'
-                    />
+                    { roles.includes('ROLE_USER') 
+                        ?
+                        (<img 
+                            id="changeViewToUserButon"
+                            src='https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg'
+                            onClick={() => {
+                                navigate(`/CountryCard/${id}`);
+                            }}
+                            className="buttonChangeView"
+                            alt='userIcon'
+                        />) 
+                        : 
+                        <>
+                        </>
+                    }
                 </div>
             </div>
             <div className="contentCardAdminDiv">

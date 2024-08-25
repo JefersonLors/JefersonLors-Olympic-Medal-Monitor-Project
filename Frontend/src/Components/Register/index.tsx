@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -9,6 +9,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [isloading, setIsLoading] = useState(false);
+    const [hasFocus, setHasFocus] = useState(false);
     const navigate = useNavigate();
 
     localStorage.clear();
@@ -56,6 +57,21 @@ function Register() {
         return true;
     }
 
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' && hasFocus) {
+            const botao = document.getElementById('confirmRegisterButton');
+            botao!.click();
+        }
+    }
+
+    useEffect(()=>{
+        function putFocus(){
+            const input = document.getElementById("registerNameField");
+            input?.focus();
+        }
+        putFocus();
+    }, [])
+
     if (isloading) {
         return (
             <div className="loading">
@@ -70,9 +86,15 @@ function Register() {
                 <form>
                     <div className="txt_field">
                         <input
+                            id="registerNameField"
                             type="text"
                             name="registerNameField"
                             value={name}
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             onChange={(e) => {
                                 setName(e.target.value);
                             }}
@@ -86,6 +108,11 @@ function Register() {
                             type="text"
                             name="registerLoginField"
                             value={login}
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             onChange={(e) => {
                                 setLogin(e.target.value);
                             }}
@@ -100,6 +127,11 @@ function Register() {
                             type="password"
                             name="registerPasswordField"
                             value={password}
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
@@ -109,6 +141,7 @@ function Register() {
                         <label>Senha</label>
                     </div>
                     <button
+                        id="confirmRegisterButton"
                         name="confirmRegisterButton"
                         type="button"
                         value="confirmRegister"
