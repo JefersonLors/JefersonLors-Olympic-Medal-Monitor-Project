@@ -1,4 +1,6 @@
-package com.notifier_ms.dto;
+package com.microsservices.country.dtos;
 
-public record UserHasRoleDto(String token, String role){
+import java.util.List;
+
+public record UserHasRoleDto(String token, List<String> roles){
 }

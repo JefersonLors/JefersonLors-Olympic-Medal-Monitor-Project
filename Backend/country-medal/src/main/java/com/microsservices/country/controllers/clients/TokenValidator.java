@@ -1,5 +1,6 @@
 package com.microsservices.country.controllers.clients;
 
+import com.microsservices.country.dtos.UserHasRoleDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,4 +15,7 @@ import java.util.List;
 public interface TokenValidator {
     @RequestMapping(method= RequestMethod.POST, value="/tokenValidator/roles")
     ResponseEntity<List<String>> extractRolesFromToken(@RequestBody TokenDto tokenDto);
+
+    @RequestMapping(method= RequestMethod.POST, value="/tokenValidator/hasRole")
+    ResponseEntity<Boolean> userHasRole(@RequestBody UserHasRoleDto userHasRoleDto);
 }

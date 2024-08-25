@@ -1,4 +1,6 @@
-package com.token_validator_ms.dto;
+package com.notifier_ms.dto;
 
-public record UserHasRoleDto (String token, String role){
+import java.util.List;
+
+public record UserHasRoleDto(String token, List<String> roles){
 }
