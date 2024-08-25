@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -64,6 +64,14 @@ function Register() {
         }
     }
 
+    useEffect(()=>{
+        function putFocus(){
+            const input = document.getElementById("registerNameField");
+            input?.focus();
+        }
+        putFocus();
+    }, [])
+
     if (isloading) {
         return (
             <div className="loading">
@@ -78,6 +86,7 @@ function Register() {
                 <form>
                     <div className="txt_field">
                         <input
+                            id="registerNameField"
                             type="text"
                             name="registerNameField"
                             value={name}

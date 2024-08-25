@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -48,6 +48,7 @@ function Login() {
         }
         setIsLoading(false);
     }
+
     function validateCredencials() {
         if (login == null || login.length < 1) {
             toast.error('O login é obrigatório.');
@@ -67,6 +68,14 @@ function Login() {
             botao!.click();
         }
     }
+
+    useEffect(()=>{
+        function putFocus(){
+            const input = document.getElementById("emailField");
+            input?.focus();
+        }
+        putFocus();
+    }, [])
 
     if (isloading) {
         return (
