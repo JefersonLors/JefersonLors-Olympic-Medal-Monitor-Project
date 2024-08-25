@@ -1,0 +1,80 @@
+@startuml
+package com.user_ms.controller {
+    class UserController {
+        +getUserById(id: long): ResponseEntity<GetUserDto>
+        +getUserByEmail(email: String): ResponseEntity<GetUserDto>
+        +getUsersPaginated(page: int, size: int): ResponseEntity<Page<GetUserDto>>
+        +postUser(postUserDto: PostUserDto, uriBuilder: UriComponentsBuilder): ResponseEntity<GetUserDto>
+        +putUser(id: long, putUserDto: PutUserDto): ResponseEntity<GetUserDto>
+        +deleteUser(id: long): ResponseEntity<GetUserDto>
+    }
+}
+
+package com.user_ms.dto {
+    class GetUserDto {
+        +id: long
+        +name: String
+        +email: String
+        +dth_inc: LocalDateTime
+        +dth_upd: LocalDateTime
+    }
+
+    class PostUserDto {
+        +name: String
+        +email: String
+        +password: String
+    }
+
+    class PutUserDto {
+        +name: String
+        +email: String
+        +password: String
+    }
+}
+
+package com.user_ms.service {
+    class UserService {
+        +getUserById(id: long): GetUserDto
+        +getUserByEmail(email: String): GetUserDto
+        +getUsersPaginated(page: int, size: int): Page<GetUserDto>
+        +postUser(postUserDto: PostUserDto): GetUserDto
+        +putUser(id: long, putUserDto: PutUserDto): GetUserDto
+        +deleteUser(id: long): GetUserDto
+    }
+}
+
+package com.user_ms.entity {
+    class User {
+        +id: long
+        +name: String
+        +email: String
+        +password: String
+        +dth_inc: LocalDateTime
+        +dth_upd: LocalDateTime
+    }
+}
+
+package com.user_ms.repository {
+    interface UserRepository {
+        +findById(id: long): Optional<User>
+        +findByEmail(email: String): Optional<User>
+        +findAll(pageable: Pageable): Page<User>
+        +save(user: User): User
+        +deleteById(id: long): void
+    }
+}
+
+' Relationships
+UserController ..> UserService : uses
+UserController ..> GetUserDto : returns
+UserController ..> PostUserDto : accepts
+UserController ..> PutUserDto : accepts
+
+UserService ..> UserRepository : uses
+UserService ..> GetUserDto : returns
+UserService ..> PostUserDto : accepts
+UserService ..> PutUserDto : accepts
+UserService ..> User : creates and updates
+
+UserRepository ..> User : manages
+@enduml

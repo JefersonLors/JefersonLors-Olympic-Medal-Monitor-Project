@@ -1,0 +1,93 @@
+@startuml
+package com.email.email_ms.controllers {
+    class EmailController {
+        - EmailService emailService
+        + ResponseEntity<GetEmailDto> send(PostEmailDto emailDto)
+    }
+}
+
+package com.email.email_ms.dtos {
+    class GetEmailDto {
+        - long id
+        - String mailFrom
+        - String mailTo
+        - String mailSubject
+        - String mailText
+        - LocalDateTime mailDthSend
+        - String mailStatus
+        + GetEmailDto(Email email)
+    }
+
+    class PostEmailDto {
+        - String mailTo
+        - String mailSubject
+        - String mailText
+    }
+
+    class EmailStatusDto {
+        - long id
+        - String status
+    }
+}
+
+package com.email.email_ms.entities {
+    class Email {
+        - long id
+        - String mailFrom
+        - String mailTo
+        - String mailSubject
+        - String mailText
+        - LocalDateTime dth_send
+        - EmailStatus status
+        + Email(PostEmailDto emailDto)
+    }
+
+    class EmailStatus {
+        - long id
+        - String status
+        + EmailStatus(EmailStatusDto emailStatusDto)
+    }
+
+    enum EmailStatusEnum {
+        SENT("sent", 1)
+        ERROR("error", 2)
+        
+        - String status
+        - long codigo
+        + getCodigo()
+        + getName()
+    }
+}
+
+package com.email.email_ms.repositories {
+    interface EmailRepository {
+        // Define repository methods if needed
+    }
+
+    interface EmailStatusRepository {
+        // Define repository methods if needed
+    }
+}
+
+package com.email.email_ms.services {
+    class EmailService {
+        - EmailRepository emailRepository
+        - EmailStatusRepository emailStatusRepository
+        - JavaMailSender javaMailSender
+        - String mailFrom
+        + GetEmailDto sendEmail(PostEmailDto emailDto)
+    }
+}
+
+EmailController --> EmailService : uses
+EmailService --> GetEmailDto : returns
+EmailService --> PostEmailDto : uses
+EmailService --> Email : creates
+EmailService --> EmailStatus : uses
+EmailService --> EmailStatusEnum : uses
+EmailService --> EmailRepository : uses
+EmailService --> EmailStatusRepository : uses
+Email --> EmailStatus : has
+EmailStatusDto --> EmailStatus : creates
+EmailStatusEnum --> EmailStatus : maps to
+@enduml
