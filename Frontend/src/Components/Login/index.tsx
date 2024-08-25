@@ -8,6 +8,7 @@ function Login() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [isloading, setIsLoading] = useState(false);
+    const [hasFocus, setHasFocus] = useState(false);
     const navigate = useNavigate();
 
     localStorage.clear();
@@ -25,7 +26,7 @@ function Login() {
                         .then(async (responseB) => {
                             localStorage.setItem('user', JSON.stringify(responseB.data));
                             await apiService
-                                .getUserRoles({ value: "Bearer " + token })
+                                .getUserRoles({ value: 'Bearer ' + token })
                                 .then((responseC) => {
                                     localStorage.setItem('userRoles', responseC.data);
                                     navigate('/Home');
@@ -60,6 +61,13 @@ function Login() {
         return true;
     }
 
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' && hasFocus) {
+            const botao = document.getElementById('confirmButton');
+            botao!.click();
+        }
+    }
+
     if (isloading) {
         return (
             <div className="loading">
@@ -77,6 +85,11 @@ function Login() {
                             id="emailField"
                             type="text"
                             name="emailField"
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             value={login}
                             onChange={(e) => {
                                 setLogin(e.target.value);
@@ -92,6 +105,11 @@ function Login() {
                             id="passwordField"
                             type="password"
                             name="passwordField"
+                            onKeyDown={() => {
+                                handleKeyDown(event);
+                            }}
+                            onFocus={() => setHasFocus(true)}
+                            onBlur={() => setHasFocus(false)}
                             value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value);
