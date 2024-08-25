@@ -69,13 +69,13 @@ function Login() {
         }
     }
 
-    useEffect(()=>{
-        function putFocus(){
-            const input = document.getElementById("emailField");
+    useEffect(() => {
+        function putFocus() {
+            const input = document.getElementById('emailField');
             input?.focus();
         }
         putFocus();
-    }, [])
+    }, []);
 
     if (isloading) {
         return (
@@ -85,65 +85,63 @@ function Login() {
         );
     }
     return (
-        <div className="container">
-            <div className="center">
-                <h1>Entrar</h1>
-                <form>
-                    <div className="txt_field">
-                        <input
-                            id="emailField"
-                            type="text"
-                            name="emailField"
-                            onKeyDown={() => {
-                                handleKeyDown(event);
-                            }}
-                            onFocus={() => setHasFocus(true)}
-                            onBlur={() => setHasFocus(false)}
-                            value={login}
-                            onChange={(e) => {
-                                setLogin(e.target.value);
-                            }}
-                            required
-                        />
-                        <span></span>
-                        <label>E-mail</label>
-                    </div>
-
-                    <div className="txt_field">
-                        <input
-                            id="passwordField"
-                            type="password"
-                            name="passwordField"
-                            onKeyDown={() => {
-                                handleKeyDown(event);
-                            }}
-                            onFocus={() => setHasFocus(true)}
-                            onBlur={() => setHasFocus(false)}
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
-                            required
-                        />
-                        <span></span>
-                        <label>Senha</label>
-                    </div>
-                    <button
-                        type="button"
-                        id="confirmButton"
-                        name="confirmButton"
-                        className="buttonLogin"
-                        onClick={() => {
-                            confirmLogin();
+        <div className="center">
+            <h1>Entrar</h1>
+            <form>
+                <div className="txt_field">
+                    <input
+                        id="emailField"
+                        type="text"
+                        name="emailField"
+                        onKeyDown={() => {
+                            handleKeyDown(event);
                         }}
-                    >
-                        Confirmar
-                    </button>
-                    <div className="signup_link">
-                        Não tem cadastro ? <Link to="/Register">Cadastrar</Link>
-                    </div>
-                </form>
-            </div>
+                        onFocus={() => setHasFocus(true)}
+                        onBlur={() => setHasFocus(false)}
+                        value={login}
+                        onChange={(e) => {
+                            setLogin(e.target.value);
+                        }}
+                        required
+                    />
+                    <span></span>
+                    <label>E-mail</label>
+                </div>
+
+                <div className="txt_field">
+                    <input
+                        id="passwordField"
+                        type="password"
+                        name="passwordField"
+                        onKeyDown={() => {
+                            handleKeyDown(event);
+                        }}
+                        onFocus={() => setHasFocus(true)}
+                        onBlur={() => setHasFocus(false)}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                        required
+                    />
+                    <span></span>
+                    <label>Senha</label>
+                </div>
+                <button
+                    type="button"
+                    id="confirmButton"
+                    name="confirmButton"
+                    className="buttonLogin"
+                    onClick={() => {
+                        confirmLogin();
+                    }}
+                >
+                    Confirmar
+                </button>
+                <div className="signup_link">
+                    Não tem cadastro ? <Link to="/Register">Cadastrar</Link>
+                </div>
+            </form>
         </div>
     );
 }
