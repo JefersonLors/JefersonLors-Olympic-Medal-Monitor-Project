@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.LinkedHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -152,37 +153,37 @@ public class CountryService{
         }
     }
 
-    public ResponseEntity<CountryMedalInSportsDto> getCountryWithMedalsById(Long id){
-        try{
-            List<CountryMedalInSports> results = concreteRepository.getCountryById(id);//repository.findByCountryId(id);
-            Map<MedalDto, SportDto> medalsSportMap = new HashMap<>();
+
+    public ResponseEntity<CountryMedalInSportsDto> getCountryWithMedalsById(Long id) {
+        try {
+            List<CountryMedalInSports> results = concreteRepository.getCountryById(id);
+            Map<MedalDto, SportDto> medalsSportMap = new LinkedHashMap<>();
             CountryMedalInSportsDto countryMedalInSportDto = new CountryMedalInSportsDto();
-            for(CountryMedalInSports result : results){
+            
+            for (CountryMedalInSports result : results) {
                 MedalDto medal = result.getMedal() != null ? new MedalDto(result.getMedal()) : null;
-                SportDto sport = result.getSport() != null ? new SportDto(result.getSport())/* .encryptId()*/ : null;
-                // medal.setId(Encoder_Decoder.enconderURL(medal.getId()));
-                // sport.setId(Encoder_Decoder.enconderURL(sport.getId()));
-                if(medal != null){
-                    medalsSportMap
-                        .computeIfAbsent(medal, k -> sport);
+                SportDto sport = result.getSport() != null ? new SportDto(result.getSport()) : null;
+                
+                if (medal != null) {
+                    medalsSportMap.computeIfAbsent(medal, k -> sport);
                 }
             }
+            
             List<MedalSportsDto> medalDtos = new ArrayList<>();
-            for(Map.Entry<MedalDto, SportDto> entry : medalsSportMap.entrySet()){
+            for (Map.Entry<MedalDto, SportDto> entry : medalsSportMap.entrySet()) {
                 MedalSportsDto dto = new MedalSportsDto();
                 dto.setMedal(entry.getKey());
                 dto.setSport(entry.getValue());
                 medalDtos.add(dto);
             }
-            CountryDto countryDto = new CountryDto(results.get(0).getCountry())/*.encryptId()*/; 
+            
+            CountryDto countryDto = new CountryDto(results.get(0).getCountry());
             countryDto.setId(Encoder_Decoder.enconderURL(countryDto.getId()));
             countryMedalInSportDto.setCountry(countryDto);
             countryMedalInSportDto.setMedals(medalDtos);
-
-
+            
             return ResponseEntity.ok().body(countryMedalInSportDto);
-
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }

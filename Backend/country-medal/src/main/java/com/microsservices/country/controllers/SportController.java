@@ -41,7 +41,7 @@ public class SportController {
     @GetMapping()
     @Operation(summary = "Busca todos os sports")
     public ResponseEntity<List<SportDto>> getSports(@RequestHeader("Authorization") String requestHeader) {
-        if(this.roleValidationService.currentUserHasRole(requestHeader, new ArrayList<>(List.of(Role.ROLE_USER))))
+        if(this.roleValidationService.currentUserHasRole(requestHeader, new ArrayList<>(List.of(Role.ROLE_USER, Role.ROLE_ADMIN))))
             return service.getSports();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
