@@ -1,0 +1,258 @@
+version: '3.8'
+
+services:
+# API EUREKA
+  eureka-server:
+    image: khan468/eureka_server_api:1.0 #eureka-server_api
+    container_name: eureka-server
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+# API GATEWAY
+  gateway:
+    image: khan468/gateway_api:1.0 #gateway_api
+    container_name: gateway
+    depends_on:
+      - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8081/actuator/health || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+# API AUTENTICAÇÃO
+  authentication-app:
+    image: khan468/authentication_api:1.0 #authentication
+    container_name: authentication_api
+    ports:
+      - "8086:8086"
+    networks:
+      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://authentication-postgres:5432/authentication-ms-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresdb
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    depends_on:
+      - authentication-postgres
+      - eureka-server
+      - gateway
+    restart: always
+
+  authentication-postgres:
+    image: postgres:15
+    container_name: db_authentication
+    networks:
+      - app-network
+    environment:
+      POSTGRES_DB: authentication-ms-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d authentication-ms-db"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - authentication_data:/var/lib/postgresql/data
+    restart: always
+
+# API COUNTRY
+  springboot-app:
+    image: khan468/country_medal_api:NoAuth #khan468/country_medal_api:1.0
+    container_name: api_country_medal
+    ports:
+      - "8085:8085"
+    networks:
+      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dbcountry_sport_medal
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresdb
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    depends_on:
+      - postgres
+      - eureka-server
+      - gateway
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8085/actuator/health || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    restart: always
+
+  postgres:
+    image: khan468/country_medal_postgres:1.4
+    container_name: db_country_medal
+    networks:
+      - app-network
+    environment:
+      POSTGRES_DB: dbcountry_sport_medal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dbcountry_sport_medal"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - country_data:/var/lib/postgresql/data
+    restart: always
+
+# API NOTIFIER
+  notifier-app:
+    image: khan468/notifier_api:1.0 #notifier_api
+    container_name: notifier_api
+    ports:
+      - "8090:8084"
+    networks:
+      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://notifier-postgres:5432/notifier-ms-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresdb
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    depends_on:
+      - notifier-postgres
+      - eureka-server
+      - gateway
+    restart: always
+
+  notifier-postgres:
+    image: postgres:15
+    container_name: db_notifier
+    networks:
+      - app-network
+    environment:
+      POSTGRES_DB: notifier-ms-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d notifier-ms-db"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - notifier_data:/var/lib/postgresql/data
+    restart: always
+
+# API TOKEN-VALIDATOR
+  token-app:
+    image: khan468/token-validator_api:1.0 #toke-validator_api
+    container_name: token-validator_api
+    ports:
+      - "8091:8087"
+    networks:
+      - app-network
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    depends_on:
+      - eureka-server
+      - gateway
+    restart: always
+
+# API USER
+  user-app:
+    image: khan468/user_api:1.0 #user_api
+    container_name: user_api
+    ports:
+      - "8092:8082"
+    networks:
+      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-postgres:5432/user-ms-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgresdb
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+    depends_on:
+      - user-postgres
+      - eureka-server
+      - gateway
+    restart: always
+
+  user-postgres:
+    image: postgres:15
+    container_name: db_user
+    networks:
+      - app-network
+    environment:
+      POSTGRES_DB: user-ms-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgresdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d user-ms-db"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - user_data:/var/lib/postgresql/data
+    restart: always
+
+# # API EMAIL
+#   email-app:
+#     image: email_api
+#     container_name: email_api
+#     ports:
+#       - "8087:8086"
+#     networks:
+#       - app-network
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://email-postgres:5432/authentication-ms-db
+#       SPRING_DATASOURCE_USERNAME: postgres
+#       SPRING_DATASOURCE_PASSWORD: postgresdb
+#       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8080/eureka/
+#     depends_on:
+#       - email-postgres
+#       - eureka-server
+#       - gateway
+#     restart: always
+
+#   email-postgres:
+#     image: postgres:15
+#     container_name: db_email
+#     networks:
+#       - app-network
+#     environment:
+#       POSTGRES_DB: authentication-ms-db
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgresdb
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U postgres -d authentication-ms-db"]
+#       interval: 10s
+#       retries: 5
+#       start_period: 30s
+#       timeout: 10s
+#     volumes:
+#       - email_data:/var/lib/postgresql/data
+#     restart: always
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  authentication_data:
+  country_data:
+  notifier_data:
+  user_data:
+  email_data:
