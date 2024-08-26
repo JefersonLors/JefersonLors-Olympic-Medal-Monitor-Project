@@ -1,5 +1,5 @@
-import { API_ENDPOINTS } from '../API';
-import { api } from '../Interceptor/Interceptor';
+import { API_ENDPOINTS } from '../API/index.jsx';
+import { api } from '../Interceptor/Interceptor.jsx';
 
 export const apiService = {
     login: (credencials) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -22,7 +22,7 @@ function Register() {
                 .then(async (responseA) => {
                     await apiService
                         .postUser({ name: name, email: login })
-                        .then((response) => {
+                        .then(() => {
                             toast.success(responseA.data);
                             navigate('/Login');
                         })
@@ -60,7 +60,7 @@ function Register() {
     function handleKeyDown(event) {
         if (event.key === 'Enter' && hasFocus) {
             const botao = document.getElementById('confirmRegisterButton');
-            botao!.click();
+            botao.click();
         }
     }
 

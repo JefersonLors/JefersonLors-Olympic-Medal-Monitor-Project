@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -37,7 +37,7 @@ function CountryCard() {
         if (!isFollowing) {
             await apiService
                 .followCountry(followCountry)
-                .then(async (response) => {
+                .then(async () => {
                     setIsFollowing(true);
                     toast.success('País seguido com sucesso!');
                     await changeButtonState();
@@ -49,7 +49,7 @@ function CountryCard() {
         } else {
             await apiService
                 .unfollowCountry(followCountry)
-                .then(async (response) => {
+                .then(async () => {
                     setIsFollowing(false);
                     toast.success('Você deixou de seguir esse país com sucesso!');
                     await changeButtonState();
@@ -65,7 +65,7 @@ function CountryCard() {
         function adjustsCountryFontSize() {
             const div = document.getElementById('titleDiv');
             if (div && div.innerText.length > 12) {
-                div!.style.fontSize = '20px';
+                div.style.fontSize = '20px';
             }
         }
         adjustsCountryFontSize();
