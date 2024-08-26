@@ -1,6 +1,6 @@
 .mainContainer {
     overflow-y: scroll;
-    height: auto;
+    height: 100vw;
 }
 
 .searchContainer {
