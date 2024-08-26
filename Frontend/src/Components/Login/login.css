@@ -10,8 +10,6 @@ body {
 }
 
 .center {
-    overflow-y: scroll;
-    height: auto;
     position: absolute;
     top: 50%;
     left: 50%;
