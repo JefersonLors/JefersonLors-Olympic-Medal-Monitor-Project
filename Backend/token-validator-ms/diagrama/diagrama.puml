@@ -1,0 +1,37 @@
+@startuml
+package com.token_validator_ms.controller {
+    class TokenValidatorController {
+        - JWTokenService jwTokenService
+        + extractRolesFromToken(tokenDto: TokenDto): ResponseEntity<List<String>>
+        + userHasRole(userHasRoleDto: UserHasRoleDto): ResponseEntity<Boolean>
+    }
+
+    class TokenDto {
+        - value: String
+    }
+
+    class UserHasRoleDto {
+        - token: String
+        - roles: List<String>
+    }
+}
+
+package com.token_validator_ms.service {
+    class JWTokenService {
+        - secretKey: String
+        - issuer: String
+        + userHasAtLeastOneRole(userHasRoleDto: UserHasRoleDto): Boolean
+        + extractRolesFromToken(token: String): List<String>
+        - validateToken(token: String): Map<String, Claim>
+        - getAlgorithm(): Algorithm
+    }
+}
+
+
+
+TokenValidatorController ..> JWTokenService : uses
+TokenValidatorController ..> TokenDto : receives
+TokenValidatorController ..> UserHasRoleDto : receives
+JWTokenService ..> TokenDto : processes
+JWTokenService ..> UserHasRoleDto : processes
+@enduml
