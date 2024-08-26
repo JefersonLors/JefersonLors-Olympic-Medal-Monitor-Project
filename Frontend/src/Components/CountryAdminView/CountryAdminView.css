@@ -2,7 +2,6 @@
     overflow-y: scroll;
     height: 100vh;
     display: flex;
-    height: auto;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
