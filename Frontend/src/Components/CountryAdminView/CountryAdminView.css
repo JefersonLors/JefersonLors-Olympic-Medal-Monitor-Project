@@ -1,6 +1,6 @@
 .countryCardAdminDiv {
     overflow-y: scroll;
-    height: auto;
+    height: 100vh;
     display: flex;
     height: auto;
     width: 100%;
