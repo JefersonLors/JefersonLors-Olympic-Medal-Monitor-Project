@@ -1,6 +1,7 @@
 .countryCardDiv {
-    display: flex;
+    overflow-y: scroll;
     height: auto;
+    display: flex;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;

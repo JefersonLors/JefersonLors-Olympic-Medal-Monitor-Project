@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiService } from '../Services';
@@ -28,7 +28,7 @@ function CountryAdminView() {
         if (validateSelectedOptions()) {
             await apiService
                 .addMedal({ country: id, medal: selectedMedal, sport: selectedModality })
-                .then((response) => {
+                .then(() => {
                     toast.success('Medalha adicionada com sucesso!');
                     apiService.notifyUser({ countryId: id, sportModalityId: selectedModality, medalId: selectedMedal, medalsWon: 1 }).catch((error) => {
                         toast.error(error.response.data.message);
