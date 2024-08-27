@@ -1,6 +1,7 @@
 .countryCardDiv {
+    overflow-y: scroll;
+    height: 100vh;
     display: flex;
-    height: auto;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
@@ -8,7 +9,14 @@
     margin: 0;
     font-family: Helvetica, sans-serif;
 }
+.contentContainerUser{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 800px;
 
+}
 .contentCardDiv {
     display: flex;
     flex-direction: column;

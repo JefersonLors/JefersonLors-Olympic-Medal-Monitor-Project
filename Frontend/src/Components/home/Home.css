@@ -1,4 +1,6 @@
 .mainContainer {
+    overflow-y: scroll;
+    height: 100vh;
 }
 
 .searchContainer {

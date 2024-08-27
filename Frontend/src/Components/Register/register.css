@@ -9,6 +9,9 @@ body {
     overflow: hidden;
 }
 
+.container{
+
+}
 .center {
     position: absolute;
     top: 50%;
