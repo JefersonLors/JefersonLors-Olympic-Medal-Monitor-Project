@@ -22,6 +22,15 @@
     background-color: rgb(202, 201, 201);
 }
 
+.contentContainerAdmin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 800px;
+
+}
+
 .imgFlagAdminDiv {
     width: 100%;
     height: 350px;

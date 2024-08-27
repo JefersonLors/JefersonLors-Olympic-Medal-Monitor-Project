@@ -147,54 +147,56 @@ function CountryCard() {
                     )}
                 </div>
             </div>
-            <div className="contentCardDiv">
-                <div className="headerCardDiv">
-                    <div id="titleDiv" className="titleDiv">
-                        <h3>{country.name}</h3>
+            <div className='contentContainerUser'>
+                <div className="contentCardDiv">
+                    <div className="headerCardDiv">
+                        <div id="titleDiv" className="titleDiv">
+                            <h3>{country.name}</h3>
+                        </div>
+                        <div className="followedSection">
+                            <button
+                                id="buttonFollow"
+                                className={isFollowing ? 'buttonFollowing' : 'buttonFollow'}
+                                onClick={() => {
+                                    handleFollow();
+                                }}
+                            >
+                                {isFollowing ? 'Following' : 'Follow'}
+                            </button>
+                        </div>
                     </div>
-                    <div className="followedSection">
-                        <button
-                            id="buttonFollow"
-                            className={isFollowing ? 'buttonFollowing' : 'buttonFollow'}
-                            onClick={() => {
-                                handleFollow();
-                            }}
-                        >
-                            {isFollowing ? 'Following' : 'Follow'}
-                        </button>
+                    <div className="imgFlagDiv">
+                        <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlag1" />
                     </div>
-                </div>
-                <div className="imgFlagDiv">
-                    <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlag1" />
-                </div>
-                <div className="informationDiv">
-                    <table className="tableStyle2">
-                        <thead className="theadStyle2">
-                            <tr>
-                                <th></th>
-                                <th>Modalidade</th>
-                                <th>Medalha</th>
-                            </tr>
-                        </thead>
-                        <tbody className='tbodyStyle2'>
-                            {medals
-                                
-                                .sort((itemA, itemB) => {
-                                    return itemA.medal.id.localeCompare(itemB.medal.id);
-                                })
-                                .map((item, index) => {
-                                    return (
-                                        <tr key={index} className="">
-                                            <td>{index + 1}</td>
-                                            <td>{item.sport.name}</td>
-                                            <td>
-                                                <img src={resolveIcon(item.medal.type.toLocaleLowerCase())} alt={item.medal.type.toLocaleLowerCase()} className="iconMedalUser" />
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
+                    <div className="informationDiv">
+                        <table className="tableStyle2">
+                            <thead className="theadStyle2">
+                                <tr>
+                                    <th></th>
+                                    <th>Modalidade</th>
+                                    <th>Medalha</th>
+                                </tr>
+                            </thead>
+                            <tbody className="tbodyStyle2">
+                                {medals
+
+                                    .sort((itemA, itemB) => {
+                                        return itemA.medal.id.localeCompare(itemB.medal.id);
+                                    })
+                                    .map((item, index) => {
+                                        return (
+                                            <tr key={index} className="">
+                                                <td>{index + 1}</td>
+                                                <td>{item.sport.name}</td>
+                                                <td>
+                                                    <img src={resolveIcon(item.medal.type.toLocaleLowerCase())} alt={item.medal.type.toLocaleLowerCase()} className="iconMedalUser" />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

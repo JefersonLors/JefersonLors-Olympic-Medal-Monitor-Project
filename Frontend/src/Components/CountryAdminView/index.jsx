@@ -95,14 +95,11 @@ function CountryAdminView() {
         return true;
     }
 
-    function resolveIcon(type){
-        if( type == "ouro")
-            return "https://img.icons8.com/?size=512w&id=33486&format=png"
-        if( type == "prata")
-            return "https://img.icons8.com/?size=512w&id=23876&format=png"
-        if( type == "bronze")
-            return "https://img.icons8.com/?size=512w&id=23875&format=png"
-        return ""
+    function resolveIcon(type) {
+        if (type == 'ouro') return 'https://img.icons8.com/?size=512w&id=33486&format=png';
+        if (type == 'prata') return 'https://img.icons8.com/?size=512w&id=23876&format=png';
+        if (type == 'bronze') return 'https://img.icons8.com/?size=512w&id=23875&format=png';
+        return '';
     }
 
     return (
@@ -119,76 +116,64 @@ function CountryAdminView() {
                     />
                 </div>
                 <div className="changeViewAdminDiv">
-                    { roles.includes('ROLE_USER') 
-                        ?
-                        (<img 
+                    {roles.includes('ROLE_USER') ? (
+                        <img
                             id="changeViewToUserButon"
-                            src='https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg'
+                            src="https://static.vecteezy.com/system/resources/previews/008/302/462/original/eps10-grey-user-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg"
                             onClick={() => {
                                 navigate(`/CountryCard/${id}`);
                             }}
                             className="buttonChangeView"
-                            alt='userIcon'
-                        />) 
-                        : 
-                        <>
-                        </>
-                    }
+                            alt="userIcon"
+                        />
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
-            <div className="contentCardAdminDiv">
-                <div className="titleAdminDiv">
-                    <h3>{country.name}</h3>
-                </div>
-                <div className="imgFlagAdminDiv">
-                    <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlagAdmin1" />
-                </div>
-                <div className="addMedalAdminDiv">
-                    <div className="medalContainer">
-                        {medalTypes.map((medalType, index) => {
-                            return (
-                                <div className="radioContainer" key={index}>
-                                    <div className="typeMedalButton">
-                                        <input 
-                                            type="radio" 
-                                            key={index} id={medalType.type} 
-                                            value={medalType.id} 
-                                            
-                                            checked={selectedMedal === medalType.id} 
-                                            onChange={() => handleRadioChange(event)} 
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor={medalType.type} > 
-                                            <img 
-                                                src={resolveIcon(medalType.type.toLocaleLowerCase())}
-                                                className='iconMedal'
-                                                alt={medalType.type.toLocaleLowerCase()}
-                                            />
-                                        </label>
-                                    </div>
-                                </div>
-                            );
-                        })}
+            <div className="contentContainerAdmin">
+                <div className="contentCardAdminDiv">
+                    <div className="titleAdminDiv">
+                        <h3>{country.name}</h3>
                     </div>
-                    <div className="modalityContainer">
-                        <select id="modalitiesSelect" value={selectedModality} onChange={handleOptionChange} className="selectInput">
-                            <option value="">Selecione</option>
-                            {modalities.map((option, index) => (
-                                <option id={option.id} key={index} value={option.id}>
-                                    {option.name}
-                                </option>
-                            ))}
-                        </select>
+                    <div className="imgFlagAdminDiv">
+                        <img decoding="async" src={country.flag} alt="imagem do card 1 html e css" className="imgFlagAdmin1" />
                     </div>
-                </div>
-                <div className="addMedalSection">
-                    <button id="buttonAddMedal" className="buttonAdd" onClick={handleSave}>
-                        Adicionar
-                    </button>
+                    <div className="addMedalAdminDiv">
+                        <div className="medalContainer">
+                            {medalTypes.map((medalType, index) => {
+                                return (
+                                    <div className="radioContainer" key={index}>
+                                        <div className="typeMedalButton">
+                                            <input type="radio" key={index} id={medalType.type} value={medalType.id} checked={selectedMedal === medalType.id} onChange={() => handleRadioChange(event)} />
+                                        </div>
+                                        <div>
+                                            <label htmlFor={medalType.type}>
+                                                <img src={resolveIcon(medalType.type.toLocaleLowerCase())} className="iconMedal" alt={medalType.type.toLocaleLowerCase()} />
+                                            </label>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="modalityContainer">
+                            <select id="modalitiesSelect" value={selectedModality} onChange={handleOptionChange} className="selectInput">
+                                <option value="">Selecione</option>
+                                {modalities.map((option, index) => (
+                                    <option id={option.id} key={index} value={option.id}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="addMedalSection">
+                        <button id="buttonAddMedal" className="buttonAdd" onClick={handleSave}>
+                            Adicionar
+                        </button>
+                    </div>
                 </div>
             </div>
-
         </div>
     );
 }
